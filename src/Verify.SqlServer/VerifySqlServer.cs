@@ -11,7 +11,7 @@ namespace Verify.SqlServer
     {
         public static void Enable()
         {
-            SharedVerifySettings.RegisterFileConverter<DbConnection>("sql", ConnectionToSql);
+            SharedVerifySettings.RegisterFileConverter<SqlConnection>("sql", ConnectionToSql);
         }
 
         static IEnumerable<Stream> ConnectionToSql(DbConnection dbConnection, VerifySettings settings)
