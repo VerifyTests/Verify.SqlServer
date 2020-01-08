@@ -25,11 +25,11 @@ snippet: Enable
 
 This test:
 
-//snippet: SqlServerSchema
+snippet: SqlServerSchema
 
 Will result in the following verified file:
 
-//snippet: Tests.SqlServerSchema.verified.sql
+snippet: Tests.SqlServerSchema.verified.sql
 
 
 ## Icon

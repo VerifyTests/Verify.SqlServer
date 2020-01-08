@@ -42,11 +42,30 @@ VerifySqlServer.Enable();
 
 This test:
 
-//snippet: SqlServerSchema
+<!-- snippet: SqlServerSchema -->
+<a id='snippet-sqlserverschema'/></a>
+```cs
+[Fact]
+public async Task SqlServerSchema()
+{
+    var database = await sqlInstance.Build("SqlServerSchema");
+    await Verify(database.Connection);
+}
+```
+<sup><a href='/src/Tests/Tests.cs#L25-L32' title='File snippet `sqlserverschema` was extracted from'>snippet source</a> | <a href='#snippet-sqlserverschema' title='Navigate to start of snippet `sqlserverschema`'>anchor</a></sup>
+<!-- endsnippet -->
 
 Will result in the following verified file:
 
-//snippet: Tests.SqlServerSchema.verified.sql
+<!-- snippet: Tests.SqlServerSchema.verified.sql -->
+<a id='snippet-Tests.SqlServerSchema.verified.sql'/></a>
+```sql
+CREATE TABLE [dbo].[MyTable](
+	[Value] [int] NULL
+) ON [PRIMARY]
+```
+<sup><a href='/src/Tests/Tests.SqlServerSchema.verified.sql#L1-L3' title='File snippet `Tests.SqlServerSchema.verified.sql` was extracted from'>snippet source</a> | <a href='#snippet-Tests.SqlServerSchema.verified.sql' title='Navigate to start of snippet `Tests.SqlServerSchema.verified.sql`'>anchor</a></sup>
+<!-- endsnippet -->
 
 
 ## Icon
