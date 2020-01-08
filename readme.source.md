@@ -1,6 +1,6 @@
 # <img src="/src/icon.png" height="30px"> Verify.SqlServer
 
-[![Build status](https://ci.appveyor.com/api/projects/status/g6njwv0aox62atu0?svg=true)](https://ci.appveyor.com/project/SimonCropp/verify-sqlserver)
+[![Build status](https://ci.appveyor.com/api/projects/status/enh6mjugcbmoun0e?svg=true)](https://ci.appveyor.com/project/SimonCropp/verify-sqlserver)
 [![NuGet Status](https://img.shields.io/nuget/v/Verify.SqlServer.svg)](https://www.nuget.org/packages/Verify.SqlServer/)
 
 Extends [Verify](https://github.com/SimonCropp/Verify) to allow verification of SqlServer bits.
