@@ -52,7 +52,7 @@ public async Task SqlServerSchema()
     await Verify(database.Connection);
 }
 ```
-<sup><a href='/src/Tests/Tests.cs#L49-L56' title='File snippet `sqlserverschema` was extracted from'>snippet source</a> | <a href='#snippet-sqlserverschema' title='Navigate to start of snippet `sqlserverschema`'>anchor</a></sup>
+<sup><a href='/src/Tests/Tests.cs#L61-L68' title='File snippet `sqlserverschema` was extracted from'>snippet source</a> | <a href='#snippet-sqlserverschema' title='Navigate to start of snippet `sqlserverschema`'>anchor</a></sup>
 <!-- endsnippet -->
 
 Will result in the following verified file:
@@ -81,8 +81,21 @@ BEGIN
 	WHERE (Value > 10);
 END;
 
+
+
+CREATE FUNCTION MyFunction(
+    @quantity INT,
+    @list_price DEC(10,2),
+    @discount DEC(4,2)
+)
+RETURNS DEC(10,2)
+AS
+BEGIN
+    RETURN @quantity * @list_price * (1 - @discount);
+END;
+
 ```
-<sup><a href='/src/Tests/Tests.SqlServerSchema.verified.sql#L1-L21' title='File snippet `Tests.SqlServerSchema.verified.sql` was extracted from'>snippet source</a> | <a href='#snippet-Tests.SqlServerSchema.verified.sql' title='Navigate to start of snippet `Tests.SqlServerSchema.verified.sql`'>anchor</a></sup>
+<sup><a href='/src/Tests/Tests.SqlServerSchema.verified.sql#L1-L34' title='File snippet `Tests.SqlServerSchema.verified.sql` was extracted from'>snippet source</a> | <a href='#snippet-Tests.SqlServerSchema.verified.sql' title='Navigate to start of snippet `Tests.SqlServerSchema.verified.sql`'>anchor</a></sup>
 <!-- endsnippet -->
 
 

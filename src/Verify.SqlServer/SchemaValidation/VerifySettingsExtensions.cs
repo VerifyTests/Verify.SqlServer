@@ -9,6 +9,7 @@ namespace Verify
             bool storedProcedures = true,
             bool tables = true,
             bool views = true,
+            bool userDefinedFunctions = true,
             Func<string, bool>? includeItem = null)
         {
             Guard.AgainstNull(settings, nameof(settings));
@@ -22,6 +23,7 @@ namespace Verify
                     storedProcedures,
                     tables,
                     views,
+                    userDefinedFunctions,
                     includeItem));
         }
 
@@ -36,6 +38,6 @@ namespace Verify
             return defaultSettings;
         }
 
-        static SchemaSettings defaultSettings = new SchemaSettings(true, true, true, s => true);
+        static SchemaSettings defaultSettings = new SchemaSettings(true, true, true, true, s => true);
     }
 }

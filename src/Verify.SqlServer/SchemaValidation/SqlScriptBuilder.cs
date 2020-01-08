@@ -85,6 +85,17 @@ class SqlScriptBuilder
                 }
             }
         }
+
+        if (settings.UserDefinedFunctions)
+        {
+            foreach (UserDefinedFunction function in database.UserDefinedFunctions)
+            {
+                if (settings.IncludeItem(function.Name))
+                {
+                    yield return function;
+                }
+            }
+        }
     }
 
     static bool ShouldInclude(string script)
