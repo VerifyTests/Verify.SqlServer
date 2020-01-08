@@ -16,9 +16,13 @@ class SqlScriptBuilder
     public string BuildScript(SqlConnection sqlConnection)
     {
         var builder = new SqlConnectionStringBuilder(sqlConnection.ConnectionString);
-        var theServer = new Server(new ServerConnection(sqlConnection));
+        var server = new Server(new ServerConnection(sqlConnection));
 
-        var database = theServer.Databases[builder.InitialCatalog];
+        server.SetDefaultInitFields(typeof(Table), "Name", "IsSystemObject");
+        server.SetDefaultInitFields(typeof(View), "Name", "IsSystemObject");
+        server.SetDefaultInitFields(typeof(StoredProcedure), "Name", "IsSystemObject");
+        var database = server.Databases[builder.InitialCatalog];
+        database.Tables.Refresh();
         return string.Join("\r\n", GetScripts(database));
     }
 
@@ -51,10 +55,9 @@ class SqlScriptBuilder
     {
         if (settings.Tables)
         {
-            for (var index = 0; index < database.Tables.Count; index++)
+            foreach (Table table in database.Tables)
             {
-                var table = database.Tables[index];
-                if (settings.IncludeItem(table!.Name))
+                if (settings.IncludeItem(table.Name))
                 {
                     yield return table;
                 }
@@ -63,10 +66,9 @@ class SqlScriptBuilder
 
         if (settings.Views)
         {
-            for (var index = 0; index < database.Views.Count; index++)
+            foreach (View view in database.Views)
             {
-                var view = database.Views[index];
-                if (settings.IncludeItem(view!.Name))
+                if (settings.IncludeItem(view.Name))
                 {
                     yield return view;
                 }
@@ -75,9 +77,8 @@ class SqlScriptBuilder
 
         if (settings.StoredProcedures)
         {
-            for (var index = 0; index < database.StoredProcedures.Count; index++)
+            foreach (StoredProcedure procedure in database.StoredProcedures)
             {
-                var procedure = database.StoredProcedures[index];
                 if (settings.IncludeItem(procedure.Name))
                 {
                     yield return procedure;
