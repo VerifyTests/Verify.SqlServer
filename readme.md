@@ -64,13 +64,11 @@ CREATE TABLE [dbo].[MyTable](
 	[Value] [int] NULL
 ) ON [PRIMARY]
 
-
 CREATE VIEW MyView
 AS
 SELECT Value
 FROM MyTable
 WHERE (Value > 10);
-
 
 CREATE PROCEDURE MyProcedure
 AS
@@ -80,8 +78,6 @@ BEGIN
 	FROM MyTable
 	WHERE (Value > 10);
 END;
-
-
 
 CREATE FUNCTION MyFunction(
     @quantity INT,
@@ -93,9 +89,8 @@ AS
 BEGIN
     RETURN @quantity * @list_price * (1 - @discount);
 END;
-
 ```
-<sup><a href='/src/Tests/Tests.SqlServerSchema.verified.sql#L1-L34' title='File snippet `Tests.SqlServerSchema.verified.sql` was extracted from'>snippet source</a> | <a href='#snippet-Tests.SqlServerSchema.verified.sql' title='Navigate to start of snippet `Tests.SqlServerSchema.verified.sql`'>anchor</a></sup>
+<sup><a href='/src/Tests/Tests.SqlServerSchema.verified.sql#L1-L29' title='File snippet `Tests.SqlServerSchema.verified.sql` was extracted from'>snippet source</a> | <a href='#snippet-Tests.SqlServerSchema.verified.sql' title='Navigate to start of snippet `Tests.SqlServerSchema.verified.sql`'>anchor</a></sup>
 <!-- endsnippet -->
 
 

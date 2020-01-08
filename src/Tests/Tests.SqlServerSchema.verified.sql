@@ -2,13 +2,11 @@ CREATE TABLE [dbo].[MyTable](
 	[Value] [int] NULL
 ) ON [PRIMARY]
 
-
 CREATE VIEW MyView
 AS
 SELECT Value
 FROM MyTable
 WHERE (Value > 10);
-
 
 CREATE PROCEDURE MyProcedure
 AS
@@ -18,8 +16,6 @@ BEGIN
 	FROM MyTable
 	WHERE (Value > 10);
 END;
-
-
 
 CREATE FUNCTION MyFunction(
     @quantity INT,
@@ -31,4 +27,3 @@ AS
 BEGIN
     RETURN @quantity * @list_price * (1 - @discount);
 END;
-
