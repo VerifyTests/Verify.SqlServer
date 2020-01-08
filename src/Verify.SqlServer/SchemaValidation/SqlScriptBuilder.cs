@@ -21,6 +21,7 @@ class SqlScriptBuilder
         server.SetDefaultInitFields(typeof(Table), "Name", "IsSystemObject");
         server.SetDefaultInitFields(typeof(View), "Name", "IsSystemObject");
         server.SetDefaultInitFields(typeof(StoredProcedure), "Name", "IsSystemObject");
+        server.SetDefaultInitFields(typeof(UserDefinedFunction), "Name", "IsSystemObject");
         var database = server.Databases[builder.InitialCatalog];
         database.Tables.Refresh();
         return string.Join("\r\n", GetScripts(database));
