@@ -1,5 +1,7 @@
 ﻿using System.Threading.Tasks;
 using LocalDb;
+using Microsoft.SqlServer.Management.Common;
+using Microsoft.SqlServer.Management.Smo;
 using Verify;
 using VerifyXunit;
 using Xunit;
@@ -14,11 +16,32 @@ public class Tests :
     {
         sqlInstance = new SqlInstance(
             "VerifySqlServer",
-            async connection =>
+            connection =>
             {
-                await using var command = connection.CreateCommand();
-                command.CommandText = "create table MyTable (Value int);";
-                await command.ExecuteNonQueryAsync();
+                var server = new Server(new ServerConnection(connection));
+                server.ConnectionContext.ExecuteNonQuery(@"
+create table
+MyTable(Value int);
+go
+
+CREATE VIEW MyView
+AS
+SELECT Value
+FROM MyTable
+WHERE (Value > 10);
+go
+
+CREATE PROCEDURE MyProcedure
+AS
+BEGIN
+	SET NOCOUNT ON;
+	SELECT Value
+	FROM MyTable
+	WHERE (Value > 10);
+END;
+
+");
+                return Task.CompletedTask;
             });
     }
 
