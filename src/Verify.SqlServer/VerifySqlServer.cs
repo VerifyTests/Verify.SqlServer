@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Data.Common;
 using System.IO;
 using System.Text;
@@ -14,7 +13,7 @@ namespace Verify.SqlServer
             SharedVerifySettings.RegisterFileConverter<SqlConnection>("sql", ConnectionToSql);
         }
 
-        static IEnumerable<Stream> ConnectionToSql(DbConnection dbConnection, VerifySettings settings)
+        static ConversionResult ConnectionToSql(DbConnection dbConnection, VerifySettings settings)
         {
             if (!(dbConnection is SqlConnection sqlConnection))
             {
@@ -24,7 +23,7 @@ namespace Verify.SqlServer
             var schemaSettings = settings.GetSchemaSettings();
             var builder = new SqlScriptBuilder(schemaSettings);
             var sql = builder.BuildScript(sqlConnection);
-            yield return StringToMemoryStream(sql);
+            return new ConversionResult(null, new Stream[] {StringToMemoryStream(sql)});
         }
 
         static MemoryStream StringToMemoryStream(string text)
