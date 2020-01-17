@@ -17,7 +17,8 @@ Extends [Verify](https://github.com/SimonCropp/Verify) to allow verification of 
 ## Contents
 
   * [Usage](#usage)
-    * [SqlServer Schema](#sqlserver-schema)<!-- endtoc -->
+    * [SqlServer Schema](#sqlserver-schema)
+  * [Security contact information](#security-contact-information)<!-- endtoc -->
 
 
 ## NuGet package
@@ -92,6 +93,17 @@ END;
 ```
 <sup><a href='/src/Tests/Tests.SqlServerSchema.verified.sql#L1-L29' title='File snippet `Tests.SqlServerSchema.verified.sql` was extracted from'>snippet source</a> | <a href='#snippet-Tests.SqlServerSchema.verified.sql' title='Navigate to start of snippet `Tests.SqlServerSchema.verified.sql`'>anchor</a></sup>
 <!-- endsnippet -->
+
+
+## Security contact information
+
+To report a security vulnerability, please use the [Tidelift security contact](https://tidelift.com/security). Tidelift will coordinate the fix and disclosure.
+
+
+## Release Notes
+
+See [closed milestones](../../milestones?state=closed).
+
 
 
 ## Icon
