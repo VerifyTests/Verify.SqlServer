@@ -61,7 +61,7 @@ END;");
     [Fact]
     public async Task SqlServerSchema()
     {
-        await using var database = await sqlInstance.Build("SqlServerSchema");
+        await using var database = await sqlInstance.Build();
         await Verify(database.Connection);
     }
 
@@ -70,7 +70,7 @@ END;");
     [Fact]
     public async Task SqlServerSchemaLegacy()
     {
-        var database = await sqlInstance.Build("SqlServerSchemaLegacy");
+        var database = await sqlInstance.Build();
         var connectionString = database.ConnectionString;
         await using var connection = new System.Data.SqlClient.SqlConnection(connectionString);
         await connection.OpenAsync();
@@ -82,7 +82,7 @@ END;");
     [Fact]
     public async Task SqlServerSchemaSettings()
     {
-        await using var database = await sqlInstance.Build("SqlServerSchemaSettings");
+        await using var database = await sqlInstance.Build();
         var settings = new VerifySettings();
         settings.SchemaSettings(
             storedProcedures: true,
