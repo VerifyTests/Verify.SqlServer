@@ -1,7 +1,6 @@
-﻿using System;
-using System.Data.Common;
-using System.IO;
+﻿using System.IO;
 using System.Text;
+using System.Threading.Tasks;
 using Microsoft.Data.SqlClient;
 
 namespace Verify.SqlServer
@@ -11,18 +10,22 @@ namespace Verify.SqlServer
         public static void Enable()
         {
             SharedVerifySettings.RegisterFileConverter<SqlConnection>("sql", ConnectionToSql);
+            SharedVerifySettings.RegisterFileConverter<System.Data.SqlClient.SqlConnection>("sql", ConnectionToSql);
         }
 
-        static ConversionResult ConnectionToSql(DbConnection dbConnection, VerifySettings settings)
+        static ConversionResult ConnectionToSql(SqlConnection dbConnection, VerifySettings settings)
         {
-            if (!(dbConnection is SqlConnection sqlConnection))
-            {
-                throw new Exception("Only verification of a SqlConnection is supported");
-            }
-
             var schemaSettings = settings.GetSchemaSettings();
             var builder = new SqlScriptBuilder(schemaSettings);
-            var sql = builder.BuildScript(sqlConnection);
+            var sql = builder.BuildScript(dbConnection);
+            return new ConversionResult(null, new Stream[] {StringToMemoryStream(sql)});
+        }
+
+        static async Task<ConversionResult> ConnectionToSql(System.Data.SqlClient.SqlConnection dbConnection, VerifySettings settings)
+        {
+            var schemaSettings = settings.GetSchemaSettings();
+            var builder = new SqlScriptBuilder(schemaSettings);
+            var sql = await builder.BuildScript(dbConnection);
             return new ConversionResult(null, new Stream[] {StringToMemoryStream(sql)});
         }
 

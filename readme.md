@@ -54,7 +54,7 @@ public async Task SqlServerSchema()
     await Verify(database.Connection);
 }
 ```
-<sup><a href='/src/Tests/Tests.cs#L58-L65' title='File snippet `sqlserverschema` was extracted from'>snippet source</a> | <a href='#snippet-sqlserverschema' title='Navigate to start of snippet `sqlserverschema`'>anchor</a></sup>
+<sup><a href='/src/Tests/Tests.cs#L59-L68' title='File snippet `sqlserverschema` was extracted from'>snippet source</a> | <a href='#snippet-sqlserverschema' title='Navigate to start of snippet `sqlserverschema`'>anchor</a></sup>
 <!-- endsnippet -->
 
 Will result in the following verified file:

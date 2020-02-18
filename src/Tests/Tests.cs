@@ -1,5 +1,6 @@
 ﻿using System.Threading.Tasks;
 using LocalDb;
+using Microsoft.Data.SqlClient;
 using Microsoft.SqlServer.Management.Common;
 using Microsoft.SqlServer.Management.Smo;
 using Verify;
@@ -18,7 +19,7 @@ public class Tests :
             "VerifySqlServer",
             connection =>
             {
-                var server = new Server(new ServerConnection(connection));
+                var server = new Server(new ServerConnection((SqlConnection) connection));
                 server.ConnectionContext.ExecuteNonQuery(@"
 create table
 MyTable(Value int);
@@ -56,19 +57,31 @@ END;");
     }
 
     #region SqlServerSchema
+
     [Fact]
     public async Task SqlServerSchema()
     {
-        var database = await sqlInstance.Build("SqlServerSchema");
+        await using var database = await sqlInstance.Build("SqlServerSchema");
         await Verify(database.Connection);
     }
+
     #endregion
 
+    [Fact]
+    public async Task SqlServerSchemaLegacy()
+    {
+        var database = await sqlInstance.Build("SqlServerSchemaLegacy");
+        await using var connection = new System.Data.SqlClient.SqlConnection(database.ConnectionString);
+        await connection.OpenAsync();
+        await Verify(connection);
+    }
+
     #region SqlServerSchemaSettings
+
     [Fact]
     public async Task SqlServerSchemaSettings()
     {
-        var database = await sqlInstance.Build("SqlServerSchemaSettings");
+        await using var database = await sqlInstance.Build("SqlServerSchemaSettings");
         var settings = new VerifySettings();
         settings.SchemaSettings(
             storedProcedures: true,
@@ -77,6 +90,7 @@ END;");
             includeItem: itemName => itemName == "MyTable");
         await Verify(database.Connection, settings);
     }
+
     #endregion
 
     public Tests(ITestOutputHelper output) :

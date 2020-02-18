@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using Microsoft.Data.SqlClient;
 using Microsoft.SqlServer.Management.Common;
 using Microsoft.SqlServer.Management.Smo;
@@ -18,6 +19,20 @@ class SqlScriptBuilder
         var builder = new SqlConnectionStringBuilder(sqlConnection.ConnectionString);
         var server = new Server(new ServerConnection(sqlConnection));
 
+        return BuildScript(server, builder);
+    }
+
+    public async Task<string> BuildScript(System.Data.SqlClient.SqlConnection sqlConnection)
+    {
+        var builder = new SqlConnectionStringBuilder(sqlConnection.ConnectionString);
+        using var connection = new SqlConnection(sqlConnection.ConnectionString);
+        await connection.OpenAsync();
+        var server = new Server(new ServerConnection(connection));
+        return BuildScript(server, builder);
+    }
+
+    string BuildScript(Server server, SqlConnectionStringBuilder builder)
+    {
         server.SetDefaultInitFields(typeof(Table), "Name", "IsSystemObject");
         server.SetDefaultInitFields(typeof(View), "Name", "IsSystemObject");
         server.SetDefaultInitFields(typeof(StoredProcedure), "Name", "IsSystemObject");
