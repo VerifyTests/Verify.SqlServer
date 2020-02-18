@@ -71,7 +71,8 @@ END;");
     public async Task SqlServerSchemaLegacy()
     {
         var database = await sqlInstance.Build("SqlServerSchemaLegacy");
-        await using var connection = new System.Data.SqlClient.SqlConnection(database.ConnectionString);
+        var connectionString = database.ConnectionString;
+        await using var connection = new System.Data.SqlClient.SqlConnection(connectionString);
         await connection.OpenAsync();
         await Verify(connection);
     }
