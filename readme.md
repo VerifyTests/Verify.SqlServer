@@ -50,7 +50,7 @@ This test:
 [Fact]
 public async Task SqlServerSchema()
 {
-    var database = await sqlInstance.Build("SqlServerSchema");
+    await using var database = await sqlInstance.Build("SqlServerSchema");
     await Verify(database.Connection);
 }
 ```
