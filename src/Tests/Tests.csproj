@@ -12,7 +12,7 @@
     <PackageReference Include="Verify.Xunit" Version="4.0.2" />
     <PackageReference Include="LocalDb" Version="8.2.1" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.6.1" />
-    <PackageReference Include="ProjectDefaults" Version="1.0.42" PrivateAssets="All" />
+    <PackageReference Include="ProjectDefaults" Version="1.0.43" PrivateAssets="All" />
     <ProjectReference Include="..\Verify.SqlServer\Verify.SqlServer.csproj" />
   </ItemGroup>
 </Project>
