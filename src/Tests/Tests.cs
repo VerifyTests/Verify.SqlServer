@@ -4,12 +4,11 @@ using Microsoft.Data.SqlClient;
 using Microsoft.SqlServer.Management.Common;
 using Microsoft.SqlServer.Management.Smo;
 using Verify;
-using VerifyXunit;
-using Xunit;
-using Xunit.Abstractions;
+using VerifyNUnit;
+using NUnit.Framework;
 
-public class Tests :
-    VerifyBase
+[TestFixture]
+public class Tests
 {
     static SqlInstance sqlInstance;
 
@@ -58,28 +57,28 @@ END;");
 
     #region SqlServerSchema
 
-    [Fact]
+    [Test]
     public async Task SqlServerSchema()
     {
         await using var database = await sqlInstance.Build();
-        await Verify(database.Connection);
+        await Verifier.Verify(database.Connection);
     }
 
     #endregion
 
-    [Fact]
+    [Test]
     public async Task SqlServerSchemaLegacy()
     {
         var database = await sqlInstance.Build();
         var connectionString = database.ConnectionString;
         await using var connection = new System.Data.SqlClient.SqlConnection(connectionString);
         await connection.OpenAsync();
-        await Verify(connection);
+        await Verifier.Verify(connection);
     }
 
     #region SqlServerSchemaSettings
 
-    [Fact]
+    [Test]
     public async Task SqlServerSchemaSettings()
     {
         await using var database = await sqlInstance.Build();
@@ -89,13 +88,8 @@ END;");
             tables: true,
             views: true,
             includeItem: itemName => itemName == "MyTable");
-        await Verify(database.Connection, settings);
+        await Verifier.Verify(database.Connection, settings);
     }
 
     #endregion
-
-    public Tests(ITestOutputHelper output) :
-        base(output)
-    {
-    }
 }
