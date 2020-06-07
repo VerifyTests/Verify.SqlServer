@@ -15,6 +15,9 @@ public class Tests
 
     static Tests()
     {
+        #region Enable
+        VerifySqlServer.Enable();
+        #endregion
         sqlInstance = new SqlInstance(
             "VerifySqlServer",
             connection =>
@@ -93,10 +96,4 @@ END;");
     }
 
     #endregion
-    static Tests()
-    {
-        #region Enable
-        VerifySqlServer.Enable();
-        #endregion
-    }
 }
