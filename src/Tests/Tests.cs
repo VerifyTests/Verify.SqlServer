@@ -6,6 +6,7 @@ using Microsoft.SqlServer.Management.Smo;
 using Verify;
 using VerifyNUnit;
 using NUnit.Framework;
+using Verify.SqlServer;
 
 [TestFixture]
 public class Tests
@@ -92,4 +93,10 @@ END;");
     }
 
     #endregion
+    static Tests()
+    {
+        #region Enable
+        VerifySqlServer.Enable();
+        #endregion
+    }
 }
