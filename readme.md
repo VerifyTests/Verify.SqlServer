@@ -36,7 +36,7 @@ Enable VerifySqlServer once at assembly load time:
 ```cs
 VerifySqlServer.Enable();
 ```
-<sup><a href='/src/Tests/GlobalSetup.cs#L9-L11' title='File snippet `enable` was extracted from'>snippet source</a> | <a href='#snippet-enable' title='Navigate to start of snippet `enable`'>anchor</a></sup>
+<sup><a href='/src/Tests/Tests.cs#L98-L100' title='File snippet `enable` was extracted from'>snippet source</a> | <a href='#snippet-enable' title='Navigate to start of snippet `enable`'>anchor</a></sup>
 <!-- endsnippet -->
 
 
@@ -54,7 +54,7 @@ public async Task SqlServerSchema()
     await Verifier.Verify(database.Connection);
 }
 ```
-<sup><a href='/src/Tests/Tests.cs#L58-L67' title='File snippet `sqlserverschema` was extracted from'>snippet source</a> | <a href='#snippet-sqlserverschema' title='Navigate to start of snippet `sqlserverschema`'>anchor</a></sup>
+<sup><a href='/src/Tests/Tests.cs#L59-L68' title='File snippet `sqlserverschema` was extracted from'>snippet source</a> | <a href='#snippet-sqlserverschema' title='Navigate to start of snippet `sqlserverschema`'>anchor</a></sup>
 <!-- endsnippet -->
 
 Will result in the following verified file:
