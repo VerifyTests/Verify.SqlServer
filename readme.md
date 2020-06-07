@@ -47,14 +47,14 @@ This test:
 <!-- snippet: SqlServerSchema -->
 <a id='snippet-sqlserverschema'/></a>
 ```cs
-[Fact]
+[Test]
 public async Task SqlServerSchema()
 {
     await using var database = await sqlInstance.Build();
-    await Verify(database.Connection);
+    await Verifier.Verify(database.Connection);
 }
 ```
-<sup><a href='/src/Tests/Tests.cs#L59-L68' title='File snippet `sqlserverschema` was extracted from'>snippet source</a> | <a href='#snippet-sqlserverschema' title='Navigate to start of snippet `sqlserverschema`'>anchor</a></sup>
+<sup><a href='/src/Tests/Tests.cs#L58-L67' title='File snippet `sqlserverschema` was extracted from'>snippet source</a> | <a href='#snippet-sqlserverschema' title='Navigate to start of snippet `sqlserverschema`'>anchor</a></sup>
 <!-- endsnippet -->
 
 Will result in the following verified file:
