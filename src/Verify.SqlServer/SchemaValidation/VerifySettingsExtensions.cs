@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Verify
+namespace VerifyTests
 {
     public static class VerifySettingsExtensions
     {

@@ -3,14 +3,14 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Data.SqlClient;
 
-namespace Verify.SqlServer
+namespace VerifyTests
 {
     public static class VerifySqlServer
     {
         public static void Enable()
         {
-            SharedVerifySettings.RegisterFileConverter<SqlConnection>("sql", ConnectionToSql);
-            SharedVerifySettings.RegisterFileConverter<System.Data.SqlClient.SqlConnection>("sql", ConnectionToSql);
+            VerifierSettings.RegisterFileConverter<SqlConnection>("sql", ConnectionToSql);
+            VerifierSettings.RegisterFileConverter<System.Data.SqlClient.SqlConnection>("sql", ConnectionToSql);
         }
 
         static ConversionResult ConnectionToSql(SqlConnection dbConnection, VerifySettings settings)

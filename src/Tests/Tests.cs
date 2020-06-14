@@ -3,10 +3,9 @@ using LocalDb;
 using Microsoft.Data.SqlClient;
 using Microsoft.SqlServer.Management.Common;
 using Microsoft.SqlServer.Management.Smo;
-using Verify;
 using VerifyNUnit;
 using NUnit.Framework;
-using Verify.SqlServer;
+using VerifyTests;
 
 [TestFixture]
 public class Tests
