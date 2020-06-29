@@ -9,8 +9,8 @@ namespace VerifyTests
     {
         public static void Enable()
         {
-            VerifierSettings.RegisterFileConverter<SqlConnection>("sql", ConnectionToSql);
-            VerifierSettings.RegisterFileConverter<System.Data.SqlClient.SqlConnection>("sql", ConnectionToSql);
+            VerifierSettings.RegisterFileConverter<SqlConnection>(ConnectionToSql);
+            VerifierSettings.RegisterFileConverter<System.Data.SqlClient.SqlConnection>(ConnectionToSql);
         }
 
         static ConversionResult ConnectionToSql(SqlConnection dbConnection, VerifySettings settings)
@@ -18,7 +18,7 @@ namespace VerifyTests
             var schemaSettings = settings.GetSchemaSettings();
             var builder = new SqlScriptBuilder(schemaSettings);
             var sql = builder.BuildScript(dbConnection);
-            return new ConversionResult(null, new Stream[] {StringToMemoryStream(sql)});
+            return new ConversionResult(null, new [] {StringToMemoryStream(sql)});
         }
 
         static async Task<ConversionResult> ConnectionToSql(System.Data.SqlClient.SqlConnection dbConnection, VerifySettings settings)
@@ -26,13 +26,13 @@ namespace VerifyTests
             var schemaSettings = settings.GetSchemaSettings();
             var builder = new SqlScriptBuilder(schemaSettings);
             var sql = await builder.BuildScript(dbConnection);
-            return new ConversionResult(null, new Stream[] {StringToMemoryStream(sql)});
+            return new ConversionResult(null, new [] {StringToMemoryStream(sql)});
         }
 
-        static MemoryStream StringToMemoryStream(string text)
+        static ConversionStream StringToMemoryStream(string text)
         {
             var bytes = Encoding.UTF8.GetBytes(text.Replace("\r\n", "\n"));
-            return new MemoryStream(bytes);
+            return new ConversionStream("sql",new MemoryStream(bytes));
         }
     }
 }
