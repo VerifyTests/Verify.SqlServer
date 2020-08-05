@@ -35,7 +35,7 @@ https://nuget.org/packages/Verify.SqlServer/
 Enable VerifySqlServer once at assembly load time:
 
 <!-- snippet: Enable -->
-<a id='snippet-enable'/></a>
+<a id='snippet-enable'></a>
 ```cs
 VerifySqlServer.Enable();
 ```
@@ -48,7 +48,7 @@ VerifySqlServer.Enable();
 This test:
 
 <!-- snippet: SqlServerSchema -->
-<a id='snippet-sqlserverschema'/></a>
+<a id='snippet-sqlserverschema'></a>
 ```cs
 [Test]
 public async Task SqlServerSchema()
@@ -63,7 +63,7 @@ public async Task SqlServerSchema()
 Will result in the following verified file:
 
 <!-- snippet: Tests.SqlServerSchema.verified.sql -->
-<a id='snippet-Tests.SqlServerSchema.verified.sql'/></a>
+<a id='snippet-Tests.SqlServerSchema.verified.sql'></a>
 ```sql
 CREATE TABLE [dbo].[MyTable](
 	[Value] [int] NULL
