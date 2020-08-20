@@ -22,7 +22,7 @@ Part of the <a href='https://dotnetfoundation.org' alt=''>.NET Foundation</a>
 
   * [Usage](#usage)
     * [SqlServer Schema](#sqlserver-schema)
-  * [Security contact information](#security-contact-information)<!-- endtoc -->
+  * [Security contact information](#security-contact-information)<!-- endToc -->
 
 
 ## NuGet package
@@ -40,7 +40,7 @@ Enable VerifySqlServer once at assembly load time:
 VerifySqlServer.Enable();
 ```
 <sup><a href='/src/Tests/Tests.cs#L17-L19' title='File snippet `enable` was extracted from'>snippet source</a> | <a href='#snippet-enable' title='Navigate to start of snippet `enable`'>anchor</a></sup>
-<!-- endsnippet -->
+<!-- endSnippet -->
 
 
 ### SqlServer Schema
@@ -58,7 +58,7 @@ public async Task SqlServerSchema()
 }
 ```
 <sup><a href='/src/Tests/Tests.cs#L61-L70' title='File snippet `sqlserverschema` was extracted from'>snippet source</a> | <a href='#snippet-sqlserverschema' title='Navigate to start of snippet `sqlserverschema`'>anchor</a></sup>
-<!-- endsnippet -->
+<!-- endSnippet -->
 
 Will result in the following verified file:
 
@@ -96,7 +96,7 @@ BEGIN
 END;
 ```
 <sup><a href='/src/Tests/Tests.SqlServerSchema.verified.sql#L1-L29' title='File snippet `Tests.SqlServerSchema.verified.sql` was extracted from'>snippet source</a> | <a href='#snippet-Tests.SqlServerSchema.verified.sql' title='Navigate to start of snippet `Tests.SqlServerSchema.verified.sql`'>anchor</a></sup>
-<!-- endsnippet -->
+<!-- endSnippet -->
 
 
 ## Security contact information
