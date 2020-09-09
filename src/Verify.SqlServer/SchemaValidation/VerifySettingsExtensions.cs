@@ -18,7 +18,7 @@ namespace VerifyTests
                 includeItem = s => true;
             }
 
-            settings.Data.Add("EntityFramework",
+            settings.Context.Add("EntityFramework",
                 new SchemaSettings(
                     storedProcedures,
                     tables,
@@ -30,7 +30,7 @@ namespace VerifyTests
         internal static SchemaSettings GetSchemaSettings(this VerifySettings settings)
         {
             Guard.AgainstNull(settings, nameof(settings));
-            if (settings.Data.TryGetValue("EntityFramework", out var value))
+            if (settings.Context.TryGetValue("EntityFramework", out var value))
             {
                 return (SchemaSettings) value;
             }
