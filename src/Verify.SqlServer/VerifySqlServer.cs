@@ -1,7 +1,8 @@
 ﻿using System.IO;
 using System.Text;
 using System.Threading.Tasks;
-using Microsoft.Data.SqlClient;
+using MsConnection = Microsoft.Data.SqlClient.SqlConnection;
+using SysConnection = System.Data.SqlClient.SqlConnection;
 
 namespace VerifyTests
 {
@@ -9,30 +10,30 @@ namespace VerifyTests
     {
         public static void Enable()
         {
-            VerifierSettings.RegisterFileConverter<SqlConnection>(ConnectionToSql);
-            VerifierSettings.RegisterFileConverter<System.Data.SqlClient.SqlConnection>(ConnectionToSql);
+            VerifierSettings.RegisterFileConverter<MsConnection>(ToSql);
+            VerifierSettings.RegisterFileConverter<SysConnection>(ToSql);
         }
 
-        static ConversionResult ConnectionToSql(SqlConnection dbConnection, VerifySettings settings)
+        static ConversionResult ToSql(MsConnection connection, VerifySettings settings)
         {
             var schemaSettings = settings.GetSchemaSettings();
             var builder = new SqlScriptBuilder(schemaSettings);
-            var sql = builder.BuildScript(dbConnection);
-            return new ConversionResult(null, new [] {StringToMemoryStream(sql)});
+            var sql = builder.BuildScript(connection);
+            return new ConversionResult(null, new[] {StringStream(sql)});
         }
 
-        static async Task<ConversionResult> ConnectionToSql(System.Data.SqlClient.SqlConnection dbConnection, VerifySettings settings)
+        static async Task<ConversionResult> ToSql(SysConnection connection, VerifySettings settings)
         {
             var schemaSettings = settings.GetSchemaSettings();
             var builder = new SqlScriptBuilder(schemaSettings);
-            var sql = await builder.BuildScript(dbConnection);
-            return new ConversionResult(null, new [] {StringToMemoryStream(sql)});
+            var sql = await builder.BuildScript(connection);
+            return new ConversionResult(null, new[] {StringStream(sql)});
         }
 
-        static ConversionStream StringToMemoryStream(string text)
+        static ConversionStream StringStream(string text)
         {
             var bytes = Encoding.UTF8.GetBytes(text.Replace("\r\n", "\n"));
-            return new ConversionStream("sql",new MemoryStream(bytes));
+            return new ConversionStream("sql", new MemoryStream(bytes));
         }
     }
 }
