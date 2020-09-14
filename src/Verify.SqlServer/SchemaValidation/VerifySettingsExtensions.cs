@@ -13,10 +13,7 @@ namespace VerifyTests
             Func<string, bool>? includeItem = null)
         {
             Guard.AgainstNull(settings, nameof(settings));
-            if (includeItem == null)
-            {
-                includeItem = s => true;
-            }
+            includeItem ??= s => true;
 
             settings.Context.Add("EntityFramework",
                 new SchemaSettings(
