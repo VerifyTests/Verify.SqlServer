@@ -35,11 +35,11 @@ https://nuget.org/packages/Verify.SqlServer/
 Enable VerifySqlServer once at assembly load time:
 
 <!-- snippet: Enable -->
-<a id='snippet-enable'></a>
+<a id='9905c339'></a>
 ```cs
 VerifySqlServer.Enable();
 ```
-<sup><a href='/src/Tests/Tests.cs#L17-L19' title='Snippet source file'>snippet source</a> | <a href='#snippet-enable' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Tests/Tests.cs#L17-L19' title='Snippet source file'>snippet source</a> | <a href='#9905c339' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 
@@ -48,7 +48,7 @@ VerifySqlServer.Enable();
 This test:
 
 <!-- snippet: SqlServerSchema -->
-<a id='snippet-sqlserverschema'></a>
+<a id='6f585916'></a>
 ```cs
 [Test]
 public async Task SqlServerSchema()
@@ -57,13 +57,13 @@ public async Task SqlServerSchema()
     await Verifier.Verify(database.Connection);
 }
 ```
-<sup><a href='/src/Tests/Tests.cs#L61-L70' title='Snippet source file'>snippet source</a> | <a href='#snippet-sqlserverschema' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Tests/Tests.cs#L61-L70' title='Snippet source file'>snippet source</a> | <a href='#6f585916' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 Will result in the following verified file:
 
 <!-- snippet: Tests.SqlServerSchema.verified.sql -->
-<a id='snippet-Tests.SqlServerSchema.verified.sql'></a>
+<a id='c40a1a2c'></a>
 ```sql
 CREATE TABLE [dbo].[MyTable](
 	[Value] [int] NULL
@@ -95,7 +95,7 @@ BEGIN
     RETURN @quantity * @list_price * (1 - @discount);
 END;
 ```
-<sup><a href='/src/Tests/Tests.SqlServerSchema.verified.sql#L1-L29' title='Snippet source file'>snippet source</a> | <a href='#snippet-Tests.SqlServerSchema.verified.sql' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Tests/Tests.SqlServerSchema.verified.sql#L1-L29' title='Snippet source file'>snippet source</a> | <a href='#c40a1a2c' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 
