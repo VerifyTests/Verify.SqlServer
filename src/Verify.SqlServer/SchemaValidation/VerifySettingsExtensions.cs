@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace VerifyTests
 {
@@ -24,10 +25,10 @@ namespace VerifyTests
                     includeItem));
         }
 
-        internal static SchemaSettings GetSchemaSettings(this VerifySettings settings)
+        internal static SchemaSettings GetSchemaSettings(this IReadOnlyDictionary<string, object> context)
         {
-            Guard.AgainstNull(settings, nameof(settings));
-            if (settings.Context.TryGetValue("EntityFramework", out var value))
+            Guard.AgainstNull(context, nameof(context));
+            if (context.TryGetValue("EntityFramework", out var value))
             {
                 return (SchemaSettings) value;
             }

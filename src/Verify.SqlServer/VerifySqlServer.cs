@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System.Collections.Generic;
+using System.IO;
 using System.Text;
 using System.Threading.Tasks;
 using MsConnection = Microsoft.Data.SqlClient.SqlConnection;
@@ -14,17 +15,17 @@ namespace VerifyTests
             VerifierSettings.RegisterFileConverter<SysConnection>(ToSql);
         }
 
-        static ConversionResult ToSql(MsConnection connection, VerifySettings settings)
+        static ConversionResult ToSql(MsConnection connection, IReadOnlyDictionary<string, object> context)
         {
-            var schemaSettings = settings.GetSchemaSettings();
+            var schemaSettings = context.GetSchemaSettings();
             var builder = new SqlScriptBuilder(schemaSettings);
             var sql = builder.BuildScript(connection);
             return new ConversionResult(null, new[] {StringStream(sql)});
         }
 
-        static async Task<ConversionResult> ToSql(SysConnection connection, VerifySettings settings)
+        static async Task<ConversionResult> ToSql(SysConnection connection, IReadOnlyDictionary<string, object> context)
         {
-            var schemaSettings = settings.GetSchemaSettings();
+            var schemaSettings = context.GetSchemaSettings();
             var builder = new SqlScriptBuilder(schemaSettings);
             var sql = await builder.BuildScript(connection);
             return new ConversionResult(null, new[] {StringStream(sql)});
