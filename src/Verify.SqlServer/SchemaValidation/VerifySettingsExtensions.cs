@@ -5,6 +5,24 @@ namespace VerifyTests
 {
     public static class VerifySettingsExtensions
     {
+        public static SettingsTask SchemaSettings(
+            this SettingsTask settings,
+            bool storedProcedures = true,
+            bool tables = true,
+            bool views = true,
+            bool userDefinedFunctions = true,
+            Func<string, bool>? includeItem = null)
+        {
+            Guard.AgainstNull(settings, nameof(settings));
+            settings.CurrentSettings.SchemaSettings(
+                    storedProcedures,
+                    tables,
+                    views,
+                    userDefinedFunctions,
+                    includeItem);
+            return settings;
+        }
+
         public static void SchemaSettings(
             this VerifySettings settings,
             bool storedProcedures = true,
@@ -14,7 +32,7 @@ namespace VerifyTests
             Func<string, bool>? includeItem = null)
         {
             Guard.AgainstNull(settings, nameof(settings));
-            includeItem ??= s => true;
+            includeItem ??= _ => true;
 
             settings.Context.Add("EntityFramework",
                 new SchemaSettings(
