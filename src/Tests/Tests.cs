@@ -58,7 +58,6 @@ END;");
             });
     }
 
-
     [Test]
     public async Task SqlServerSchema()
     {
