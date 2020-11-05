@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using LocalDb;
 using Microsoft.Data.SqlClient;
 using Microsoft.SqlServer.Management.Common;
@@ -77,6 +78,49 @@ END;");
         await using var connection = new System.Data.SqlClient.SqlConnection(connectionString);
         await connection.OpenAsync();
         await Verifier.Verify(connection);
+    }
+
+    [Test]
+    public async Task RecordingError()
+    {
+
+        await using var database = await sqlInstance.Build();
+        var connection = new SqlConnection(database.ConnectionString);
+        await connection.OpenAsync();
+        SqlRecording.StartRecording();
+        await using var command = connection.CreateCommand();
+        command.CommandText = "select * from MyTabl2e";
+        try
+        {
+            await using var dataReader = await command.ExecuteReaderAsync();
+        }
+        catch
+        {
+        }
+        var commands = SqlRecording.FinishRecording();
+        await Verifier.Verify(commands);
+    }
+
+    [Test]
+    public async Task Recording()
+    {
+        static async Task Execute(SqlConnection sqlConnection)
+        {
+            await using var command = sqlConnection.CreateCommand();
+            command.CommandText = "select * from MyTable";
+            await using var dataReader = await command.ExecuteReaderAsync();
+        }
+
+        await using var database = await sqlInstance.Build();
+        var connection = new SqlConnection(database.ConnectionString);
+        await connection.OpenAsync();
+        await Execute(connection);
+        SqlRecording.StartRecording();
+        await Execute(connection);
+        await Execute(connection);
+        var commands = SqlRecording.FinishRecording();
+        await Execute(connection);
+        await Verifier.Verify(commands);
     }
 
     #region SqlServerSchemaSettings
