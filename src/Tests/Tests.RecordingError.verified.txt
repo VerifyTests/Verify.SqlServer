@@ -1,0 +1,38 @@
+[
+  {
+    Exception: {
+      $type: 'SqlException',
+      Type: 'SqlException',
+      Errors: [
+        {
+          Source: 'Core Microsoft SqlClient Data Provider',
+          Number: 208,
+          State: 1,
+          Class: 16,
+          Server: '(LocalDb)\VerifySqlServer',
+          Message: "Invalid object name 'MyTabl2e'.",
+          Procedure: '',
+          LineNumber: 1
+        }
+      ],
+      ClientConnectionId: Guid_1,
+      Class: 16,
+      LineNumber: 1,
+      Number: 208,
+      Procedure: '',
+      Server: '(LocalDb)\VerifySqlServer',
+      State: 1,
+      ErrorCode: -2146232060,
+      Message: "Invalid object name 'MyTabl2e'.",
+      Data: {
+        HelpLink.ProdName: 'Microsoft SQL Server',
+        HelpLink.ProdVer: '13.00.4001',
+        HelpLink.EvtSrc: 'MSSQLServer',
+        HelpLink.EvtID: '208',
+        HelpLink.BaseHelpUrl: 'http://go.microsoft.com/fwlink',
+        HelpLink.LinkId: '20476'
+      }
+    },
+    Text: 'select * from MyTabl2e'
+  }
+]

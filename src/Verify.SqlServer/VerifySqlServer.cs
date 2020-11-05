@@ -36,5 +36,6 @@ namespace VerifyTests
             var bytes = Encoding.UTF8.GetBytes(text.Replace("\r\n", "\n"));
             return new ConversionStream("sql", new MemoryStream(bytes));
         }
+
     }
 }

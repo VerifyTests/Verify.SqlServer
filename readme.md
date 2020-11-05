@@ -15,6 +15,7 @@ Part of the <a href='https://dotnetfoundation.org' alt=''>.NET Foundation</a>
 
   * [Usage](#usage)
     * [SqlServer Schema](#sqlserver-schema)
+    * [Recording](#recording)
   * [Security contact information](#security-contact-information)<!-- endToc -->
 
 
@@ -32,7 +33,7 @@ Enable VerifySqlServer once at assembly load time:
 ```cs
 VerifySqlServer.Enable();
 ```
-<sup><a href='/src/Tests/Tests.cs#L17-L19' title='Snippet source file'>snippet source</a> | <a href='#snippet-enable' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Tests/Tests.cs#L18-L20' title='Snippet source file'>snippet source</a> | <a href='#snippet-enable' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 
@@ -43,14 +44,9 @@ This test:
 <!-- snippet: SqlServerSchema -->
 <a id='snippet-sqlserverschema'></a>
 ```cs
-[Test]
-public async Task SqlServerSchema()
-{
-    await using var database = await sqlInstance.Build();
-    await Verifier.Verify(database.Connection);
-}
+await Verifier.Verify(connection);
 ```
-<sup><a href='/src/Tests/Tests.cs#L61-L70' title='Snippet source file'>snippet source</a> | <a href='#snippet-sqlserverschema' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Tests/Tests.cs#L68-L70' title='Snippet source file'>snippet source</a> | <a href='#snippet-sqlserverschema' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 Will result in the following verified file:
@@ -89,6 +85,42 @@ BEGIN
 END;
 ```
 <sup><a href='/src/Tests/Tests.SqlServerSchema.verified.sql#L1-L29' title='Snippet source file'>snippet source</a> | <a href='#snippet-Tests.SqlServerSchema.verified.sql' title='Start of snippet'>anchor</a></sup>
+<!-- endSnippet -->
+
+
+### Recording
+
+Recording allows all commands executed to be captured and then (optionally) verified.
+
+Call `SqlRecording.StartRecording()` and `SqlRecording.FinishRecording()`.
+
+<!-- snippet: Recording -->
+<a id='snippet-recording'></a>
+```cs
+var connection = new SqlConnection(connectionString);
+await connection.OpenAsync();
+SqlRecording.StartRecording();
+await using var command = connection.CreateCommand();
+command.CommandText = "select * from MyTable";
+await using var dataReader = await command.ExecuteReaderAsync();
+var commands = SqlRecording.FinishRecording();
+await Verifier.Verify(commands);
+```
+<sup><a href='/src/Tests/Tests.cs#L109-L120' title='Snippet source file'>snippet source</a> | <a href='#snippet-recording' title='Start of snippet'>anchor</a></sup>
+<!-- endSnippet -->
+
+Will result in the following verified file:
+
+<!-- snippet: Tests.Recording.verified.txt -->
+<a id='snippet-Tests.Recording.verified.txt'></a>
+```txt
+[
+  {
+    Text: 'select * from MyTable'
+  }
+]
+```
+<sup><a href='/src/Tests/Tests.Recording.verified.txt#L1-L5' title='Snippet source file'>snippet source</a> | <a href='#snippet-Tests.Recording.verified.txt' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 
