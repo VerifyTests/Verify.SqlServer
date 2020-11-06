@@ -69,6 +69,14 @@ END;");
     }
 
     [Test]
+    public async Task SqlServerSchemaInDynamic()
+    {
+        await using var database = await sqlInstance.Build();
+        var connection = database.Connection;
+        await Verifier.Verify(new {connection});
+    }
+
+    [Test]
     public async Task SqlServerSchemaLegacy()
     {
         var database = await sqlInstance.Build();

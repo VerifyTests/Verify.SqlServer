@@ -11,6 +11,16 @@ namespace VerifyTests
     {
         public static void Enable()
         {
+            VerifierSettings.ModifySerialization(settings =>
+            {
+                settings.AddExtraSettings(serializerSettings =>
+                {
+                    var converters = serializerSettings.Converters;
+                    converters.Add(new MsConnectionConverter());
+                    converters.Add(new SysConnectionConverter());
+                });
+            });
+
             VerifierSettings.RegisterFileConverter<MsConnection>(ToSql);
             VerifierSettings.RegisterFileConverter<SysConnection>(ToSql);
         }
@@ -36,6 +46,5 @@ namespace VerifyTests
             var bytes = Encoding.UTF8.GetBytes(text.Replace("\r\n", "\n"));
             return new ConversionStream("sql", new MemoryStream(bytes));
         }
-
     }
 }
