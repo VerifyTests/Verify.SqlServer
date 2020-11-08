@@ -116,7 +116,7 @@ Will result in the following verified file:
 ```txt
 [
   {
-    Text: 'select * from MyTable'
+    Text: select * from MyTable
   }
 ]
 ```
