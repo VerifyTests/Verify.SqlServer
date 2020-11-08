@@ -39,7 +39,7 @@ class SqlScriptBuilder
         server.SetDefaultInitFields(typeof(UserDefinedFunction), "Name", "IsSystemObject");
         var database = server.Databases[builder.InitialCatalog];
         database.Tables.Refresh();
-        return string.Join("\r\n\r\n", GetScripts(database));
+        return string.Join("\n\n", GetScripts(database));
     }
 
     IEnumerable<string> GetScripts(Database database)
