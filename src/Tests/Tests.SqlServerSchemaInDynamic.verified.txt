@@ -1,5 +1,5 @@
 {
-  connection:
+  connection: 
 CREATE TABLE [dbo].[MyTable](
 	[Value] [int] NULL
 ) ON [PRIMARY]
@@ -28,5 +28,5 @@ RETURNS DEC(10,2)
 AS
 BEGIN
     RETURN @quantity * @list_price * (1 - @discount);
-END; null
+END;
 }
