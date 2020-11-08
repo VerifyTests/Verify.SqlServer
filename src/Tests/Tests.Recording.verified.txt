@@ -1,5 +1,5 @@
 [
   {
-    Text: 'select * from MyTable'
+    Text: select * from MyTable
   }
 ]
