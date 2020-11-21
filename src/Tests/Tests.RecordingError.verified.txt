@@ -29,7 +29,7 @@
         HelpLink.ProdVer: 13.00.4001,
         HelpLink.EvtSrc: MSSQLServer,
         HelpLink.EvtID: 208,
-        HelpLink.BaseHelpUrl: http://go.microsoft.com/fwlink,
+        HelpLink.BaseHelpUrl: https://go.microsoft.com/fwlink,
         HelpLink.LinkId: 20476
       }
     },
