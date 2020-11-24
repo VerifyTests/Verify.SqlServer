@@ -33,7 +33,7 @@ Enable VerifySqlServer once at assembly load time:
 ```cs
 VerifySqlServer.Enable();
 ```
-<sup><a href='/src/Tests/Tests.cs#L17-L19' title='Snippet source file'>snippet source</a> | <a href='#snippet-enable' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Tests/Tests.cs#L17-L21' title='Snippet source file'>snippet source</a> | <a href='#snippet-enable' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 
@@ -46,7 +46,7 @@ This test:
 ```cs
 await Verifier.Verify(connection);
 ```
-<sup><a href='/src/Tests/Tests.cs#L66-L68' title='Snippet source file'>snippet source</a> | <a href='#snippet-sqlserverschema' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Tests/Tests.cs#L70-L74' title='Snippet source file'>snippet source</a> | <a href='#snippet-sqlserverschema' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 Will result in the following verified file:
@@ -106,7 +106,7 @@ await using var dataReader = await command.ExecuteReaderAsync();
 var commands = SqlRecording.FinishRecording();
 await Verifier.Verify(commands);
 ```
-<sup><a href='/src/Tests/Tests.cs#L116-L127' title='Snippet source file'>snippet source</a> | <a href='#snippet-recording' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Tests/Tests.cs#L123-L134' title='Snippet source file'>snippet source</a> | <a href='#snippet-recording' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 Will result in the following verified file:

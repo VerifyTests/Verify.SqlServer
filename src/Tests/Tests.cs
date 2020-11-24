@@ -15,8 +15,11 @@ public class Tests
     static Tests()
     {
         #region Enable
+
         VerifySqlServer.Enable();
+
         #endregion
+
         sqlInstance = new SqlInstance(
             "VerifySqlServer",
             connection =>
@@ -63,8 +66,11 @@ END;");
     {
         await using var database = await sqlInstance.Build();
         var connection = database.Connection;
+
         #region SqlServerSchema
+
         await Verifier.Verify(connection);
+
         #endregion
     }
 
@@ -102,6 +108,7 @@ END;");
         catch
         {
         }
+
         var commands = SqlRecording.FinishRecording();
         await Verifier.Verify(commands)
             .ScrubLinesContaining("HelpLink.ProdVer");
@@ -157,13 +164,12 @@ END;");
 
         #region SqlServerSchemaSettings
 
-        var settings = new VerifySettings();
-        settings.SchemaSettings(
-            storedProcedures: true,
-            tables: true,
-            views: true,
-            includeItem: itemName => itemName == "MyTable");
-        await Verifier.Verify(connection, settings);
+        await Verifier.Verify(connection)
+            .SchemaSettings(
+                storedProcedures: true,
+                tables: true,
+                views: true,
+                includeItem: itemName => itemName == "MyTable");
 
         #endregion
     }
