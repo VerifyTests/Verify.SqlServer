@@ -11,8 +11,8 @@ class Listener :
     IObserver<DiagnosticListener>,
     IDisposable
 {
-    ConcurrentQueue<IDisposable> subscriptions = new ConcurrentQueue<IDisposable>();
-    AsyncLocal<List<LogEntry>?> local = new AsyncLocal<List<LogEntry>?>();
+    ConcurrentQueue<IDisposable> subscriptions = new();
+    AsyncLocal<List<LogEntry>?> local = new();
 
     public void Start()
     {
@@ -25,7 +25,7 @@ class Listener :
 
         if (localValue == null)
         {
-            throw new Exception("SqlRecording.StartRecording must be called prior to FinishRecording.");
+            throw new("SqlRecording.StartRecording must be called prior to FinishRecording.");
         }
 
         local.Value = null;
@@ -45,25 +45,25 @@ class Listener :
     [DiagnosticName("System.Data.SqlClient.WriteCommandAfter")]
     public void OnSystemCommandAfter(DbCommand command)
     {
-        local.Value!.Add(new LogEntry(command));
+        local.Value!.Add(new(command));
     }
 
     [DiagnosticName("Microsoft.Data.SqlClient.WriteCommandAfter")]
     public void OnMsCommandAfter(DbCommand command)
     {
-        local.Value!.Add(new LogEntry(command));
+        local.Value!.Add(new(command));
     }
 
     [DiagnosticName("System.Data.SqlClient.WriteCommandError")]
     public void OnSysErrorExecuteCommand(DbCommand command, Exception exception)
     {
-        local.Value!.Add(new LogEntry(command, exception));
+        local.Value!.Add(new(command, exception));
     }
 
     [DiagnosticName("Microsoft.Data.SqlClient.WriteCommandError")]
     public void OnMsErrorExecuteCommand(DbCommand command, Exception exception)
     {
-        local.Value!.Add(new LogEntry(command, exception));
+        local.Value!.Add(new(command, exception));
     }
 
     void Clear()
