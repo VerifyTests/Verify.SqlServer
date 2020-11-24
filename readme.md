@@ -106,7 +106,7 @@ await using var dataReader = await command.ExecuteReaderAsync();
 var commands = SqlRecording.FinishRecording();
 await Verifier.Verify(commands);
 ```
-<sup><a href='/src/Tests/Tests.cs#L115-L126' title='Snippet source file'>snippet source</a> | <a href='#snippet-recording' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Tests/Tests.cs#L116-L127' title='Snippet source file'>snippet source</a> | <a href='#snippet-recording' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 Will result in the following verified file:

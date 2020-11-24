@@ -26,7 +26,6 @@
       Message: Invalid object name 'MyTabl2e'.,
       Data: {
         HelpLink.ProdName: Microsoft SQL Server,
-        HelpLink.ProdVer: 13.00.4001,
         HelpLink.EvtSrc: MSSQLServer,
         HelpLink.EvtID: 208,
         HelpLink.BaseHelpUrl: https://go.microsoft.com/fwlink,

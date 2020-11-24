@@ -103,7 +103,8 @@ END;");
         {
         }
         var commands = SqlRecording.FinishRecording();
-        await Verifier.Verify(commands);
+        await Verifier.Verify(commands)
+            .ScrubLinesContaining("HelpLink.ProdVer");
     }
 
     [Test]
