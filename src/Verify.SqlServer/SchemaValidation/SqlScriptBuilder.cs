@@ -16,18 +16,18 @@ class SqlScriptBuilder
 
     public string BuildScript(SqlConnection sqlConnection)
     {
-        var builder = new SqlConnectionStringBuilder(sqlConnection.ConnectionString);
-        var server = new Server(new ServerConnection(sqlConnection));
+        SqlConnectionStringBuilder builder = new(sqlConnection.ConnectionString);
+        Server server = new (new ServerConnection(sqlConnection));
 
         return BuildScript(server, builder);
     }
 
     public async Task<string> BuildScript(System.Data.SqlClient.SqlConnection sqlConnection)
     {
-        var builder = new SqlConnectionStringBuilder(sqlConnection.ConnectionString);
-        using var connection = new SqlConnection(sqlConnection.ConnectionString);
+        SqlConnectionStringBuilder builder = new (sqlConnection.ConnectionString);
+        using SqlConnection connection = new (sqlConnection.ConnectionString);
         await connection.OpenAsync();
-        var server = new Server(new ServerConnection(connection));
+        Server server = new (new ServerConnection(connection));
         return BuildScript(server, builder);
     }
 
@@ -57,7 +57,7 @@ class SqlScriptBuilder
 
     static string Script(IScriptable scriptable)
     {
-        var options = new ScriptingOptions
+        ScriptingOptions options = new()
         {
             ChangeTracking = true,
             NoCollation = true

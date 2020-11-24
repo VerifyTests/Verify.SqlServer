@@ -18,7 +18,7 @@ class SysConnectionConverter :
         }
 
         var schemaSettings = context.GetSchemaSettings();
-        var builder = new SqlScriptBuilder(schemaSettings);
+        SqlScriptBuilder builder = new(schemaSettings);
         var script = builder.BuildScript(connection);
         writer.WriteValue(script);
     }

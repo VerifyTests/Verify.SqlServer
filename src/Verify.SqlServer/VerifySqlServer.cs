@@ -28,23 +28,23 @@ namespace VerifyTests
         static ConversionResult ToSql(MsConnection connection, IReadOnlyDictionary<string, object> context)
         {
             var schemaSettings = context.GetSchemaSettings();
-            var builder = new SqlScriptBuilder(schemaSettings);
+            SqlScriptBuilder builder = new(schemaSettings);
             var sql = builder.BuildScript(connection);
-            return new ConversionResult(null, new[] {StringStream(sql)});
+            return new(null, new[] {StringStream(sql)});
         }
 
         static async Task<ConversionResult> ToSql(SysConnection connection, IReadOnlyDictionary<string, object> context)
         {
             var schemaSettings = context.GetSchemaSettings();
-            var builder = new SqlScriptBuilder(schemaSettings);
+            SqlScriptBuilder builder = new(schemaSettings);
             var sql = await builder.BuildScript(connection);
-            return new ConversionResult(null, new[] {StringStream(sql)});
+            return new(null, new[] {StringStream(sql)});
         }
 
         static ConversionStream StringStream(string text)
         {
             var bytes = Encoding.UTF8.GetBytes(text.Replace("\r\n", "\n"));
-            return new ConversionStream("sql", new MemoryStream(bytes));
+            return new("sql", new MemoryStream(bytes));
         }
     }
 }

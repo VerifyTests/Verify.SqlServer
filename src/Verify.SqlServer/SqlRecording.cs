@@ -9,7 +9,7 @@ namespace VerifyTests
 
         static SqlRecording()
         {
-            listener = new Listener();
+            listener = new();
             var subscription = DiagnosticListener.AllListeners.Subscribe(listener);
         }
 
