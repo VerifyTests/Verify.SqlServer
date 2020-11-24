@@ -97,7 +97,7 @@ Call `SqlRecording.StartRecording()` and `SqlRecording.FinishRecording()`.
 <!-- snippet: Recording -->
 <a id='snippet-recording'></a>
 ```cs
-var connection = new SqlConnection(connectionString);
+SqlConnection connection = new(connectionString);
 await connection.OpenAsync();
 SqlRecording.StartRecording();
 await using var command = connection.CreateCommand();

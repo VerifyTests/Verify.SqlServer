@@ -20,11 +20,11 @@ public class Tests
 
         #endregion
 
-        sqlInstance = new SqlInstance(
+        sqlInstance = new(
             "VerifySqlServer",
             connection =>
             {
-                var server = new Server(new ServerConnection((SqlConnection) connection));
+                Server server = new(new ServerConnection((SqlConnection) connection));
                 server.ConnectionContext.ExecuteNonQuery(@"
 create table
 MyTable(Value int);
@@ -87,7 +87,7 @@ END;");
     {
         var database = await sqlInstance.Build();
         var connectionString = database.ConnectionString;
-        await using var connection = new System.Data.SqlClient.SqlConnection(connectionString);
+        await using System.Data.SqlClient.SqlConnection connection = new(connectionString);
         await connection.OpenAsync();
         await Verifier.Verify(connection);
     }
@@ -96,7 +96,7 @@ END;");
     public async Task RecordingError()
     {
         await using var database = await sqlInstance.Build();
-        var connection = new SqlConnection(database.ConnectionString);
+        SqlConnection connection = new(database.ConnectionString);
         await connection.OpenAsync();
         SqlRecording.StartRecording();
         await using var command = connection.CreateCommand();
@@ -122,7 +122,7 @@ END;");
 
         #region Recording
 
-        var connection = new SqlConnection(connectionString);
+        SqlConnection connection = new(connectionString);
         await connection.OpenAsync();
         SqlRecording.StartRecording();
         await using var command = connection.CreateCommand();
@@ -145,7 +145,7 @@ END;");
         }
 
         await using var database = await sqlInstance.Build();
-        var connection = new SqlConnection(database.ConnectionString);
+        SqlConnection connection = new(database.ConnectionString);
         await connection.OpenAsync();
         await Execute(connection);
         SqlRecording.StartRecording();

@@ -16,7 +16,7 @@ class Listener :
 
     public void Start()
     {
-        local.Value = new List<LogEntry>();
+        local.Value = new();
     }
 
     public IEnumerable<LogEntry> Finish()
