@@ -54,6 +54,6 @@ namespace VerifyTests
             return defaultSettings;
         }
 
-        static SchemaSettings defaultSettings = new SchemaSettings(true, true, true, true, s => true);
+        static SchemaSettings defaultSettings = new(true, true, true, true, s => true);
     }
 }
