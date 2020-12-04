@@ -30,6 +30,11 @@ create table
 MyTable(Value int);
 go
 
+INSERT INTO MyTable (Value)
+VALUES (42);
+
+go
+
 CREATE VIEW MyView
 AS
   SELECT Value
@@ -126,10 +131,34 @@ END;");
         await connection.OpenAsync();
         SqlRecording.StartRecording();
         await using var command = connection.CreateCommand();
-        command.CommandText = "select * from MyTable";
-        await using var dataReader = await command.ExecuteReaderAsync();
-        var commands = SqlRecording.FinishRecording();
-        await Verifier.Verify(commands);
+        command.CommandText = "select Value from MyTable";
+        var value = await command.ExecuteScalarAsync();
+        await Verifier.Verify(value);
+
+        #endregion
+    }
+
+    [Test]
+    public async Task RecordingSpecific()
+    {
+        await using var database = await sqlInstance.Build();
+        var connectionString = database.ConnectionString;
+
+        #region RecordingSpecific
+
+        SqlConnection connection = new(connectionString);
+        await connection.OpenAsync();
+        SqlRecording.StartRecording();
+        await using var command = connection.CreateCommand();
+        command.CommandText = "select Value from MyTable";
+        var value = await command.ExecuteScalarAsync();
+        var entries = SqlRecording.FinishRecording();
+        //TODO: optionally filter the results
+        await Verifier.Verify(new
+        {
+            value,
+            sql = entries
+        });
 
         #endregion
     }

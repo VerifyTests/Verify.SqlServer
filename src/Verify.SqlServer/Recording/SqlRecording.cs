@@ -22,5 +22,10 @@ namespace VerifyTests
         {
             return listener.Finish();
         }
+
+        public static bool TryFinishRecording(out IEnumerable<LogEntry>? entries)
+        {
+            return listener.TryFinish(out entries);
+        }
     }
 }

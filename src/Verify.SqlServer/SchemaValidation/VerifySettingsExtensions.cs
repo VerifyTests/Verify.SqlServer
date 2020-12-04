@@ -34,7 +34,8 @@ namespace VerifyTests
             Guard.AgainstNull(settings, nameof(settings));
             includeItem ??= _ => true;
 
-            settings.Context.Add("EntityFramework",
+            settings.Context.Add(
+                "SqlServer",
                 new SchemaSettings(
                     storedProcedures,
                     tables,
@@ -46,7 +47,7 @@ namespace VerifyTests
         internal static SchemaSettings GetSchemaSettings(this IReadOnlyDictionary<string, object> context)
         {
             Guard.AgainstNull(context, nameof(context));
-            if (context.TryGetValue("EntityFramework", out var value))
+            if (context.TryGetValue("SqlServer", out var value))
             {
                 return (SchemaSettings) value;
             }
@@ -54,6 +55,6 @@ namespace VerifyTests
             return defaultSettings;
         }
 
-        static SchemaSettings defaultSettings = new(true, true, true, true, s => true);
+        static SchemaSettings defaultSettings = new(true, true, true, true, _ => true);
     }
 }

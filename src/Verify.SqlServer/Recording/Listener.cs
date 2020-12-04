@@ -19,6 +19,19 @@ class Listener :
         local.Value = new();
     }
 
+    public bool TryFinish(out IEnumerable<LogEntry>? entries)
+    {
+        entries = local.Value;
+
+        if (entries == null)
+        {
+            return false;
+        }
+
+        local.Value = null;
+        return true;
+    }
+
     public IEnumerable<LogEntry> Finish()
     {
         var localValue = local.Value;

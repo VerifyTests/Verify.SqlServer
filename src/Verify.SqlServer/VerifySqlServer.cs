@@ -21,6 +21,16 @@ namespace VerifyTests
                 });
             });
 
+            VerifierSettings.RegisterJsonAppender(_ =>
+            {
+                if (!SqlRecording.TryFinishRecording(out var entries))
+                {
+                    return null;
+                }
+
+                return new("sql", entries!);
+            });
+
             VerifierSettings.RegisterFileConverter<MsConnection>(ToSql);
             VerifierSettings.RegisterFileConverter<SysConnection>(ToSql);
         }

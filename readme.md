@@ -46,7 +46,7 @@ This test:
 ```cs
 await Verifier.Verify(connection);
 ```
-<sup><a href='/src/Tests/Tests.cs#L70-L74' title='Snippet source file'>snippet source</a> | <a href='#snippet-sqlserverschema' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Tests/Tests.cs#L75-L79' title='Snippet source file'>snippet source</a> | <a href='#snippet-sqlserverschema' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 Will result in the following verified file:
@@ -92,7 +92,7 @@ END;
 
 Recording allows all commands executed to be captured and then (optionally) verified.
 
-Call `SqlRecording.StartRecording()` and `SqlRecording.FinishRecording()`.
+Call `SqlRecording.StartRecording()`:
 
 <!-- snippet: Recording -->
 <a id='snippet-recording'></a>
@@ -101,12 +101,11 @@ SqlConnection connection = new(connectionString);
 await connection.OpenAsync();
 SqlRecording.StartRecording();
 await using var command = connection.CreateCommand();
-command.CommandText = "select * from MyTable";
-await using var dataReader = await command.ExecuteReaderAsync();
-var commands = SqlRecording.FinishRecording();
-await Verifier.Verify(commands);
+command.CommandText = "select Value from MyTable";
+var value = await command.ExecuteScalarAsync();
+await Verifier.Verify(value);
 ```
-<sup><a href='/src/Tests/Tests.cs#L123-L134' title='Snippet source file'>snippet source</a> | <a href='#snippet-recording' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Tests/Tests.cs#L128-L138' title='Snippet source file'>snippet source</a> | <a href='#snippet-recording' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 Will result in the following verified file:
@@ -114,13 +113,39 @@ Will result in the following verified file:
 <!-- snippet: Tests.Recording.verified.txt -->
 <a id='snippet-Tests.Recording.verified.txt'></a>
 ```txt
-[
-  {
-    Text: select * from MyTable
-  }
-]
+{
+  target: 42,
+  sql: [
+    {
+      Text: select Value from MyTable
+    }
+  ]
+}
 ```
-<sup><a href='/src/Tests/Tests.Recording.verified.txt#L1-L5' title='Snippet source file'>snippet source</a> | <a href='#snippet-Tests.Recording.verified.txt' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Tests/Tests.Recording.verified.txt#L1-L8' title='Snippet source file'>snippet source</a> | <a href='#snippet-Tests.Recording.verified.txt' title='Start of snippet'>anchor</a></sup>
+<!-- endSnippet -->
+
+
+Sql entries can be explicitly read using `SqlRecording.FinishRecording`, optionally filtered, and passed to Verify:
+
+<!-- snippet: RecordingSpecific -->
+<a id='snippet-recordingspecific'></a>
+```cs
+SqlConnection connection = new(connectionString);
+await connection.OpenAsync();
+SqlRecording.StartRecording();
+await using var command = connection.CreateCommand();
+command.CommandText = "select Value from MyTable";
+var value = await command.ExecuteScalarAsync();
+var entries = SqlRecording.FinishRecording();
+//TODO: optionally filter the results
+await Verifier.Verify(new
+{
+    value,
+    sql = entries
+});
+```
+<sup><a href='/src/Tests/Tests.cs#L147-L163' title='Snippet source file'>snippet source</a> | <a href='#snippet-recordingspecific' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 
