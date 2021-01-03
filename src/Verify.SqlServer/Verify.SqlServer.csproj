@@ -10,6 +10,6 @@
     <PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
     <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.0.0" PrivateAssets="All" Condition="$(Configuration) == 'Release'" />
     <PackageReference Include="ProjectDefaults" Version="1.0.52" PrivateAssets="All" />
-    <PackageReference Include="Microsoft.SqlServer.SqlManagementObjects" Version="161.44091.28" />
+    <PackageReference Include="Microsoft.SqlServer.SqlManagementObjects" Version="161.46041.41" />
   </ItemGroup>
 </Project>
