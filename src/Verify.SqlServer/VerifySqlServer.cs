@@ -1,6 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.IO;
-using System.Text;
 using System.Threading.Tasks;
 using MsConnection = Microsoft.Data.SqlClient.SqlConnection;
 using SysConnection = System.Data.SqlClient.SqlConnection;
@@ -40,7 +38,7 @@ namespace VerifyTests
             var schemaSettings = context.GetSchemaSettings();
             SqlScriptBuilder builder = new(schemaSettings);
             var sql = builder.BuildScript(connection);
-            return new(null, new[] {StringStream(sql)});
+            return new(null, "sql", sql);
         }
 
         static async Task<ConversionResult> ToSql(SysConnection connection, IReadOnlyDictionary<string, object> context)
@@ -48,13 +46,7 @@ namespace VerifyTests
             var schemaSettings = context.GetSchemaSettings();
             SqlScriptBuilder builder = new(schemaSettings);
             var sql = await builder.BuildScript(connection);
-            return new(null, new[] {StringStream(sql)});
-        }
-
-        static ConversionStream StringStream(string text)
-        {
-            var bytes = Encoding.UTF8.GetBytes(text.Replace("\r\n", "\n"));
-            return new("sql", new MemoryStream(bytes));
+            return new(null, "sql", sql);
         }
     }
 }
