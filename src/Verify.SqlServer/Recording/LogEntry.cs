@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Data.Common;
 
-namespace VerifyTests
+namespace Verify.SqlServer
 {
     public class LogEntry
     {

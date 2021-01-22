@@ -5,7 +5,7 @@ using System.Data.Common;
 using System.Diagnostics;
 using System.Threading;
 using Microsoft.Extensions.DiagnosticAdapter;
-using VerifyTests;
+using Verify.SqlServer;
 
 class Listener :
     IObserver<DiagnosticListener>,
