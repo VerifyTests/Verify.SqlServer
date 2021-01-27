@@ -46,7 +46,7 @@ This test:
 ```cs
 await Verifier.Verify(connection);
 ```
-<sup><a href='/src/Tests/Tests.cs#L75-L79' title='Snippet source file'>snippet source</a> | <a href='#snippet-sqlserverschema' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Tests/Tests.cs#L79-L83' title='Snippet source file'>snippet source</a> | <a href='#snippet-sqlserverschema' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 Will result in the following verified file:
@@ -54,15 +54,23 @@ Will result in the following verified file:
 <!-- snippet: Tests.SqlServerSchema.verified.sql -->
 <a id='snippet-Tests.SqlServerSchema.verified.sql'></a>
 ```sql
+-- Tables
+
 CREATE TABLE [dbo].[MyTable](
 	[Value] [int] NULL
 ) ON [PRIMARY]
+
+
+-- Views
 
 CREATE VIEW MyView
 AS
   SELECT Value
   FROM MyTable
   WHERE (Value > 10);
+
+
+-- Stored Procedures
 
 CREATE PROCEDURE MyProcedure
 AS
@@ -72,6 +80,9 @@ BEGIN
   FROM MyTable
   WHERE (Value > 10);
 END;
+
+
+-- User Defined Functions
 
 CREATE FUNCTION MyFunction(
   @quantity INT,
@@ -83,8 +94,13 @@ AS
 BEGIN
     RETURN @quantity * @list_price * (1 - @discount);
 END;
+
+
+-- Synonyms
+
+CREATE SYNONYM [dbo].[synonym1] FOR [MyTable]
 ```
-<sup><a href='/src/Tests/Tests.SqlServerSchema.verified.sql#L1-L29' title='Snippet source file'>snippet source</a> | <a href='#snippet-Tests.SqlServerSchema.verified.sql' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Tests/Tests.SqlServerSchema.verified.sql#L1-L45' title='Snippet source file'>snippet source</a> | <a href='#snippet-Tests.SqlServerSchema.verified.sql' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 
@@ -105,7 +121,7 @@ command.CommandText = "select Value from MyTable";
 var value = await command.ExecuteScalarAsync();
 await Verifier.Verify(value);
 ```
-<sup><a href='/src/Tests/Tests.cs#L128-L138' title='Snippet source file'>snippet source</a> | <a href='#snippet-recording' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Tests/Tests.cs#L132-L142' title='Snippet source file'>snippet source</a> | <a href='#snippet-recording' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 Will result in the following verified file:
@@ -145,7 +161,7 @@ await Verifier.Verify(new
     sql = entries
 });
 ```
-<sup><a href='/src/Tests/Tests.cs#L147-L163' title='Snippet source file'>snippet source</a> | <a href='#snippet-recordingspecific' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Tests/Tests.cs#L151-L167' title='Snippet source file'>snippet source</a> | <a href='#snippet-recordingspecific' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 

@@ -10,5 +10,4 @@ nugets/
 # ReSharper is a .NET coding add-in
 *.DotSettings.user
 
-# Approval Tests
 *.received.*

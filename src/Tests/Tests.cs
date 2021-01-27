@@ -42,6 +42,10 @@ AS
   WHERE (Value > 10);
 go
 
+create synonym synonym1
+    for MyTable;
+go
+
 CREATE PROCEDURE MyProcedure
 AS
 BEGIN

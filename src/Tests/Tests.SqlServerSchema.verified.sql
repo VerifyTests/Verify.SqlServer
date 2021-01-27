@@ -1,12 +1,20 @@
+-- Tables
+
 CREATE TABLE [dbo].[MyTable](
 	[Value] [int] NULL
 ) ON [PRIMARY]
+
+
+-- Views
 
 CREATE VIEW MyView
 AS
   SELECT Value
   FROM MyTable
   WHERE (Value > 10);
+
+
+-- Stored Procedures
 
 CREATE PROCEDURE MyProcedure
 AS
@@ -16,6 +24,9 @@ BEGIN
   FROM MyTable
   WHERE (Value > 10);
 END;
+
+
+-- User Defined Functions
 
 CREATE FUNCTION MyFunction(
   @quantity INT,
@@ -27,3 +38,8 @@ AS
 BEGIN
     RETURN @quantity * @list_price * (1 - @discount);
 END;
+
+
+-- Synonyms
+
+CREATE SYNONYM [dbo].[synonym1] FOR [MyTable]

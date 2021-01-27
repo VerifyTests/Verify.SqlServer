@@ -11,6 +11,7 @@ namespace VerifyTests
             bool tables = true,
             bool views = true,
             bool userDefinedFunctions = true,
+            bool synonyms = true,
             Func<string, bool>? includeItem = null)
         {
             Guard.AgainstNull(settings, nameof(settings));
@@ -19,6 +20,7 @@ namespace VerifyTests
                     tables,
                     views,
                     userDefinedFunctions,
+                    synonyms,
                     includeItem);
             return settings;
         }
@@ -29,6 +31,7 @@ namespace VerifyTests
             bool tables = true,
             bool views = true,
             bool userDefinedFunctions = true,
+            bool synonyms = true,
             Func<string, bool>? includeItem = null)
         {
             Guard.AgainstNull(settings, nameof(settings));
@@ -41,6 +44,7 @@ namespace VerifyTests
                     tables,
                     views,
                     userDefinedFunctions,
+                    synonyms,
                     includeItem));
         }
 
@@ -55,6 +59,6 @@ namespace VerifyTests
             return defaultSettings;
         }
 
-        static SchemaSettings defaultSettings = new(true, true, true, true, _ => true);
+        static SchemaSettings defaultSettings = new(true, true, true, true, true, _ => true);
     }
 }

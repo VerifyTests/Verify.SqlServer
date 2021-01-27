@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Data.SqlClient;
 using Microsoft.SqlServer.Management.Common;
@@ -37,95 +38,139 @@ class SqlScriptBuilder
         server.SetDefaultInitFields(typeof(View), "Name", "IsSystemObject");
         server.SetDefaultInitFields(typeof(StoredProcedure), "Name", "IsSystemObject");
         server.SetDefaultInitFields(typeof(UserDefinedFunction), "Name", "IsSystemObject");
+        server.SetDefaultInitFields(typeof(Synonym), "Name");
         var database = server.Databases[builder.InitialCatalog];
         database.Tables.Refresh();
-        return string.Join("\n\n", GetScripts(database));
+
+        return GetScriptingObjects(database);
     }
 
-    IEnumerable<string> GetScripts(Database database)
-    {
-        foreach (var scriptable in GetScriptingObjects(database))
-        {
-            if (((dynamic)scriptable).IsSystemObject)
-            {
-                continue;
-            }
-
-            yield return Script(scriptable).Trim();
-        }
-    }
-
-    static string Script(IScriptable scriptable)
+    string GetScriptingObjects(Database database)
     {
         ScriptingOptions options = new()
         {
             ChangeTracking = true,
             NoCollation = true
         };
-        return string.Join("\n\n", scriptable.Script(options)
-            .Cast<string>()
-            .Where(ShouldInclude));
-    }
 
-    IEnumerable<IScriptable> GetScriptingObjects(Database database)
-    {
-        if (settings.Tables)
+        var stringBuilder = new StringBuilder();
+        if (settings.Tables && database.Tables.Count > 0)
         {
+            stringBuilder.AppendLine("-- Tables");
             foreach (Table table in database.Tables)
             {
-                if (settings.IncludeItem(table.Name))
+                if (!table.IsSystemObject)
                 {
-                    yield return table;
+                    AppendItem(table.Name, table, options, stringBuilder);
                 }
             }
+            stringBuilder.AppendLine();
+            stringBuilder.AppendLine();
         }
 
-        if (settings.Views)
+        if (settings.Views && database.Views.Count > 0)
         {
+            stringBuilder.AppendLine("-- Views");
             foreach (View view in database.Views)
             {
-                if (settings.IncludeItem(view.Name))
+                if (!view.IsSystemObject)
                 {
-                    yield return view;
+                    AppendItem(view.Name, view, options, stringBuilder);
                 }
             }
+            stringBuilder.AppendLine();
+            stringBuilder.AppendLine();
         }
 
-        if (settings.StoredProcedures)
+        if (settings.StoredProcedures && database.StoredProcedures.Count > 0)
         {
+            stringBuilder.AppendLine("-- Stored Procedures");
             foreach (StoredProcedure procedure in database.StoredProcedures)
             {
-                if (settings.IncludeItem(procedure.Name))
+                if (!procedure.IsSystemObject)
                 {
-                    yield return procedure;
+                    AppendItem(procedure.Name, procedure, options, stringBuilder);
                 }
+            }
+            stringBuilder.AppendLine();
+            stringBuilder.AppendLine();
+        }
+
+        if (settings.UserDefinedFunctions && database.UserDefinedFunctions.Count > 0)
+        {
+            stringBuilder.AppendLine("-- User Defined Functions");
+            foreach (UserDefinedFunction function in database.UserDefinedFunctions)
+            {
+                if (!function.IsSystemObject)
+                {
+                    AppendItem(function.Name, function, options, stringBuilder);
+                }
+            }
+            stringBuilder.AppendLine();
+            stringBuilder.AppendLine();
+        }
+
+        if (settings.Synonyms && database.Synonyms.Count > 0)
+        {
+            stringBuilder.AppendLine("-- Synonyms");
+            foreach (Synonym synonym in database.Synonyms)
+            {
+                AppendItem(synonym.Name, synonym, options, stringBuilder);
             }
         }
 
-        if (settings.UserDefinedFunctions)
+        return stringBuilder.ToString().TrimEnd();
+    }
+
+    void AppendItem(string name, IScriptable scriptable, ScriptingOptions options, StringBuilder stringBuilder)
+    {
+        if (!settings.IncludeItem(name))
         {
-            foreach (UserDefinedFunction function in database.UserDefinedFunctions)
+            return;
+        }
+
+        stringBuilder.AppendLine();
+        var lines = scriptable.Script(options)
+            .Cast<string>()
+            .Where(x => !IsSet(x))
+            .ToList();
+        if (lines.Count == 1)
+        {
+            stringBuilder.AppendLine(lines[0].Trim());
+            return;
+        }
+
+        for (var index = 0; index < lines.Count; index++)
+        {
+            var line = lines[index];
+            if (index == 0)
             {
-                if (settings.IncludeItem(function.Name))
-                {
-                    yield return function;
-                }
+                stringBuilder.AppendLine(line.TrimStart());
+                continue;
             }
+
+            if (index == lines.Count - 1)
+            {
+                stringBuilder.AppendLine(line.TrimEnd());
+                continue;
+            }
+
+            stringBuilder.AppendLine(line);
         }
     }
 
-    static bool ShouldInclude(string script)
+    static bool IsSet(string script)
     {
         if (script == "SET ANSI_NULLS ON")
         {
-            return false;
+            return true;
         }
 
         if (script == "SET QUOTED_IDENTIFIER ON")
         {
-            return false;
+            return true;
         }
 
-        return true;
+        return false;
     }
 }
