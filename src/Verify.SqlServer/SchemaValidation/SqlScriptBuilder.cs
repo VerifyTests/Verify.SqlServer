@@ -61,7 +61,7 @@ class SqlScriptBuilder
             {
                 if (!table.IsSystemObject)
                 {
-                    AppendItem(table.Name, table, options, stringBuilder);
+                    AppendItem(table, options, stringBuilder);
                 }
             }
 
@@ -76,7 +76,7 @@ class SqlScriptBuilder
             {
                 if (!view.IsSystemObject)
                 {
-                    AppendItem(view.Name, view, options, stringBuilder);
+                    AppendItem(view, options, stringBuilder);
                 }
             }
 
@@ -91,7 +91,7 @@ class SqlScriptBuilder
             {
                 if (!procedure.IsSystemObject)
                 {
-                    AppendItem(procedure.Name, procedure, options, stringBuilder);
+                    AppendItem(procedure, options, stringBuilder);
                 }
             }
 
@@ -106,7 +106,7 @@ class SqlScriptBuilder
             {
                 if (!function.IsSystemObject)
                 {
-                    AppendItem(function.Name, function, options, stringBuilder);
+                    AppendItem(function, options, stringBuilder);
                 }
             }
 
@@ -119,17 +119,17 @@ class SqlScriptBuilder
             stringBuilder.AppendLine("-- Synonyms");
             foreach (Synonym synonym in database.Synonyms)
             {
-                AppendItem(synonym.Name, synonym, options, stringBuilder);
+                AppendItem(synonym, options, stringBuilder);
             }
         }
 
         return stringBuilder.ToString().TrimEnd();
     }
 
-    void AppendItem<T>(string name, T scriptable, ScriptingOptions options, StringBuilder stringBuilder)
+    void AppendItem<T>(T scriptable, ScriptingOptions options, StringBuilder stringBuilder)
         where T : ScriptSchemaObjectBase, IScriptable
     {
-        if (!settings.IncludeItem(name))
+        if (!settings.IncludeItem(scriptable.Name))
         {
             return;
         }
