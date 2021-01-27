@@ -113,7 +113,7 @@ Call `SqlRecording.StartRecording()`:
 <!-- snippet: Recording -->
 <a id='snippet-recording'></a>
 ```cs
-SqlConnection connection = new(connectionString);
+await using SqlConnection connection = new(connectionString);
 await connection.OpenAsync();
 SqlRecording.StartRecording();
 await using var command = connection.CreateCommand();
@@ -147,7 +147,7 @@ Sql entries can be explicitly read using `SqlRecording.FinishRecording`, optiona
 <!-- snippet: RecordingSpecific -->
 <a id='snippet-recordingspecific'></a>
 ```cs
-SqlConnection connection = new(connectionString);
+await using SqlConnection connection = new(connectionString);
 await connection.OpenAsync();
 SqlRecording.StartRecording();
 await using var command = connection.CreateCommand();

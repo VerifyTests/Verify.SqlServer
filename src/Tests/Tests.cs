@@ -105,7 +105,7 @@ END;");
     public async Task RecordingError()
     {
         await using var database = await sqlInstance.Build();
-        SqlConnection connection = new(database.ConnectionString);
+        await using SqlConnection connection = new(database.ConnectionString);
         await connection.OpenAsync();
         SqlRecording.StartRecording();
         await using var command = connection.CreateCommand();
@@ -131,7 +131,7 @@ END;");
 
         #region Recording
 
-        SqlConnection connection = new(connectionString);
+        await using SqlConnection connection = new(connectionString);
         await connection.OpenAsync();
         SqlRecording.StartRecording();
         await using var command = connection.CreateCommand();
@@ -150,7 +150,7 @@ END;");
 
         #region RecordingSpecific
 
-        SqlConnection connection = new(connectionString);
+        await using SqlConnection connection = new(connectionString);
         await connection.OpenAsync();
         SqlRecording.StartRecording();
         await using var command = connection.CreateCommand();
@@ -178,7 +178,7 @@ END;");
         }
 
         await using var database = await sqlInstance.Build();
-        SqlConnection connection = new(database.ConnectionString);
+        await using SqlConnection connection = new(database.ConnectionString);
         await connection.OpenAsync();
         await Execute(connection);
         SqlRecording.StartRecording();
