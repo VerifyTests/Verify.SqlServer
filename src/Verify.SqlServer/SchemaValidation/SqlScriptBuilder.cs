@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+﻿using System;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -53,115 +53,83 @@ class SqlScriptBuilder
             NoCollation = true
         };
 
-        var stringBuilder = new StringBuilder();
-        if (settings.Tables && database.Tables.Count > 0)
-        {
-            stringBuilder.AppendLine("-- Tables");
-            foreach (Table table in database.Tables)
-            {
-                if (!table.IsSystemObject)
-                {
-                    AppendItem(table, options, stringBuilder);
-                }
-            }
+        var builder = new StringBuilder();
 
-            stringBuilder.AppendLine();
-            stringBuilder.AppendLine();
+        if (settings.Tables)
+        {
+            AppendType<Table>(builder, options, database.Tables, _ => _.IsSystemObject);
         }
 
-        if (settings.Views && database.Views.Count > 0)
+        if (settings.Views)
         {
-            stringBuilder.AppendLine("-- Views");
-            foreach (View view in database.Views)
-            {
-                if (!view.IsSystemObject)
-                {
-                    AppendItem(view, options, stringBuilder);
-                }
-            }
-
-            stringBuilder.AppendLine();
-            stringBuilder.AppendLine();
+            AppendType<View>(builder, options, database.Views, _ => _.IsSystemObject);
         }
 
-        if (settings.StoredProcedures && database.StoredProcedures.Count > 0)
+        if (settings.StoredProcedures)
         {
-            stringBuilder.AppendLine("-- Stored Procedures");
-            foreach (StoredProcedure procedure in database.StoredProcedures)
-            {
-                if (!procedure.IsSystemObject)
-                {
-                    AppendItem(procedure, options, stringBuilder);
-                }
-            }
-
-            stringBuilder.AppendLine();
-            stringBuilder.AppendLine();
+            AppendType<StoredProcedure>(builder, options, database.StoredProcedures, _ => _.IsSystemObject);
         }
 
-        if (settings.UserDefinedFunctions && database.UserDefinedFunctions.Count > 0)
+        if (settings.UserDefinedFunctions)
         {
-            stringBuilder.AppendLine("-- User Defined Functions");
-            foreach (UserDefinedFunction function in database.UserDefinedFunctions)
-            {
-                if (!function.IsSystemObject)
-                {
-                    AppendItem(function, options, stringBuilder);
-                }
-            }
-
-            stringBuilder.AppendLine();
-            stringBuilder.AppendLine();
+            AppendType<UserDefinedFunction>(builder, options, database.UserDefinedFunctions, _ => _.IsSystemObject);
         }
 
-        if (settings.Synonyms && database.Synonyms.Count > 0)
+        if (settings.Synonyms)
         {
-            stringBuilder.AppendLine("-- Synonyms");
-            foreach (Synonym synonym in database.Synonyms)
-            {
-                AppendItem(synonym, options, stringBuilder);
-            }
+            AppendType<Synonym>(builder, options, database.Synonyms, _ => false);
         }
 
-        return stringBuilder.ToString().TrimEnd();
+        return builder.ToString().TrimEnd();
     }
 
-    void AppendItem<T>(T scriptable, ScriptingOptions options, StringBuilder stringBuilder)
+    private void AppendType<T>(StringBuilder stringBuilder, ScriptingOptions options, SchemaCollectionBase items, Func<T, bool> isSystem)
         where T : ScriptSchemaObjectBase, IScriptable
     {
-        if (!settings.IncludeItem(scriptable.Name))
+        var filtered = items.Cast<T>()
+            .Where(x => !isSystem(x) && settings.IncludeItem(x.Name))
+            .ToList();
+        if (!filtered.Any())
         {
             return;
+        }
+
+        stringBuilder.AppendLine($"-- {typeof(T).Name}s");
+        foreach (var item in filtered)
+        {
+            stringBuilder.AppendLine();
+            var lines = item.Script(options)
+                .Cast<string>()
+                .Where(x => !IsSet(x))
+                .ToList();
+            if (lines.Count == 1)
+            {
+                stringBuilder.AppendLine(lines[0].Trim());
+            }
+            else
+            {
+                for (var index = 0; index < lines.Count; index++)
+                {
+                    var line = lines[index];
+                    if (index == 0)
+                    {
+                        stringBuilder.AppendLine(line.TrimStart());
+                        continue;
+                    }
+
+                    if (index == lines.Count - 1)
+                    {
+                        stringBuilder.AppendLine(line.TrimEnd());
+                        continue;
+                    }
+
+                    stringBuilder.AppendLine(line);
+                }
+            }
         }
 
         stringBuilder.AppendLine();
-        var lines = scriptable.Script(options)
-            .Cast<string>()
-            .Where(x => !IsSet(x))
-            .ToList();
-        if (lines.Count == 1)
-        {
-            stringBuilder.AppendLine(lines[0].Trim());
-            return;
-        }
-
-        for (var index = 0; index < lines.Count; index++)
-        {
-            var line = lines[index];
-            if (index == 0)
-            {
-                stringBuilder.AppendLine(line.TrimStart());
-                continue;
-            }
-
-            if (index == lines.Count - 1)
-            {
-                stringBuilder.AppendLine(line.TrimEnd());
-                continue;
-            }
-
-            stringBuilder.AppendLine(line);
-        }
+        stringBuilder.AppendLine();
     }
 
     static bool IsSet(string script)

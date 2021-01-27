@@ -14,7 +14,7 @@ AS
   WHERE (Value > 10);
 
 
--- Stored Procedures
+-- StoredProcedures
 
 CREATE PROCEDURE MyProcedure
 AS
@@ -26,7 +26,7 @@ BEGIN
 END;
 
 
--- User Defined Functions
+-- UserDefinedFunctions
 
 CREATE FUNCTION MyFunction(
   @quantity INT,
