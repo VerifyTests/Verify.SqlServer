@@ -18,17 +18,17 @@ class SqlScriptBuilder
     public string BuildScript(SqlConnection sqlConnection)
     {
         SqlConnectionStringBuilder builder = new(sqlConnection.ConnectionString);
-        Server server = new (new ServerConnection(sqlConnection));
+        Server server = new(new ServerConnection(sqlConnection));
 
         return BuildScript(server, builder);
     }
 
     public async Task<string> BuildScript(System.Data.SqlClient.SqlConnection sqlConnection)
     {
-        SqlConnectionStringBuilder builder = new (sqlConnection.ConnectionString);
-        using SqlConnection connection = new (sqlConnection.ConnectionString);
+        SqlConnectionStringBuilder builder = new(sqlConnection.ConnectionString);
+        using SqlConnection connection = new(sqlConnection.ConnectionString);
         await connection.OpenAsync();
-        Server server = new (new ServerConnection(connection));
+        Server server = new(new ServerConnection(connection));
         return BuildScript(server, builder);
     }
 
@@ -64,6 +64,7 @@ class SqlScriptBuilder
                     AppendItem(table.Name, table, options, stringBuilder);
                 }
             }
+
             stringBuilder.AppendLine();
             stringBuilder.AppendLine();
         }
@@ -78,6 +79,7 @@ class SqlScriptBuilder
                     AppendItem(view.Name, view, options, stringBuilder);
                 }
             }
+
             stringBuilder.AppendLine();
             stringBuilder.AppendLine();
         }
@@ -92,6 +94,7 @@ class SqlScriptBuilder
                     AppendItem(procedure.Name, procedure, options, stringBuilder);
                 }
             }
+
             stringBuilder.AppendLine();
             stringBuilder.AppendLine();
         }
@@ -106,6 +109,7 @@ class SqlScriptBuilder
                     AppendItem(function.Name, function, options, stringBuilder);
                 }
             }
+
             stringBuilder.AppendLine();
             stringBuilder.AppendLine();
         }
@@ -122,7 +126,8 @@ class SqlScriptBuilder
         return stringBuilder.ToString().TrimEnd();
     }
 
-    void AppendItem(string name, IScriptable scriptable, ScriptingOptions options, StringBuilder stringBuilder)
+    void AppendItem<T>(string name, T scriptable, ScriptingOptions options, StringBuilder stringBuilder)
+        where T : ScriptSchemaObjectBase, IScriptable
     {
         if (!settings.IncludeItem(name))
         {
