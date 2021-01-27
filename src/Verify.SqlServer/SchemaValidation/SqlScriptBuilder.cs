@@ -80,7 +80,12 @@ class SqlScriptBuilder
             AppendType<Synonym>(builder, options, database.Synonyms, _ => false);
         }
 
-        return builder.ToString().TrimEnd();
+        var result = builder.ToString().TrimEnd();
+        if (string.IsNullOrWhiteSpace(result))
+        {
+            return "-- No matching items found";
+        }
+        return result;
     }
 
     private void AppendType<T>(StringBuilder stringBuilder, ScriptingOptions options, SchemaCollectionBase items, Func<T, bool> isSystem)
