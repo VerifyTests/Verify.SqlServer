@@ -30,42 +30,47 @@ create table
 MyTable(Value int);
 go
 
-INSERT INTO MyTable (Value)
-VALUES (42);
-
+insert into MyTable (Value)
+values (42);
 go
 
-CREATE VIEW MyView
-AS
-  SELECT Value
-  FROM MyTable
-  WHERE (Value > 10);
+create trigger MyTrigger
+on MyTable
+after update
+as raiserror ('Notify Customer Relations', 16, 10);
+go
+
+create view MyView
+as
+  select Value
+  from MyTable
+  where (Value > 10);
 go
 
 create synonym synonym1
     for MyTable;
 go
 
-CREATE PROCEDURE MyProcedure
-AS
-BEGIN
-  SET NOCOUNT ON;
-  SELECT Value
-  FROM MyTable
-  WHERE (Value > 10);
-END;
+create procedure MyProcedure
+as
+begin
+  set nocount on;
+  select Value
+  from MyTable
+  where (Value > 10);
+end;
 go
 
-CREATE FUNCTION MyFunction(
-  @quantity INT,
-  @list_price DEC(10,2),
-  @discount DEC(4,2)
+create function MyFunction(
+  @quantity int,
+  @list_price dec(10,2),
+  @discount dec(4,2)
 )
-RETURNS DEC(10,2)
-AS
-BEGIN
-    RETURN @quantity * @list_price * (1 - @discount);
-END;");
+returns dec(10,2)
+as
+begin
+    return @quantity * @list_price * (1 - @discount);
+end;");
                 return Task.CompletedTask;
             });
     }

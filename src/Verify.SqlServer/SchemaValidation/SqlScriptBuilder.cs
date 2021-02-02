@@ -38,6 +38,7 @@ class SqlScriptBuilder
         server.SetDefaultInitFields(typeof(View), "Name", "IsSystemObject");
         server.SetDefaultInitFields(typeof(StoredProcedure), "Name", "IsSystemObject");
         server.SetDefaultInitFields(typeof(UserDefinedFunction), "Name", "IsSystemObject");
+        server.SetDefaultInitFields(typeof(Trigger), "Name", "IsSystemObject");
         server.SetDefaultInitFields(typeof(Synonym), "Name");
         var database = server.Databases[builder.InitialCatalog];
         database.Tables.Refresh();
@@ -50,10 +51,10 @@ class SqlScriptBuilder
         ScriptingOptions options = new()
         {
             ChangeTracking = true,
-            NoCollation = true
+            NoCollation = true,
         };
 
-        var builder = new StringBuilder();
+        StringBuilder builder = new();
 
         if (settings.Tables)
         {
@@ -81,15 +82,17 @@ class SqlScriptBuilder
         }
 
         var result = builder.ToString().TrimEnd();
+
         if (string.IsNullOrWhiteSpace(result))
         {
             return "-- No matching items found";
         }
+
         return result;
     }
 
-    private void AppendType<T>(StringBuilder stringBuilder, ScriptingOptions options, SchemaCollectionBase items, Func<T, bool> isSystem)
-        where T : ScriptSchemaObjectBase, IScriptable
+    private void AppendType<T>(StringBuilder stringBuilder, ScriptingOptions options, SmoCollectionBase items, Func<T, bool> isSystem)
+        where T : NamedSmoObject, IScriptable
     {
         var filtered = items.Cast<T>()
             .Where(x => !isSystem(x) && settings.IncludeItem(x.Name))

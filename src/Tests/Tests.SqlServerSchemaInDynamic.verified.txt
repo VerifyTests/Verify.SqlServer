@@ -9,37 +9,37 @@ CREATE TABLE [dbo].[MyTable](
 
 -- Views
 
-CREATE VIEW MyView
-AS
-  SELECT Value
-  FROM MyTable
-  WHERE (Value > 10);
+create view MyView
+as
+  select Value
+  from MyTable
+  where (Value > 10);
 
 
 -- StoredProcedures
 
-CREATE PROCEDURE MyProcedure
-AS
-BEGIN
-  SET NOCOUNT ON;
-  SELECT Value
-  FROM MyTable
-  WHERE (Value > 10);
-END;
+create procedure MyProcedure
+as
+begin
+  set nocount on;
+  select Value
+  from MyTable
+  where (Value > 10);
+end;
 
 
 -- UserDefinedFunctions
 
-CREATE FUNCTION MyFunction(
-  @quantity INT,
-  @list_price DEC(10,2),
-  @discount DEC(4,2)
+create function MyFunction(
+  @quantity int,
+  @list_price dec(10,2),
+  @discount dec(4,2)
 )
-RETURNS DEC(10,2)
-AS
-BEGIN
-    RETURN @quantity * @list_price * (1 - @discount);
-END;
+returns dec(10,2)
+as
+begin
+    return @quantity * @list_price * (1 - @discount);
+end;
 
 
 -- Synonyms

@@ -46,7 +46,7 @@ This test:
 ```cs
 await Verifier.Verify(connection);
 ```
-<sup><a href='/src/Tests/Tests.cs#L79-L83' title='Snippet source file'>snippet source</a> | <a href='#snippet-sqlserverschema' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Tests/Tests.cs#L84-L88' title='Snippet source file'>snippet source</a> | <a href='#snippet-sqlserverschema' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 Will result in the following verified file:
@@ -63,37 +63,37 @@ CREATE TABLE [dbo].[MyTable](
 
 -- Views
 
-CREATE VIEW MyView
-AS
-  SELECT Value
-  FROM MyTable
-  WHERE (Value > 10);
+create view MyView
+as
+  select Value
+  from MyTable
+  where (Value > 10);
 
 
 -- StoredProcedures
 
-CREATE PROCEDURE MyProcedure
-AS
-BEGIN
-  SET NOCOUNT ON;
-  SELECT Value
-  FROM MyTable
-  WHERE (Value > 10);
-END;
+create procedure MyProcedure
+as
+begin
+  set nocount on;
+  select Value
+  from MyTable
+  where (Value > 10);
+end;
 
 
 -- UserDefinedFunctions
 
-CREATE FUNCTION MyFunction(
-  @quantity INT,
-  @list_price DEC(10,2),
-  @discount DEC(4,2)
+create function MyFunction(
+  @quantity int,
+  @list_price dec(10,2),
+  @discount dec(4,2)
 )
-RETURNS DEC(10,2)
-AS
-BEGIN
-    RETURN @quantity * @list_price * (1 - @discount);
-END;
+returns dec(10,2)
+as
+begin
+    return @quantity * @list_price * (1 - @discount);
+end;
 
 
 -- Synonyms
@@ -121,7 +121,7 @@ command.CommandText = "select Value from MyTable";
 var value = await command.ExecuteScalarAsync();
 await Verifier.Verify(value);
 ```
-<sup><a href='/src/Tests/Tests.cs#L132-L142' title='Snippet source file'>snippet source</a> | <a href='#snippet-recording' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Tests/Tests.cs#L137-L147' title='Snippet source file'>snippet source</a> | <a href='#snippet-recording' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 Will result in the following verified file:
@@ -161,7 +161,7 @@ await Verifier.Verify(new
     sql = entries
 });
 ```
-<sup><a href='/src/Tests/Tests.cs#L151-L167' title='Snippet source file'>snippet source</a> | <a href='#snippet-recordingspecific' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Tests/Tests.cs#L156-L172' title='Snippet source file'>snippet source</a> | <a href='#snippet-recordingspecific' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 
