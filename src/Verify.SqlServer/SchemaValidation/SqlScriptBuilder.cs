@@ -52,6 +52,7 @@ class SqlScriptBuilder
         {
             ChangeTracking = true,
             NoCollation = true,
+            Triggers = true
         };
 
         StringBuilder builder = new();
