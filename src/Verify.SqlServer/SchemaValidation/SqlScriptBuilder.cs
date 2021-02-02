@@ -10,7 +10,7 @@ using Microsoft.SqlServer.Management.Smo;
 class SqlScriptBuilder
 {
     SchemaSettings settings;
-    static Dictionary<string, string> toScrubLookup;
+    static Dictionary<string, string> tableSettingsToScrubLookup;
 
     static SqlScriptBuilder()
     {
@@ -22,14 +22,17 @@ class SqlScriptBuilder
             "DROP_EXISTING = OFF",
             "ONLINE = OFF",
             "ALLOW_ROW_LOCKS = ON",
-            "ALLOW_PAGE_LOCKS = ON"
+            "IGNORE_DUP_KEY = OFF",
+            "ALLOW_PAGE_LOCKS = ON",
+            "OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF",
+            "SORT_IN_TEMPDB = OFF"
         };
-        toScrubLookup = new Dictionary<string,string>();
+        tableSettingsToScrubLookup = new Dictionary<string,string>();
         foreach (var toScrub in defaultsToScrub)
         {
-            toScrubLookup[$"({toScrub}, "] = "(";
-            toScrubLookup[$"({toScrub})"] = "()";
-            toScrubLookup[$", {toScrub}"] = "";
+            tableSettingsToScrubLookup[$"({toScrub}, "] = "(";
+            tableSettingsToScrubLookup[$"({toScrub})"] = "()";
+            tableSettingsToScrubLookup[$", {toScrub}"] = "";
         }
     }
     public SqlScriptBuilder(SchemaSettings settings)
@@ -83,6 +86,7 @@ class SqlScriptBuilder
         if (settings.Tables)
         {
             AppendType<Table>(builder, options, database.Tables, _ => _.IsSystemObject);
+            ScrubTableSettings(builder);
         }
 
         if (settings.Views)
@@ -105,12 +109,6 @@ class SqlScriptBuilder
             AppendType<Synonym>(builder, options, database.Synonyms, _ => false);
         }
 
-        foreach (var toScrub in toScrubLookup)
-        {
-            builder.Replace(toScrub.Key, toScrub.Value);
-        }
-
-        builder.Replace(")WITH () ", ") ");
 
         var result = builder.ToString().TrimEnd();
 
@@ -120,6 +118,16 @@ class SqlScriptBuilder
         }
 
         return result;
+    }
+
+    static void ScrubTableSettings(StringBuilder builder)
+    {
+        foreach (var toScrub in tableSettingsToScrubLookup)
+        {
+            builder.Replace(toScrub.Key, toScrub.Value);
+        }
+
+        builder.Replace(")WITH () ", ") ");
     }
 
     void AppendType<T>(StringBuilder stringBuilder, ScriptingOptions options, SmoCollectionBase items, Func<T, bool> isSystem)
