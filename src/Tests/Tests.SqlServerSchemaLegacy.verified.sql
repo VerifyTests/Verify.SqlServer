@@ -5,47 +5,47 @@ CREATE TABLE [dbo].[MyTable](
 ) ON [PRIMARY]
 
 
-create trigger MyTrigger
-on MyTable
-after update
-as raiserror ('Notify Customer Relations', 16, 10);
+CREATE TRIGGER MyTrigger
+ON MyTable
+AFTER UPDATE
+AS RAISERROR ('Notify Customer Relations', 16, 10);
 
 ALTER TABLE [dbo].[MyTable] ENABLE TRIGGER [MyTrigger]
 
 
 -- Views
 
-create view MyView
-as
-  select Value
-  from MyTable
-  where (Value > 10);
+CREATE VIEW MyView
+AS
+  SELECT Value
+  FROM MyTable
+  WHERE (Value > 10);
 
 
 -- StoredProcedures
 
-create procedure MyProcedure
-as
-begin
-  set nocount on;
-  select Value
-  from MyTable
-  where (Value > 10);
-end;
+CREATE PROCEDURE MyProcedure
+AS
+BEGIN
+  SET NOCOUNT ON;
+  SELECT Value
+  FROM MyTable
+  WHERE (Value > 10);
+END;
 
 
 -- UserDefinedFunctions
 
-create function MyFunction(
-  @quantity int,
-  @list_price dec(10,2),
-  @discount dec(4,2)
+CREATE FUNCTION MyFunction(
+  @quantity INT,
+  @list_price DEC(10,2),
+  @discount DEC(4,2)
 )
-returns dec(10,2)
-as
-begin
-    return @quantity * @list_price * (1 - @discount);
-end;
+RETURNS DEC(10,2)
+AS
+BEGIN
+    RETURN @quantity * @list_price * (1 - @discount);
+END;
 
 
 -- Synonyms
