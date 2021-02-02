@@ -4,6 +4,10 @@ CREATE TABLE [dbo].[MyTable](
 	[Value] [int] NULL
 ) ON [PRIMARY]
 
+CREATE NONCLUSTERED INDEX [MyIndex] ON [dbo].[MyTable]
+(
+	[Value] ASC
+) ON [PRIMARY]
 
 CREATE TRIGGER MyTrigger
 ON MyTable

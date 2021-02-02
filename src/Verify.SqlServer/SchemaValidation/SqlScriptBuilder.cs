@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -9,7 +10,28 @@ using Microsoft.SqlServer.Management.Smo;
 class SqlScriptBuilder
 {
     SchemaSettings settings;
+    static Dictionary<string, string> toScrubLookup;
 
+    static SqlScriptBuilder()
+    {
+        string[] defaultsToScrub =
+        {
+            "PAD_INDEX = OFF",
+            "STATISTICS_NORECOMPUTE = OFF",
+            "SORT_IN_TEMPDB = OFF",
+            "DROP_EXISTING = OFF",
+            "ONLINE = OFF",
+            "ALLOW_ROW_LOCKS = ON",
+            "ALLOW_PAGE_LOCKS = ON"
+        };
+        toScrubLookup = new Dictionary<string,string>();
+        foreach (var toScrub in defaultsToScrub)
+        {
+            toScrubLookup[$"({toScrub}, "] = "(";
+            toScrubLookup[$"({toScrub})"] = "()";
+            toScrubLookup[$", {toScrub}"] = "";
+        }
+    }
     public SqlScriptBuilder(SchemaSettings settings)
     {
         this.settings = settings;
@@ -52,7 +74,8 @@ class SqlScriptBuilder
         {
             ChangeTracking = true,
             NoCollation = true,
-            Triggers = true
+            Triggers = true,
+            Indexes = true,
         };
 
         StringBuilder builder = new();
@@ -82,6 +105,13 @@ class SqlScriptBuilder
             AppendType<Synonym>(builder, options, database.Synonyms, _ => false);
         }
 
+        foreach (var toScrub in toScrubLookup)
+        {
+            builder.Replace(toScrub.Key, toScrub.Value);
+        }
+
+        builder.Replace(")WITH () ", ") ");
+
         var result = builder.ToString().TrimEnd();
 
         if (string.IsNullOrWhiteSpace(result))
@@ -92,7 +122,7 @@ class SqlScriptBuilder
         return result;
     }
 
-    private void AppendType<T>(StringBuilder stringBuilder, ScriptingOptions options, SmoCollectionBase items, Func<T, bool> isSystem)
+    void AppendType<T>(StringBuilder stringBuilder, ScriptingOptions options, SmoCollectionBase items, Func<T, bool> isSystem)
         where T : NamedSmoObject, IScriptable
     {
         var filtered = items.Cast<T>()

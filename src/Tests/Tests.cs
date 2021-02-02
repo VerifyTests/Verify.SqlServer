@@ -30,6 +30,10 @@ CREATE TABLE
 MyTable(Value int);
 GO
 
+CREATE INDEX MyIndex
+ON MyTable (Value);
+GO
+
 INSERT INTO MyTable (Value)
 VALUES (42);
 GO
