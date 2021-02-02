@@ -61,6 +61,14 @@ CREATE TABLE [dbo].[MyTable](
 ) ON [PRIMARY]
 
 
+create trigger MyTrigger
+on MyTable
+after update
+as raiserror ('Notify Customer Relations', 16, 10);
+
+ALTER TABLE [dbo].[MyTable] ENABLE TRIGGER [MyTrigger]
+
+
 -- Views
 
 create view MyView
@@ -100,7 +108,7 @@ end;
 
 CREATE SYNONYM [dbo].[synonym1] FOR [MyTable]
 ```
-<sup><a href='/src/Tests/Tests.SqlServerSchema.verified.sql#L1-L45' title='Snippet source file'>snippet source</a> | <a href='#snippet-Tests.SqlServerSchema.verified.sql' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Tests/Tests.SqlServerSchema.verified.sql#L1-L53' title='Snippet source file'>snippet source</a> | <a href='#snippet-Tests.SqlServerSchema.verified.sql' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 
