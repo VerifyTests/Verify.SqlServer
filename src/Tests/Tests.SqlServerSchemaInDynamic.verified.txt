@@ -1,5 +1,5 @@
-{
-  connection: 
+﻿{
+  connection:
 -- Tables
 
 CREATE TABLE [dbo].[MyTable](

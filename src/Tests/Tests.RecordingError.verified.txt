@@ -1,4 +1,4 @@
-[
+﻿[
   {
     Exception: {
       $type: SqlException,
@@ -31,7 +31,7 @@
         HelpLink.BaseHelpUrl: https://go.microsoft.com/fwlink,
         HelpLink.LinkId: 20476
       },
-      StackTrace: 
+      StackTrace:
 at Microsoft.Data.SqlClient.SqlConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
 at Microsoft.Data.SqlClient.SqlInternalConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
 at Microsoft.Data.SqlClient.TdsParser.ThrowExceptionAndWarning(TdsParserStateObject stateObj, Boolean callerHasConnectionLock, Boolean asyncClose)
