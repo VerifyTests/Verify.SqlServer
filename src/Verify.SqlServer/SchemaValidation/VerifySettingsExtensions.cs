@@ -14,7 +14,6 @@ namespace VerifyTests
             bool synonyms = true,
             Func<string, bool>? includeItem = null)
         {
-            Guard.AgainstNull(settings, nameof(settings));
             settings.CurrentSettings.SchemaSettings(
                     storedProcedures,
                     tables,
@@ -34,7 +33,6 @@ namespace VerifyTests
             bool synonyms = true,
             Func<string, bool>? includeItem = null)
         {
-            Guard.AgainstNull(settings, nameof(settings));
             includeItem ??= _ => true;
 
             settings.Context.Add(
@@ -50,7 +48,6 @@ namespace VerifyTests
 
         internal static SchemaSettings GetSchemaSettings(this IReadOnlyDictionary<string, object> context)
         {
-            Guard.AgainstNull(context, nameof(context));
             if (context.TryGetValue("SqlServer", out var value))
             {
                 return (SchemaSettings) value;
