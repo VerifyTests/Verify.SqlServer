@@ -24,7 +24,7 @@ class Listener :
     {
         entries = local.Value;
 
-        if (entries == null)
+        if (entries is null)
         {
             return false;
         }
@@ -37,7 +37,7 @@ class Listener :
     {
         var localValue = local.Value;
 
-        if (localValue == null)
+        if (localValue is null)
         {
             throw new("SqlRecording.StartRecording must be called prior to FinishRecording.");
         }
@@ -53,7 +53,7 @@ class Listener :
             return;
         }
 
-        subscriptions.Enqueue(value.SubscribeWithAdapter(this, _ => local.Value != null));
+        subscriptions.Enqueue(value.SubscribeWithAdapter(this, _ => local.Value is not null));
     }
 
     [DiagnosticName("System.Data.SqlClient.WriteCommandAfter")]

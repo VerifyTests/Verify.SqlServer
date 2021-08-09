@@ -12,7 +12,7 @@ class SysConnectionConverter :
         JsonSerializer serializer,
         IReadOnlyDictionary<string, object> context)
     {
-        if (connection == null)
+        if (connection is null)
         {
             return;
         }
