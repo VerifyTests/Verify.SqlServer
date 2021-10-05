@@ -1,5 +1,4 @@
-﻿using System.Threading.Tasks;
-using LocalDb;
+﻿using LocalDb;
 using Microsoft.Data.SqlClient;
 using Microsoft.SqlServer.Management.Common;
 using Microsoft.SqlServer.Management.Smo;

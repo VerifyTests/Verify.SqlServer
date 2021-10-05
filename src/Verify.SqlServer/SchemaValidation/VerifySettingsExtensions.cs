@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace VerifyTests
+﻿namespace VerifyTests
 {
     public static class VerifySettingsExtensions
     {

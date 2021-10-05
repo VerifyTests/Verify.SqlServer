@@ -1,6 +1,4 @@
-﻿using System;
-
-class SchemaSettings
+﻿class SchemaSettings
 {
     public bool StoredProcedures { get; }
     public bool Tables { get; }

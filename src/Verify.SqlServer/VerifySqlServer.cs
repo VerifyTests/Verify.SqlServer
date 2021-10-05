@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Threading.Tasks;
-using MsConnection = Microsoft.Data.SqlClient.SqlConnection;
+﻿using MsConnection = Microsoft.Data.SqlClient.SqlConnection;
 using SysConnection = System.Data.SqlClient.SqlConnection;
 
 namespace VerifyTests

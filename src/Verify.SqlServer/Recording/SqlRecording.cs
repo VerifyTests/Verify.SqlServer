@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Diagnostics;
-using Verify.SqlServer;
+﻿using Verify.SqlServer;
 
 namespace VerifyTests
 {
