@@ -20,7 +20,7 @@ public class Tests
             "VerifySqlServer",
             connection =>
             {
-                Server server = new(new ServerConnection(connection));
+                var server = new Server(new ServerConnection(connection));
                 server.ConnectionContext.ExecuteNonQuery(@"
 CREATE TABLE
 MyTable(Value int);
@@ -102,7 +102,7 @@ END;");
     {
         var database = await sqlInstance.Build();
         var connectionString = database.ConnectionString;
-        await using System.Data.SqlClient.SqlConnection connection = new(connectionString);
+        await using var connection = new System.Data.SqlClient.SqlConnection(connectionString);
         await connection.OpenAsync();
         await Verifier.Verify(connection);
     }
@@ -111,7 +111,7 @@ END;");
     public async Task RecordingError()
     {
         await using var database = await sqlInstance.Build();
-        await using SqlConnection connection = new(database.ConnectionString);
+        await using var connection = new SqlConnection(database.ConnectionString);
         await connection.OpenAsync();
         SqlRecording.StartRecording();
         await using var command = connection.CreateCommand();
@@ -137,7 +137,7 @@ END;");
 
         #region Recording
 
-        await using SqlConnection connection = new(connectionString);
+        await using var connection = new SqlConnection(connectionString);
         await connection.OpenAsync();
         SqlRecording.StartRecording();
         await using var command = connection.CreateCommand();
@@ -156,7 +156,7 @@ END;");
 
         #region RecordingSpecific
 
-        await using SqlConnection connection = new(connectionString);
+        await using var connection = new SqlConnection(connectionString);
         await connection.OpenAsync();
         SqlRecording.StartRecording();
         await using var command = connection.CreateCommand();
@@ -184,7 +184,7 @@ END;");
         }
 
         await using var database = await sqlInstance.Build();
-        await using SqlConnection connection = new(database.ConnectionString);
+        await using var connection = new SqlConnection(database.ConnectionString);
         await connection.OpenAsync();
         await Execute(connection);
         SqlRecording.StartRecording();

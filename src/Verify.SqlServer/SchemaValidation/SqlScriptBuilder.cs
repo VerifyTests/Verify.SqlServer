@@ -37,18 +37,18 @@ class SqlScriptBuilder
 
     public string BuildScript(SqlConnection sqlConnection)
     {
-        SqlConnectionStringBuilder builder = new(sqlConnection.ConnectionString);
-        Server server = new(new ServerConnection(sqlConnection));
+        var builder = new SqlConnectionStringBuilder(sqlConnection.ConnectionString);
+        var server = new Server(new ServerConnection(sqlConnection));
 
         return BuildScript(server, builder);
     }
 
     public async Task<string> BuildScript(System.Data.SqlClient.SqlConnection sqlConnection)
     {
-        SqlConnectionStringBuilder builder = new(sqlConnection.ConnectionString);
-        using SqlConnection connection = new(sqlConnection.ConnectionString);
+        var builder = new SqlConnectionStringBuilder(sqlConnection.ConnectionString);
+        using var connection = new SqlConnection(sqlConnection.ConnectionString);
         await connection.OpenAsync();
-        Server server = new(new ServerConnection(connection));
+        var server = new Server(new ServerConnection(connection));
         return BuildScript(server, builder);
     }
 
@@ -68,7 +68,7 @@ class SqlScriptBuilder
 
     string GetScriptingObjects(Database database)
     {
-        ScriptingOptions options = new()
+        var options = new ScriptingOptions
         {
             ChangeTracking = true,
             NoCollation = true,
@@ -76,7 +76,7 @@ class SqlScriptBuilder
             Indexes = true,
         };
 
-        StringBuilder builder = new();
+        var builder = new StringBuilder();
 
         if (settings.Tables)
         {

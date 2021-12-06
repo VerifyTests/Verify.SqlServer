@@ -16,7 +16,7 @@ class MsConnectionConverter :
         }
 
         var schemaSettings = context.GetSchemaSettings();
-        SqlScriptBuilder builder = new(schemaSettings);
+        var builder = new SqlScriptBuilder(schemaSettings);
         var script = builder.BuildScript(connection);
         writer.WriteValue(script);
     }

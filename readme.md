@@ -23,7 +23,7 @@ Enable VerifySqlServer once at assembly load time:
 ```cs
 VerifySqlServer.Enable();
 ```
-<sup><a href='/src/Tests/Tests.cs#L16-L20' title='Snippet source file'>snippet source</a> | <a href='#snippet-enable' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Tests/Tests.cs#L13-L17' title='Snippet source file'>snippet source</a> | <a href='#snippet-enable' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 
@@ -36,7 +36,7 @@ This test:
 ```cs
 await Verifier.Verify(connection);
 ```
-<sup><a href='/src/Tests/Tests.cs#L88-L92' title='Snippet source file'>snippet source</a> | <a href='#snippet-sqlserverschema' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Tests/Tests.cs#L85-L89' title='Snippet source file'>snippet source</a> | <a href='#snippet-sqlserverschema' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 Will result in the following verified file:
@@ -115,7 +115,7 @@ Call `SqlRecording.StartRecording()`:
 <!-- snippet: Recording -->
 <a id='snippet-recording'></a>
 ```cs
-await using SqlConnection connection = new(connectionString);
+await using var connection = new SqlConnection(connectionString);
 await connection.OpenAsync();
 SqlRecording.StartRecording();
 await using var command = connection.CreateCommand();
@@ -123,7 +123,7 @@ command.CommandText = "select Value from MyTable";
 var value = await command.ExecuteScalarAsync();
 await Verifier.Verify(value);
 ```
-<sup><a href='/src/Tests/Tests.cs#L141-L151' title='Snippet source file'>snippet source</a> | <a href='#snippet-recording' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Tests/Tests.cs#L138-L148' title='Snippet source file'>snippet source</a> | <a href='#snippet-recording' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 Will result in the following verified file:
@@ -149,7 +149,7 @@ Sql entries can be explicitly read using `SqlRecording.FinishRecording`, optiona
 <!-- snippet: RecordingSpecific -->
 <a id='snippet-recordingspecific'></a>
 ```cs
-await using SqlConnection connection = new(connectionString);
+await using var connection = new SqlConnection(connectionString);
 await connection.OpenAsync();
 SqlRecording.StartRecording();
 await using var command = connection.CreateCommand();
@@ -163,7 +163,7 @@ await Verifier.Verify(new
     sql = entries
 });
 ```
-<sup><a href='/src/Tests/Tests.cs#L160-L176' title='Snippet source file'>snippet source</a> | <a href='#snippet-recordingspecific' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Tests/Tests.cs#L157-L173' title='Snippet source file'>snippet source</a> | <a href='#snippet-recordingspecific' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 
