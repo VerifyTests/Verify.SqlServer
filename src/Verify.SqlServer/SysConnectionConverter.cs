@@ -1,6 +1,5 @@
 ﻿using System.Data.SqlClient;
 using Newtonsoft.Json;
-using VerifyTests;
 
 class SysConnectionConverter :
     WriteOnlyJsonConverter<SqlConnection>

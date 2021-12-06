@@ -2,9 +2,6 @@
 using Microsoft.Data.SqlClient;
 using Microsoft.SqlServer.Management.Common;
 using Microsoft.SqlServer.Management.Smo;
-using VerifyNUnit;
-using NUnit.Framework;
-using VerifyTests;
 
 [TestFixture]
 public class Tests
@@ -23,7 +20,7 @@ public class Tests
             "VerifySqlServer",
             connection =>
             {
-                Server server = new(new ServerConnection((SqlConnection) connection));
+                Server server = new(new ServerConnection(connection));
                 server.ConnectionContext.ExecuteNonQuery(@"
 CREATE TABLE
 MyTable(Value int);
