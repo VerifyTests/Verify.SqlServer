@@ -8,7 +8,7 @@
     <PackageReference Include="MarkdownSnippets.MsBuild" Version="24.2.2" PrivateAssets="all" />
     <PackageReference Include="NUnit" Version="3.13.2" />
     <PackageReference Include="NUnit3TestAdapter" Version="4.1.0" />
-    <PackageReference Include="Verify.NUnit" Version="14.8.1" />
+    <PackageReference Include="Verify.NUnit" Version="14.10.0" />
     <PackageReference Include="LocalDb" Version="12.0.0" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.0.0" />
     <PackageReference Include="ProjectDefaults" Version="1.0.62" PrivateAssets="all" />
