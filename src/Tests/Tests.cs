@@ -84,7 +84,7 @@ END;");
 
         #region SqlServerSchema
 
-        await Verifier.Verify(connection);
+        await Verify(connection);
 
         #endregion
     }
@@ -94,7 +94,7 @@ END;");
     {
         await using var database = await sqlInstance.Build();
         var connection = database.Connection;
-        await Verifier.Verify(new {connection});
+        await Verify(new {connection});
     }
 
     [Test]
@@ -104,7 +104,7 @@ END;");
         var connectionString = database.ConnectionString;
         await using var connection = new System.Data.SqlClient.SqlConnection(connectionString);
         await connection.OpenAsync();
-        await Verifier.Verify(connection);
+        await Verify(connection);
     }
 
     [Test]
@@ -125,7 +125,7 @@ END;");
         }
 
         var commands = SqlRecording.FinishRecording();
-        await Verifier.Verify(commands)
+        await Verify(commands)
             .ScrubLinesContaining("HelpLink.ProdVer");
     }
 
@@ -143,7 +143,7 @@ END;");
         await using var command = connection.CreateCommand();
         command.CommandText = "select Value from MyTable";
         var value = await command.ExecuteScalarAsync();
-        await Verifier.Verify(value);
+        await Verify(value);
 
         #endregion
     }
@@ -164,7 +164,7 @@ END;");
         var value = await command.ExecuteScalarAsync();
         var entries = SqlRecording.FinishRecording();
         //TODO: optionally filter the results
-        await Verifier.Verify(new
+        await Verify(new
         {
             value,
             sql = entries
@@ -192,7 +192,7 @@ END;");
         await Execute(connection);
         var commands = SqlRecording.FinishRecording();
         await Execute(connection);
-        await Verifier.Verify(commands);
+        await Verify(commands);
     }
 
     [Test]
@@ -203,7 +203,7 @@ END;");
 
         #region SqlServerSchemaSettings
 
-        await Verifier.Verify(connection)
+        await Verify(connection)
             .SchemaSettings(
                 storedProcedures: true,
                 tables: true,
