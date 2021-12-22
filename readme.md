@@ -34,7 +34,7 @@ This test:
 <!-- snippet: SqlServerSchema -->
 <a id='snippet-sqlserverschema'></a>
 ```cs
-await Verifier.Verify(connection);
+await Verify(connection);
 ```
 <sup><a href='/src/Tests/Tests.cs#L85-L89' title='Snippet source file'>snippet source</a> | <a href='#snippet-sqlserverschema' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
@@ -121,7 +121,7 @@ SqlRecording.StartRecording();
 await using var command = connection.CreateCommand();
 command.CommandText = "select Value from MyTable";
 var value = await command.ExecuteScalarAsync();
-await Verifier.Verify(value);
+await Verify(value);
 ```
 <sup><a href='/src/Tests/Tests.cs#L138-L148' title='Snippet source file'>snippet source</a> | <a href='#snippet-recording' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
@@ -157,7 +157,7 @@ command.CommandText = "select Value from MyTable";
 var value = await command.ExecuteScalarAsync();
 var entries = SqlRecording.FinishRecording();
 //TODO: optionally filter the results
-await Verifier.Verify(new
+await Verify(new
 {
     value,
     sql = entries
