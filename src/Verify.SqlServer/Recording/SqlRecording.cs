@@ -1,4 +1,4 @@
-﻿using Verify.SqlServer;
+﻿using VerifyTests.SqlServer;
 
 namespace VerifyTests;
 

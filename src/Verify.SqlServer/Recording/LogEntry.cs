@@ -1,6 +1,6 @@
 ﻿using System.Data.Common;
 
-namespace Verify.SqlServer;
+namespace VerifyTests.SqlServer;
 
 public class LogEntry
 {

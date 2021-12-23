@@ -1,6 +1,6 @@
 ﻿namespace VerifyTests;
 
-public static class VerifySettingsExtensions
+public static class VerifySettingsSqlExtensions
 {
     public static SettingsTask SchemaSettings(
         this SettingsTask settings,

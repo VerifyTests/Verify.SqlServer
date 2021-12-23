@@ -1,6 +1,6 @@
 ﻿using System.Data.Common;
 using Microsoft.Extensions.DiagnosticAdapter;
-using Verify.SqlServer;
+using VerifyTests.SqlServer;
 
 // https://github.com/dotnet/SqlClient/blob/master/src/Microsoft.Data.SqlClient/netcore/src/Microsoft/Data/SqlClient/SqlClientDiagnosticListenerExtensions.cs
 class Listener :
