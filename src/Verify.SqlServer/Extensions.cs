@@ -9,7 +9,7 @@ static class Extensions
         foreach (DbParameter parameter in collection)
         {
             var direction = parameter.Direction;
-            if (direction is 
+            if (direction is
                 ParameterDirection.Output or
                 ParameterDirection.ReturnValue)
             {
