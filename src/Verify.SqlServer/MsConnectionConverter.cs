@@ -4,18 +4,9 @@ using Newtonsoft.Json;
 class MsConnectionConverter :
     WriteOnlyJsonConverter<SqlConnection>
 {
-    public override void WriteJson(
-        JsonWriter writer,
-        SqlConnection? connection,
-        JsonSerializer serializer,
-        IReadOnlyDictionary<string, object> context)
+    public override void Write(VerifyJsonWriter writer, SqlConnection connection, JsonSerializer serializer)
     {
-        if (connection is null)
-        {
-            return;
-        }
-
-        var schemaSettings = context.GetSchemaSettings();
+        var schemaSettings = writer.Context.GetSchemaSettings();
         var builder = new SqlScriptBuilder(schemaSettings);
         var script = builder.BuildScript(connection);
         writer.WriteValue(script);
