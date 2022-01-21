@@ -1,10 +1,9 @@
 ﻿using System.Data.SqlClient;
-using Newtonsoft.Json;
 
 class SysConnectionConverter :
     WriteOnlyJsonConverter<SqlConnection>
 {
-    public override void Write(VerifyJsonWriter writer, SqlConnection connection, JsonSerializer serializer)
+    public override void Write(VerifyJsonWriter writer, SqlConnection connection)
     {
         var schemaSettings = writer.Context.GetSchemaSettings();
         var builder = new SqlScriptBuilder(schemaSettings);
