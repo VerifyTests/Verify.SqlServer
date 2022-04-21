@@ -10,10 +10,8 @@ class Listener :
     ConcurrentQueue<IDisposable> subscriptions = new();
     AsyncLocal<List<LogEntry>?> local = new();
 
-    public void Start()
-    {
+    public void Start() =>
         local.Value = new();
-    }
 
     public bool TryFinish(out IEnumerable<LogEntry>? entries)
     {
@@ -52,28 +50,20 @@ class Listener :
     }
 
     [DiagnosticName("System.Data.SqlClient.WriteCommandAfter")]
-    public void OnSystemCommandAfter(DbCommand command)
-    {
+    public void OnSystemCommandAfter(DbCommand command) =>
         local.Value!.Add(new(command));
-    }
 
     [DiagnosticName("Microsoft.Data.SqlClient.WriteCommandAfter")]
-    public void OnMsCommandAfter(DbCommand command)
-    {
+    public void OnMsCommandAfter(DbCommand command) =>
         local.Value!.Add(new(command));
-    }
 
     [DiagnosticName("System.Data.SqlClient.WriteCommandError")]
-    public void OnSysErrorExecuteCommand(DbCommand command, Exception exception)
-    {
+    public void OnSysErrorExecuteCommand(DbCommand command, Exception exception) =>
         local.Value!.Add(new(command, exception));
-    }
 
     [DiagnosticName("Microsoft.Data.SqlClient.WriteCommandError")]
-    public void OnMsErrorExecuteCommand(DbCommand command, Exception exception)
-    {
+    public void OnMsErrorExecuteCommand(DbCommand command, Exception exception) =>
         local.Value!.Add(new(command, exception));
-    }
 
     void Clear()
     {
@@ -83,15 +73,11 @@ class Listener :
         }
     }
 
-    public void Dispose()
-    {
+    public void Dispose() =>
         Clear();
-    }
 
-    public void OnCompleted()
-    {
+    public void OnCompleted() =>
         Clear();
-    }
 
     public void OnError(Exception error)
     {

@@ -30,10 +30,8 @@ class SqlScriptBuilder
             tableSettingsToScrubLookup[$", {toScrub}"] = "";
         }
     }
-    public SqlScriptBuilder(SchemaSettings settings)
-    {
+    public SqlScriptBuilder(SchemaSettings settings) =>
         this.settings = settings;
-    }
 
     public string BuildScript(SqlConnection sqlConnection)
     {
@@ -104,7 +102,6 @@ class SqlScriptBuilder
             AppendType<Synonym>(builder, options, database.Synonyms, _ => false);
         }
 
-
         var result = builder.ToString().TrimEnd();
 
         if (string.IsNullOrWhiteSpace(result))
@@ -174,18 +171,8 @@ class SqlScriptBuilder
         stringBuilder.AppendLine();
     }
 
-    static bool IsSet(string script)
-    {
-        if (script == "SET ANSI_NULLS ON")
-        {
-            return true;
-        }
-
-        if (script == "SET QUOTED_IDENTIFIER ON")
-        {
-            return true;
-        }
-
-        return false;
-    }
+    static bool IsSet(string script) =>
+        script is
+            "SET ANSI_NULLS ON" or
+            "SET QUOTED_IDENTIFIER ON";
 }

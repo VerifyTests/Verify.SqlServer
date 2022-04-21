@@ -12,18 +12,12 @@ public static class SqlRecording
         var subscription = DiagnosticListener.AllListeners.Subscribe(listener);
     }
 
-    public static void StartRecording()
-    {
+    public static void StartRecording() =>
         listener.Start();
-    }
 
-    public static IEnumerable<LogEntry> FinishRecording()
-    {
-        return listener.Finish();
-    }
+    public static IEnumerable<LogEntry> FinishRecording() =>
+        listener.Finish();
 
-    public static bool TryFinishRecording(out IEnumerable<LogEntry>? entries)
-    {
-        return listener.TryFinish(out entries);
-    }
+    public static bool TryFinishRecording(out IEnumerable<LogEntry>? entries) =>
+        listener.TryFinish(out entries);
 }
