@@ -12,8 +12,12 @@ public static class VerifySqlServer
             settings.AddExtraSettings(serializerSettings =>
             {
                 var converters = serializerSettings.Converters;
+                converters.Add(new MsSqlErrorConverter());
                 converters.Add(new MsConnectionConverter());
+                converters.Add(new MsSqlExceptionConverter());
+                converters.Add(new SysSqlErrorConverter());
                 converters.Add(new SysConnectionConverter());
+                converters.Add(new SysSqlExceptionConverter());
             });
         });
 

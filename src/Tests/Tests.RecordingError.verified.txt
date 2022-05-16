@@ -1,52 +1,9 @@
 ﻿[
   {
     Exception: {
-      $type: SqlException,
-      Type: SqlException,
-      Errors: [
-        {
-          Source: Core Microsoft SqlClient Data Provider,
-          Number: 208,
-          State: 1,
-          Class: 16,
-          Server: (LocalDb)\VerifySqlServer,
-          Message: Invalid object name 'MyTabl2e'.,
-          Procedure: ,
-          LineNumber: 1
-        }
-      ],
-      ClientConnectionId: Guid_1,
-      Class: 16,
-      LineNumber: 1,
-      Number: 208,
-      Procedure: ,
-      Server: (LocalDb)\VerifySqlServer,
-      State: 1,
-      ErrorCode: -2146232060,
       Message: Invalid object name 'MyTabl2e'.,
-      Data: {
-        HelpLink.ProdName: Microsoft SQL Server,
-        HelpLink.EvtSrc: MSSQLServer,
-        HelpLink.EvtID: 208,
-        HelpLink.BaseHelpUrl: https://go.microsoft.com/fwlink,
-        HelpLink.LinkId: 20476
-      },
-      StackTrace:
-at Microsoft.Data.SqlClient.SqlConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
-at Microsoft.Data.SqlClient.SqlInternalConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
-at Microsoft.Data.SqlClient.TdsParser.ThrowExceptionAndWarning(TdsParserStateObject stateObj, Boolean callerHasConnectionLock, Boolean asyncClose)
-at Microsoft.Data.SqlClient.TdsParser.TryRun(RunBehavior runBehavior, SqlCommand cmdHandler, SqlDataReader dataStream, BulkCopySimpleResultSet bulkCopyHandler, TdsParserStateObject stateObj, Boolean& dataReady)
-at Microsoft.Data.SqlClient.SqlDataReader.TryConsumeMetaData()
-at Microsoft.Data.SqlClient.SqlDataReader.get_MetaData()
-at Microsoft.Data.SqlClient.SqlCommand.FinishExecuteReader(SqlDataReader ds, RunBehavior runBehavior, String resetOptionsString, Boolean isInternal, Boolean forDescribeParameterEncryption, Boolean shouldCacheForAlwaysEncrypted)
-at Microsoft.Data.SqlClient.SqlCommand.CompleteAsyncExecuteReader(Boolean isInternal, Boolean forDescribeParameterEncryption)
-at Microsoft.Data.SqlClient.SqlCommand.InternalEndExecuteReader(IAsyncResult asyncResult, Boolean isInternal, String endMethod)
-at Microsoft.Data.SqlClient.SqlCommand.EndExecuteReaderInternal(IAsyncResult asyncResult)
-at Microsoft.Data.SqlClient.SqlCommand.EndExecuteReaderAsync(IAsyncResult asyncResult)
-at Microsoft.Data.SqlClient.SqlCommand.EndExecuteReaderAsyncCallback(IAsyncResult asyncResult)
-at System.Threading.Tasks.TaskFactory`1.FromAsyncCoreLogic(IAsyncResult iar, Func`2 endFunction, Action`1 endAction, Task`1 promise, Boolean requiresSynchronization)
---- End of stack trace from previous location ---
-at Tests.RecordingError()
+      Number: 208,
+      LineNumber: 1
     },
     Text: select * from MyTabl2e
   }
