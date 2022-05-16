@@ -8,23 +8,19 @@ class SysSqlExceptionConverter :
         writer.WriteStartObject();
 
         var errors = exception.Errors;
-        writer.WriteProperty(exception, exception.Message, "Message");
-        writer.WriteProperty(exception, exception.Number, "Number");
-        writer.WriteProperty(exception, exception.LineNumber, "Line");
-        if (exception.Procedure != "")
-        {
-            writer.WriteProperty(exception, exception.Procedure, "Procedure");
-        }
 
         if (errors.Count == 1)
         {
             var error = errors[0];
-            if (exception.Message != error.Message)
+            writer.WriteProperty(error, error.Message, "Message");
+            writer.WriteProperty(error, error.Number, "Number");
+            writer.WriteProperty(error, error.LineNumber, "Line");
+            if (exception.Procedure != "")
             {
-                writer.WriteProperty(exception, error, "Error");
+                writer.WriteProperty(error, error.Procedure, "Procedure");
             }
         }
-        else if (errors.Count > 1)
+        else
         {
             writer.WriteProperty(exception, errors, "Errors");
         }
