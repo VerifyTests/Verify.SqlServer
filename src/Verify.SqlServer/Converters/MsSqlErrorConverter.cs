@@ -8,8 +8,11 @@ class MsSqlErrorConverter :
         writer.WriteStartObject();
         writer.WriteProperty(error, error.Message, "Message");
         writer.WriteProperty(error, error.Number, "Number");
-        writer.WriteProperty(error, error.LineNumber, "LineNumber");
-        writer.WriteProperty(error, error.Procedure, "Procedure");
+        writer.WriteProperty(error, error.LineNumber, "Line");
+        if (error.Procedure != "")
+        {
+            writer.WriteProperty(error, error.Procedure, "Procedure");
+        }
 
         writer.WriteEndObject();
     }
