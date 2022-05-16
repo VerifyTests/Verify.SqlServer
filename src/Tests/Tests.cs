@@ -128,16 +128,34 @@ END;");
         await Verify(commands)
             .ScrubLinesContaining("HelpLink.ProdVer");
     }
+
     [Test]
     public async Task SqlException()
     {
         await using var database = await sqlInstance.Build();
         await using var connection = new SqlConnection(database.ConnectionString);
         await connection.OpenAsync();
-        SqlRecording.StartRecording();
         await using var command = connection.CreateCommand();
         command.CommandText = "select * from MyTabl2e";
         await ThrowsTask(() => command.ExecuteReaderAsync());
+    }
+
+    [Test]
+    public async Task SqlError()
+    {
+        await using var database = await sqlInstance.Build();
+        await using var connection = new SqlConnection(database.ConnectionString);
+        await connection.OpenAsync();
+        await using var command = connection.CreateCommand();
+        command.CommandText = "select * from MyTabl2e";
+        try
+        {
+            await command.ExecuteReaderAsync();
+        }
+        catch (SqlException exception)
+        {
+            await Verify(exception.Errors[0]);
+        }
     }
 
     [Test]
