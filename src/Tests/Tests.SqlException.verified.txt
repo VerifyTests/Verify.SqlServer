@@ -1,0 +1,17 @@
+﻿{
+  target: {
+    Message: Invalid object name 'MyTabl2e'.,
+    Number: 208,
+    Line: 1
+  },
+  sql: [
+    {
+      Exception: {
+        Message: Invalid object name 'MyTabl2e'.,
+        Number: 208,
+        Line: 1
+      },
+      Text: select * from MyTabl2e
+    }
+  ]
+}
