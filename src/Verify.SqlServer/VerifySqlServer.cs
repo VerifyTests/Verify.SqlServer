@@ -7,18 +7,15 @@ public static class VerifySqlServer
 {
     public static void Enable()
     {
-        VerifierSettings.ModifySerialization(settings =>
+        VerifierSettings.AddExtraSettings(settings =>
         {
-            settings.AddExtraSettings(serializerSettings =>
-            {
-                var converters = serializerSettings.Converters;
-                converters.Add(new MsSqlErrorConverter());
-                converters.Add(new MsConnectionConverter());
-                converters.Add(new MsSqlExceptionConverter());
-                converters.Add(new SysSqlErrorConverter());
-                converters.Add(new SysConnectionConverter());
-                converters.Add(new SysSqlExceptionConverter());
-            });
+            var converters = settings.Converters;
+            converters.Add(new MsSqlErrorConverter());
+            converters.Add(new MsConnectionConverter());
+            converters.Add(new MsSqlExceptionConverter());
+            converters.Add(new SysSqlErrorConverter());
+            converters.Add(new SysConnectionConverter());
+            converters.Add(new SysSqlExceptionConverter());
         });
 
         VerifierSettings.RegisterJsonAppender(_ =>
