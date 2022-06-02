@@ -2,7 +2,6 @@
   value: 42,
   sql: [
     {
-      HasTransaction: false,
       Text: select Value from MyTable
     }
   ]

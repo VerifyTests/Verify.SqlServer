@@ -1,6 +1,5 @@
 ﻿[
   {
-    HasTransaction: false,
     Exception: {
       Message: Invalid object name 'MyTabl2e'.,
       Number: 208,
