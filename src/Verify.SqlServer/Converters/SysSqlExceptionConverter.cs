@@ -12,17 +12,17 @@ class SysSqlExceptionConverter :
         if (errors.Count == 1)
         {
             var error = errors[0];
-            writer.WriteProperty(error, error.Message, "Message");
-            writer.WriteProperty(error, error.Number, "Number");
-            writer.WriteProperty(error, error.LineNumber, "Line");
+            writer.WriteMember(error, error.Message, "Message");
+            writer.WriteMember(error, error.Number, "Number");
+            writer.WriteMember(error, error.LineNumber, "Line");
             if (exception.Procedure != "")
             {
-                writer.WriteProperty(error, error.Procedure, "Procedure");
+                writer.WriteMember(error, error.Procedure, "Procedure");
             }
         }
         else
         {
-            writer.WriteProperty(exception, errors, "Errors");
+            writer.WriteMember(exception, errors, "Errors");
         }
 
         writer.WriteEndObject();
