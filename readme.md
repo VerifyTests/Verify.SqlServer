@@ -21,7 +21,7 @@ Enable VerifySqlServer once at assembly load time:
 ```cs
 VerifySqlServer.Enable();
 ```
-<sup><a href='/src/Tests/Tests.cs#L13-L17' title='Snippet source file'>snippet source</a> | <a href='#snippet-enable' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Tests/Tests.cs#L12-L16' title='Snippet source file'>snippet source</a> | <a href='#snippet-enable' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 
@@ -34,7 +34,7 @@ This test:
 ```cs
 await Verify(connection);
 ```
-<sup><a href='/src/Tests/Tests.cs#L85-L89' title='Snippet source file'>snippet source</a> | <a href='#snippet-sqlserverschema' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Tests/Tests.cs#L84-L88' title='Snippet source file'>snippet source</a> | <a href='#snippet-sqlserverschema' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 Will result in the following verified file:
@@ -121,7 +121,7 @@ command.CommandText = "select Value from MyTable";
 var value = await command.ExecuteScalarAsync();
 await Verify(value);
 ```
-<sup><a href='/src/Tests/Tests.cs#L167-L177' title='Snippet source file'>snippet source</a> | <a href='#snippet-recording' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Tests/Tests.cs#L166-L176' title='Snippet source file'>snippet source</a> | <a href='#snippet-recording' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 Will result in the following verified file:
@@ -162,7 +162,7 @@ await Verify(new
     sql = entries
 });
 ```
-<sup><a href='/src/Tests/Tests.cs#L186-L202' title='Snippet source file'>snippet source</a> | <a href='#snippet-recordingspecific' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Tests/Tests.cs#L185-L201' title='Snippet source file'>snippet source</a> | <a href='#snippet-recordingspecific' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 
