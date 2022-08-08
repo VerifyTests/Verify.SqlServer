@@ -177,6 +177,22 @@ END;");
     }
 
     [Test]
+    public async Task RecordingWithParameter()
+    {
+        await using var database = await sqlInstance.Build();
+        var connectionString = database.ConnectionString;
+
+        await using var connection = new SqlConnection(connectionString);
+        await connection.OpenAsync();
+        SqlRecording.StartRecording();
+        await using var command = connection.CreateCommand();
+        command.Parameters.AddWithValue("param", 10);
+        command.CommandText = "select Value from MyTable where Value = @param";
+        var value = await command.ExecuteScalarAsync();
+        await Verify(value);
+    }
+
+    [Test]
     public async Task RecordingSpecific()
     {
         await using var database = await sqlInstance.Build();
