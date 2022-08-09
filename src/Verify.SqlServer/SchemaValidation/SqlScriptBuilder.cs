@@ -139,13 +139,13 @@ class SqlScriptBuilder
             AddItem(stringBuilder, options, item);
         }
 
-        stringBuilder.AppendLine();
-        stringBuilder.AppendLine();
+        stringBuilder.AppendLineN();
+        stringBuilder.AppendLineN();
     }
 
     static void AddItem<T>(StringBuilder stringBuilder, ScriptingOptions options, T item) where T : NamedSmoObject, IScriptable
     {
-        stringBuilder.AppendLine();
+        stringBuilder.AppendLineN();
         var lines = item.Script(options)
             .Cast<string>()
             .Where(x => !IsSet(x))
