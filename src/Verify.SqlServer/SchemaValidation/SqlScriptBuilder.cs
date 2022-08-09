@@ -133,42 +133,46 @@ class SqlScriptBuilder
             return;
         }
 
-        stringBuilder.AppendLine($"-- {typeof(T).Name}s");
+        stringBuilder.AppendLineN($"-- {typeof(T).Name}s");
         foreach (var item in filtered)
         {
-            stringBuilder.AppendLine();
-            var lines = item.Script(options)
-                .Cast<string>()
-                .Where(x => !IsSet(x))
-                .ToList();
-            if (lines.Count == 1)
-            {
-                stringBuilder.AppendLine(lines[0].Trim());
-            }
-            else
-            {
-                for (var index = 0; index < lines.Count; index++)
-                {
-                    var line = lines[index];
-                    if (index == 0)
-                    {
-                        stringBuilder.AppendLine(line.TrimStart());
-                        continue;
-                    }
-
-                    if (index == lines.Count - 1)
-                    {
-                        stringBuilder.AppendLine(line.TrimEnd());
-                        continue;
-                    }
-
-                    stringBuilder.AppendLine(line);
-                }
-            }
+            AddItem(stringBuilder, options, item);
         }
 
         stringBuilder.AppendLine();
         stringBuilder.AppendLine();
+    }
+
+    static void AddItem<T>(StringBuilder stringBuilder, ScriptingOptions options, T item) where T : NamedSmoObject, IScriptable
+    {
+        stringBuilder.AppendLine();
+        var lines = item.Script(options)
+            .Cast<string>()
+            .Where(x => !IsSet(x))
+            .ToList();
+        if (lines.Count == 1)
+        {
+            stringBuilder.AppendLineN(lines[0].Trim());
+            return;
+        }
+
+        for (var index = 0; index < lines.Count; index++)
+        {
+            var line = lines[index];
+            if (index == 0)
+            {
+                stringBuilder.AppendLineN(line.TrimStart());
+                continue;
+            }
+
+            if (index == lines.Count - 1)
+            {
+                stringBuilder.AppendLineN(line.TrimEnd());
+                continue;
+            }
+
+            stringBuilder.AppendLineN(line);
+        }
     }
 
     static bool IsSet(string script) =>
