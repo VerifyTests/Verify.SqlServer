@@ -6,7 +6,6 @@
 Extends [Verify](https://github.com/VerifyTests/Verify) to allow verification of SqlServer bits.
 
 
-
 ## NuGet package
 
 https://nuget.org/packages/Verify.SqlServer/
@@ -14,14 +13,15 @@ https://nuget.org/packages/Verify.SqlServer/
 
 ## Usage
 
-Enable VerifySqlServer once at assembly load time:
-
 <!-- snippet: Enable -->
 <a id='snippet-enable'></a>
 ```cs
-VerifySqlServer.Enable();
+[ModuleInitializer]
+public static void Init()
+{
+    VerifySqlServer.Enable();
 ```
-<sup><a href='/src/Tests/Tests.cs#L12-L16' title='Snippet source file'>snippet source</a> | <a href='#snippet-enable' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Tests/ModuleInit.cs#L3-L10' title='Snippet source file'>snippet source</a> | <a href='#snippet-enable' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 
@@ -34,7 +34,7 @@ This test:
 ```cs
 await Verify(connection);
 ```
-<sup><a href='/src/Tests/Tests.cs#L84-L88' title='Snippet source file'>snippet source</a> | <a href='#snippet-sqlserverschema' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Tests/Tests.cs#L76-L80' title='Snippet source file'>snippet source</a> | <a href='#snippet-sqlserverschema' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 Will result in the following verified file:
@@ -121,7 +121,7 @@ command.CommandText = "select Value from MyTable";
 var value = await command.ExecuteScalarAsync();
 await Verify(value);
 ```
-<sup><a href='/src/Tests/Tests.cs#L166-L176' title='Snippet source file'>snippet source</a> | <a href='#snippet-recording' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Tests/Tests.cs#L158-L168' title='Snippet source file'>snippet source</a> | <a href='#snippet-recording' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 Will result in the following verified file:
@@ -162,7 +162,7 @@ await Verify(new
     sql = entries
 });
 ```
-<sup><a href='/src/Tests/Tests.cs#L201-L217' title='Snippet source file'>snippet source</a> | <a href='#snippet-recordingspecific' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Tests/Tests.cs#L193-L209' title='Snippet source file'>snippet source</a> | <a href='#snippet-recordingspecific' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 

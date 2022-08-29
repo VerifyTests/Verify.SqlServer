@@ -7,14 +7,7 @@ public class Tests
 {
     static SqlInstance sqlInstance;
 
-    static Tests()
-    {
-        #region Enable
-
-        VerifySqlServer.Enable();
-
-        #endregion
-
+    static Tests() =>
         sqlInstance = new(
             "VerifySqlServer",
             connection =>
@@ -73,7 +66,6 @@ BEGIN
 END;");
                 return Task.CompletedTask;
             });
-    }
 
     [Test]
     public async Task SqlServerSchema()
