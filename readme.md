@@ -119,7 +119,7 @@ SqlRecording.StartRecording();
 await using var command = connection.CreateCommand();
 command.CommandText = "select Value from MyTable";
 var value = await command.ExecuteScalarAsync();
-await Verify(value);
+await Verify(value!);
 ```
 <sup><a href='/src/Tests/Tests.cs#L158-L168' title='Snippet source file'>snippet source</a> | <a href='#snippet-recording' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->

@@ -163,7 +163,7 @@ END;");
         await using var command = connection.CreateCommand();
         command.CommandText = "select Value from MyTable";
         var value = await command.ExecuteScalarAsync();
-        await Verify(value);
+        await Verify(value!);
 
         #endregion
     }
@@ -181,7 +181,7 @@ END;");
         command.Parameters.AddWithValue("param", 10);
         command.CommandText = "select Value from MyTable where Value = @param";
         var value = await command.ExecuteScalarAsync();
-        await Verify(value);
+        await Verify(value!);
     }
 
     [Test]
