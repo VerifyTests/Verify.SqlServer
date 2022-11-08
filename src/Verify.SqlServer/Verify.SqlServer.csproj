@@ -4,7 +4,7 @@
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="Argon" Version="0.1.0" />
-    <PackageReference Include="System.Data.SqlClient" Version="4.8.4" />
+    <PackageReference Include="System.Data.SqlClient" Version="4.8.5" />
     <PackageReference Include="Microsoft.Data.SqlClient" Version="5.0.1" />
     <PackageReference Include="Microsoft.Extensions.DiagnosticAdapter" Version="3.1.30" />
     <PackageReference Include="System.Diagnostics.DiagnosticSource" Version="7.0.0" />
