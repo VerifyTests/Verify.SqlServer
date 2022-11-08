@@ -3,9 +3,9 @@ using System.Data.Common;
 
 static class Extensions
 {
-    public static Dictionary<string, object> ToDictionary(this DbParameterCollection collection)
+    public static Dictionary<string, object?> ToDictionary(this DbParameterCollection collection)
     {
-        var dictionary = new Dictionary<string, object>();
+        var dictionary = new Dictionary<string, object?>();
         foreach (DbParameter parameter in collection)
         {
             var direction = parameter.Direction;

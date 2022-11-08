@@ -14,6 +14,6 @@ public class LogEntry
 
     public bool HasTransaction { get; }
     public Exception? Exception { get; }
-    public IDictionary<string, object> Parameters { get; }
+    public IDictionary<string, object?> Parameters { get; }
     public string Text { get; }
 }
