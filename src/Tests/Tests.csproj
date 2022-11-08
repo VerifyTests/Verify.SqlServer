@@ -11,7 +11,7 @@
     <PackageReference Include="Verify.DiffPlex" Version="2.0.0" />
     <PackageReference Include="Verify.NUnit" Version="18.4.0" />
     <PackageReference Include="LocalDb" Version="13.9.4" />
-    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.3.2" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.4.0" />
     <PackageReference Include="ProjectDefaults" Version="1.0.82" PrivateAssets="all" />
     <ProjectReference Include="..\Verify.SqlServer\Verify.SqlServer.csproj" />
   </ItemGroup>
