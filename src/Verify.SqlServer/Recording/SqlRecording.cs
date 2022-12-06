@@ -15,9 +15,9 @@ public static class SqlRecording
     public static void StartRecording() =>
         listener.Start();
 
-    public static IEnumerable<LogEntry> FinishRecording() =>
+    public static IReadOnlyList<LogEntry> FinishRecording() =>
         listener.Finish();
 
-    public static bool TryFinishRecording(out IEnumerable<LogEntry>? entries) =>
+    public static bool TryFinishRecording(out IReadOnlyList<LogEntry>? entries) =>
         listener.TryFinish(out entries);
 }
