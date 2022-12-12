@@ -13,7 +13,7 @@ class Listener :
     public void Start() =>
         local.Value = new();
 
-    public bool TryFinish(out IEnumerable<LogEntry>? entries)
+    public bool TryFinish(out IReadOnlyList<LogEntry>? entries)
     {
         entries = local.Value;
 
@@ -26,7 +26,7 @@ class Listener :
         return true;
     }
 
-    public IEnumerable<LogEntry> Finish()
+    public IReadOnlyList<LogEntry> Finish()
     {
         var localValue = local.Value;
 
