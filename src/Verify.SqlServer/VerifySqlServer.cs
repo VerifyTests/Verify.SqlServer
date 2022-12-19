@@ -7,6 +7,7 @@ public static class VerifySqlServer
 {
     public static void Enable()
     {
+        InnerVerifier.ThrowIfVerifyHasBeenRun();
         VerifierSettings.AddExtraSettings(settings =>
         {
             var converters = settings.Converters;
