@@ -18,6 +18,8 @@ public static class VerifySqlServer
             throw new("Already Initialized");
         }
 
+        Initialized = true;
+
         InnerVerifier.ThrowIfVerifyHasBeenRun();
         VerifierSettings.AddExtraSettings(settings =>
         {
