@@ -18,13 +18,16 @@ public static class VerifySqlServer
         Initialized = true;
 
         InnerVerifier.ThrowIfVerifyHasBeenRun();
-        var converters = DefaultContractResolver.Converters;
-        converters.Add(new MsSqlErrorConverter());
-        converters.Add(new MsConnectionConverter());
-        converters.Add(new MsSqlExceptionConverter());
-        converters.Add(new SysSqlErrorConverter());
-        converters.Add(new SysConnectionConverter());
-        converters.Add(new SysSqlExceptionConverter());
+        VerifierSettings.AddExtraSettings(settings =>
+        {
+            var converters = settings.Converters;
+            converters.Add(new MsSqlErrorConverter());
+            converters.Add(new MsConnectionConverter());
+            converters.Add(new MsSqlExceptionConverter());
+            converters.Add(new SysSqlErrorConverter());
+            converters.Add(new SysConnectionConverter());
+            converters.Add(new SysSqlExceptionConverter());
+        });
 
         VerifierSettings.RegisterJsonAppender(_ =>
         {
