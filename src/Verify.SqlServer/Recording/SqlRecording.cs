@@ -9,6 +9,7 @@ public static class SqlRecording
     static SqlRecording()
     {
         listener = new();
+        // ReSharper disable once UnusedVariable
         var subscription = DiagnosticListener.AllListeners.Subscribe(listener);
     }
 

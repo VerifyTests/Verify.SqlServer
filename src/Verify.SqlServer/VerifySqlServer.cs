@@ -1,4 +1,5 @@
-﻿using MsConnection = Microsoft.Data.SqlClient.SqlConnection;
+﻿using Argon;
+using MsConnection = Microsoft.Data.SqlClient.SqlConnection;
 using SysConnection = System.Data.SqlClient.SqlConnection;
 
 namespace VerifyTests;
@@ -17,16 +18,13 @@ public static class VerifySqlServer
         Initialized = true;
 
         InnerVerifier.ThrowIfVerifyHasBeenRun();
-        VerifierSettings.AddExtraSettings(settings =>
-        {
-            var converters = settings.Converters;
-            converters.Add(new MsSqlErrorConverter());
-            converters.Add(new MsConnectionConverter());
-            converters.Add(new MsSqlExceptionConverter());
-            converters.Add(new SysSqlErrorConverter());
-            converters.Add(new SysConnectionConverter());
-            converters.Add(new SysSqlExceptionConverter());
-        });
+        var converters = DefaultContractResolver.Converters;
+        converters.Add(new MsSqlErrorConverter());
+        converters.Add(new MsConnectionConverter());
+        converters.Add(new MsSqlExceptionConverter());
+        converters.Add(new SysSqlErrorConverter());
+        converters.Add(new SysConnectionConverter());
+        converters.Add(new SysSqlExceptionConverter());
 
         VerifierSettings.RegisterJsonAppender(_ =>
         {
