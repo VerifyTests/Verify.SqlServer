@@ -1,5 +1,5 @@
-﻿[
-  {
+﻿{
+  sql: {
     HasTransaction: false,
     Exception: {
       Message: Invalid object name 'MyTabl2e'.,
@@ -8,4 +8,4 @@
     },
     Text: select * from MyTabl2e
   }
-]
+}

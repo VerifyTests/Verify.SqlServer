@@ -105,7 +105,7 @@ public class Tests
         await using var database = await sqlInstance.Build();
         await using var connection = new SqlConnection(database.ConnectionString);
         await connection.OpenAsync();
-        SqlRecording.StartRecording();
+        Recording.Start();
         await using var command = connection.CreateCommand();
         command.CommandText = "select * from MyTabl2e";
         try
@@ -116,8 +116,7 @@ public class Tests
         {
         }
 
-        var commands = SqlRecording.FinishRecording();
-        await Verify(commands)
+        await Verify()
             .ScrubLinesContaining("HelpLink.ProdVer");
     }
 
@@ -151,7 +150,7 @@ public class Tests
     }
 
     [Test]
-    public async Task Recording()
+    public async Task RecordingUsage()
     {
         await using var database = await sqlInstance.Build();
         var connectionString = database.ConnectionString;
@@ -160,7 +159,7 @@ public class Tests
 
         await using var connection = new SqlConnection(connectionString);
         await connection.OpenAsync();
-        SqlRecording.StartRecording();
+        Recording.Start();
         await using var command = connection.CreateCommand();
         command.CommandText = "select Value from MyTable";
         var value = await command.ExecuteScalarAsync();
@@ -177,7 +176,7 @@ public class Tests
 
         await using var connection = new SqlConnection(connectionString);
         await connection.OpenAsync();
-        SqlRecording.StartRecording();
+        Recording.Start();
         await using var command = connection.CreateCommand();
         command.Parameters.AddWithValue("param", 10);
         command.CommandText = "select Value from MyTable where Value = @param";
@@ -195,11 +194,11 @@ public class Tests
 
         await using var connection = new SqlConnection(connectionString);
         await connection.OpenAsync();
-        SqlRecording.StartRecording();
+        Recording.Start();
         await using var command = connection.CreateCommand();
         command.CommandText = "select Value from MyTable";
         var value = await command.ExecuteScalarAsync();
-        var entries = SqlRecording.FinishRecording();
+        var entries = Recording.Stop().Select(_ => _.Data);
         //TODO: optionally filter the results
         await Verify(new
         {
@@ -224,12 +223,11 @@ public class Tests
         await using var connection = new SqlConnection(database.ConnectionString);
         await connection.OpenAsync();
         await Execute(connection);
-        SqlRecording.StartRecording();
+        Recording.Start();
         await Execute(connection);
         await Execute(connection);
-        var commands = SqlRecording.FinishRecording();
         await Execute(connection);
-        await Verify(commands);
+        await Verify();
     }
 
     [Test]

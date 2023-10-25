@@ -117,31 +117,29 @@ Call `SqlRecording.StartRecording()`:
 ```cs
 await using var connection = new SqlConnection(connectionString);
 await connection.OpenAsync();
-SqlRecording.StartRecording();
+Recording.Start();
 await using var command = connection.CreateCommand();
 command.CommandText = "select Value from MyTable";
 var value = await command.ExecuteScalarAsync();
 await Verify(value!);
 ```
-<sup><a href='/src/Tests/Tests.cs#L159-L169' title='Snippet source file'>snippet source</a> | <a href='#snippet-recording' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Tests/Tests.cs#L158-L168' title='Snippet source file'>snippet source</a> | <a href='#snippet-recording' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 Will result in the following verified file:
 
-<!-- snippet: Tests.Recording.verified.txt -->
-<a id='snippet-Tests.Recording.verified.txt'></a>
+<!-- snippet: Tests.RecordingUsage.verified.txt -->
+<a id='snippet-Tests.RecordingUsage.verified.txt'></a>
 ```txt
 {
   target: 42,
-  sql: [
-    {
-      HasTransaction: false,
-      Text: select Value from MyTable
-    }
-  ]
+  sql: {
+    HasTransaction: false,
+    Text: select Value from MyTable
+  }
 }
 ```
-<sup><a href='/src/Tests/Tests.Recording.verified.txt#L1-L9' title='Snippet source file'>snippet source</a> | <a href='#snippet-Tests.Recording.verified.txt' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Tests/Tests.RecordingUsage.verified.txt#L1-L7' title='Snippet source file'>snippet source</a> | <a href='#snippet-Tests.RecordingUsage.verified.txt' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 
@@ -152,11 +150,11 @@ Sql entries can be explicitly read using `SqlRecording.FinishRecording`, optiona
 ```cs
 await using var connection = new SqlConnection(connectionString);
 await connection.OpenAsync();
-SqlRecording.StartRecording();
+Recording.Start();
 await using var command = connection.CreateCommand();
 command.CommandText = "select Value from MyTable";
 var value = await command.ExecuteScalarAsync();
-var entries = SqlRecording.FinishRecording();
+var entries = Recording.Stop().Select(_ => _.Data);
 //TODO: optionally filter the results
 await Verify(new
 {
@@ -164,7 +162,7 @@ await Verify(new
     sql = entries
 });
 ```
-<sup><a href='/src/Tests/Tests.cs#L194-L210' title='Snippet source file'>snippet source</a> | <a href='#snippet-recordingspecific' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Tests/Tests.cs#L193-L209' title='Snippet source file'>snippet source</a> | <a href='#snippet-recordingspecific' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 

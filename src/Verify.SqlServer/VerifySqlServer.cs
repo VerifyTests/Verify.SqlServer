@@ -28,16 +28,6 @@ public static class VerifySqlServer
             converters.Add(new SysSqlExceptionConverter());
         });
 
-        VerifierSettings.RegisterJsonAppender(_ =>
-        {
-            if (!SqlRecording.TryFinishRecording(out var entries))
-            {
-                return null;
-            }
-
-            return new ToAppend("sql", entries!);
-        });
-
         VerifierSettings.RegisterFileConverter<MsConnection>(ToSql);
         VerifierSettings.RegisterFileConverter<SysConnection>(ToSql);
     }

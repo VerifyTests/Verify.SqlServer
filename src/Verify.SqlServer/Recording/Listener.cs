@@ -8,36 +8,6 @@ class Listener :
     IDisposable
 {
     ConcurrentQueue<IDisposable> subscriptions = new();
-    AsyncLocal<List<LogEntry>?> local = new();
-
-    public void Start() =>
-        local.Value = new();
-
-    public bool TryFinish(out IReadOnlyList<LogEntry>? entries)
-    {
-        entries = local.Value;
-
-        if (entries is null)
-        {
-            return false;
-        }
-
-        local.Value = null;
-        return true;
-    }
-
-    public IReadOnlyList<LogEntry> Finish()
-    {
-        var localValue = local.Value;
-
-        if (localValue is null)
-        {
-            throw new("SqlRecording.StartRecording must be called prior to FinishRecording.");
-        }
-
-        local.Value = null;
-        return localValue;
-    }
 
     public void OnNext(DiagnosticListener value)
     {
@@ -46,24 +16,24 @@ class Listener :
             return;
         }
 
-        subscriptions.Enqueue(value.SubscribeWithAdapter(this, _ => local.Value is not null));
+        subscriptions.Enqueue(value.SubscribeWithAdapter(this, _ => Recording.IsRecording));
     }
 
     [DiagnosticName("System.Data.SqlClient.WriteCommandAfter")]
     public void OnSystemCommandAfter(DbCommand command) =>
-        local.Value!.Add(new(command));
+        Recording.Add("sql", new LogEntry(command));
 
     [DiagnosticName("Microsoft.Data.SqlClient.WriteCommandAfter")]
     public void OnMsCommandAfter(DbCommand command) =>
-        local.Value!.Add(new(command));
+        Recording.Add("sql", new LogEntry(command));
 
     [DiagnosticName("System.Data.SqlClient.WriteCommandError")]
     public void OnSysErrorExecuteCommand(DbCommand command, Exception exception) =>
-        local.Value!.Add(new(command, exception));
+        Recording.Add("sql", new LogEntry(command, exception));
 
     [DiagnosticName("Microsoft.Data.SqlClient.WriteCommandError")]
     public void OnMsErrorExecuteCommand(DbCommand command, Exception exception) =>
-        local.Value!.Add(new(command, exception));
+        Recording.Add("sql", new LogEntry(command, exception));
 
     void Clear()
     {

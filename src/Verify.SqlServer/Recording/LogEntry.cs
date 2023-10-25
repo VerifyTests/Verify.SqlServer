@@ -2,18 +2,10 @@
 
 namespace VerifyTests.SqlServer;
 
-public class LogEntry
+public class LogEntry(DbCommand command, Exception? exception = null)
 {
-    public LogEntry(DbCommand command, Exception? exception = null)
-    {
-        Parameters = command.Parameters.ToDictionary();
-        Text = command.CommandText.Trim();
-        HasTransaction = command.Transaction != null;
-        Exception = exception;
-    }
-
-    public bool HasTransaction { get; }
-    public Exception? Exception { get; }
-    public IDictionary<string, object?> Parameters { get; }
-    public string Text { get; }
+    public bool HasTransaction { get; } = command.Transaction != null;
+    public Exception? Exception { get; } = exception;
+    public IDictionary<string, object?> Parameters { get; } = command.Parameters.ToDictionary();
+    public string Text { get; } = command.CommandText.Trim();
 }

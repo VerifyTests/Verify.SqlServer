@@ -1,10 +1,16 @@
-﻿[
-  {
-    HasTransaction: false,
-    Text: select * from MyTable
-  },
-  {
-    HasTransaction: false,
-    Text: select * from MyTable
-  }
-]
+﻿{
+  sql: [
+    {
+      HasTransaction: false,
+      Text: select * from MyTable
+    },
+    {
+      HasTransaction: false,
+      Text: select * from MyTable
+    },
+    {
+      HasTransaction: false,
+      Text: select * from MyTable
+    }
+  ]
+}
