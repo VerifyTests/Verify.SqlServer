@@ -6,7 +6,7 @@
     <PackageReference Include="Polyfill" Version="1.29.0" PrivateAssets="all" />
     <PackageReference Include="Argon" Version="0.13.0" />
     <PackageReference Include="System.Data.SqlClient" Version="4.8.5" />
-    <PackageReference Include="Microsoft.Data.SqlClient" Version="5.1.1" />
+    <PackageReference Include="Microsoft.Data.SqlClient" Version="5.1.2" />
     <PackageReference Include="Microsoft.Extensions.DiagnosticAdapter" Version="3.1.32" />
     <PackageReference Include="System.Diagnostics.DiagnosticSource" Version="7.0.2" />
     <PackageReference Include="Verify" Version="22.2.0-beta.4" />
