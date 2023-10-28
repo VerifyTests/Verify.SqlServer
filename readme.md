@@ -156,13 +156,14 @@ command.CommandText = "select Value from MyTable";
 var value = await command.ExecuteScalarAsync();
 var entries = Recording.Stop().Select(_ => _.Data);
 //TODO: optionally filter the results
-await Verify(new
-{
-    value,
-    sql = entries
-});
+await Verify(
+    new
+    {
+        value,
+        sql = entries
+    });
 ```
-<sup><a href='/src/Tests/Tests.cs#L193-L209' title='Snippet source file'>snippet source</a> | <a href='#snippet-recordingspecific' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Tests/Tests.cs#L193-L210' title='Snippet source file'>snippet source</a> | <a href='#snippet-recordingspecific' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 
