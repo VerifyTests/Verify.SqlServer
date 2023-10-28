@@ -200,11 +200,12 @@ public class Tests
         var value = await command.ExecuteScalarAsync();
         var entries = Recording.Stop().Select(_ => _.Data);
         //TODO: optionally filter the results
-        await Verify(new
-        {
-            value,
-            sql = entries
-        });
+        await Verify(
+            new
+            {
+                value,
+                sql = entries
+            });
 
         #endregion
     }
