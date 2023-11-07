@@ -34,16 +34,16 @@ public static class VerifySqlServer
 
     static ConversionResult ToSql(MsConnection connection, IReadOnlyDictionary<string, object> context)
     {
-        var schemaSettings = context.GetSchemaSettings();
-        var builder = new SqlScriptBuilder(schemaSettings);
+        var settings = context.GetSchemaSettings();
+        var builder = new SqlScriptBuilder(settings);
         var sql = builder.BuildScript(connection);
         return new(null, "sql", sql);
     }
 
     static async Task<ConversionResult> ToSql(SysConnection connection, IReadOnlyDictionary<string, object> context)
     {
-        var schemaSettings = context.GetSchemaSettings();
-        var builder = new SqlScriptBuilder(schemaSettings);
+        var settings = context.GetSchemaSettings();
+        var builder = new SqlScriptBuilder(settings);
         var sql = await builder.BuildScript(connection);
         return new(null, "sql", sql);
     }
