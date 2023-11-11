@@ -16,7 +16,10 @@ class Listener :
             return;
         }
 
-        subscriptions.Enqueue(value.SubscribeWithAdapter(this, _ => Recording.IsRecording));
+        subscriptions.Enqueue(
+            value.SubscribeWithAdapter(
+                this,
+                _ => Recording.IsRecording()));
     }
 
     [DiagnosticName("System.Data.SqlClient.WriteCommandAfter")]
