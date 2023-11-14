@@ -24,19 +24,19 @@ class Listener :
 
     [DiagnosticName("System.Data.SqlClient.WriteCommandAfter")]
     public void OnSystemCommandAfter(DbCommand command) =>
-        Recording.Add("sql", new LogEntry(command));
+        Recording.TryAdd("sql", new LogEntry(command));
 
     [DiagnosticName("Microsoft.Data.SqlClient.WriteCommandAfter")]
     public void OnMsCommandAfter(DbCommand command) =>
-        Recording.Add("sql", new LogEntry(command));
+        Recording.TryAdd("sql", new LogEntry(command));
 
     [DiagnosticName("System.Data.SqlClient.WriteCommandError")]
     public void OnSysErrorExecuteCommand(DbCommand command, Exception exception) =>
-        Recording.Add("sql", new LogEntry(command, exception));
+        Recording.TryAdd("sql", new LogEntry(command, exception));
 
     [DiagnosticName("Microsoft.Data.SqlClient.WriteCommandError")]
     public void OnMsErrorExecuteCommand(DbCommand command, Exception exception) =>
-        Recording.Add("sql", new LogEntry(command, exception));
+        Recording.TryAdd("sql", new LogEntry(command, exception));
 
     void Clear()
     {
