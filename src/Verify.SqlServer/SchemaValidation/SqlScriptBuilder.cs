@@ -126,7 +126,7 @@ class SqlScriptBuilder
         where T : NamedSmoObject, IScriptable
     {
         var filtered = items.Cast<T>()
-            .Where(x => !isSystem(x) && settings.IncludeItem(x.Name))
+            .Where(_ => !isSystem(_) && settings.IncludeItem(_.Name))
             .ToList();
         if (!filtered.Any())
         {
