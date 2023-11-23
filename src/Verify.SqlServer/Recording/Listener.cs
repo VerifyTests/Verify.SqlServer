@@ -7,7 +7,7 @@ class Listener :
     IObserver<DiagnosticListener>,
     IDisposable
 {
-    ConcurrentQueue<IDisposable> subscriptions = new();
+    ConcurrentQueue<IDisposable> subscriptions = [];
 
     public void OnNext(DiagnosticListener value)
     {
