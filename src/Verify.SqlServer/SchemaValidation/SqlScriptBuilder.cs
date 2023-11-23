@@ -148,7 +148,7 @@ class SqlScriptBuilder
         stringBuilder.AppendLineN();
         var lines = item.Script(options)
             .Cast<string>()
-            .Where(x => !IsSet(x))
+            .Where(_ => !IsSet(_))
             .ToList();
         if (lines.Count == 1)
         {
