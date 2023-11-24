@@ -5,7 +5,7 @@ namespace VerifyTests;
 
 public static class VerifySqlServer
 {
-    static Listener listener = [];
+    static Listener listener = new();
 
     public static bool Initialized { get; private set; }
 
