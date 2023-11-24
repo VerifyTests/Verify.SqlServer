@@ -2,9 +2,8 @@
 using Microsoft.SqlServer.Management.Common;
 using Microsoft.SqlServer.Management.Smo;
 
-class SqlScriptBuilder
+class SqlScriptBuilder(SchemaSettings settings)
 {
-    SchemaSettings settings;
     static Dictionary<string, string> tableSettingsToScrubLookup;
 
     static SqlScriptBuilder()
@@ -30,8 +29,6 @@ class SqlScriptBuilder
             tableSettingsToScrubLookup[$", {toScrub}"] = "";
         }
     }
-    public SqlScriptBuilder(SchemaSettings settings) =>
-        this.settings = settings;
 
     public string BuildScript(SqlConnection sqlConnection)
     {
