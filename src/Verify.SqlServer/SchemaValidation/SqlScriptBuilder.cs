@@ -9,7 +9,7 @@ class SqlScriptBuilder(SchemaSettings settings)
     static SqlScriptBuilder()
     {
         string[] defaultsToScrub =
-        {
+        [
             "PAD_INDEX = OFF",
             "STATISTICS_NORECOMPUTE = OFF",
             "SORT_IN_TEMPDB = OFF",
@@ -20,7 +20,7 @@ class SqlScriptBuilder(SchemaSettings settings)
             "ALLOW_PAGE_LOCKS = ON",
             "OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF",
             "SORT_IN_TEMPDB = OFF"
-        };
+        ];
         tableSettingsToScrubLookup = new();
         foreach (var toScrub in defaultsToScrub)
         {
