@@ -4,7 +4,7 @@
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="Polyfill" Version="2.3.0" PrivateAssets="all" />
-    <PackageReference Include="Argon" Version="0.15.0" />
+    <PackageReference Include="Argon" Version="0.17.0" />
     <PackageReference Include="System.Data.SqlClient" Version="4.8.6" />
     <PackageReference Include="Microsoft.Data.SqlClient" Version="5.1.5" />
     <PackageReference Include="Microsoft.Extensions.DiagnosticAdapter" Version="3.1.32" />
