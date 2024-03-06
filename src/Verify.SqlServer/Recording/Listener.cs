@@ -1,7 +1,6 @@
 ﻿using System.Data.Common;
-using Microsoft.Extensions.DiagnosticAdapter;
-using VerifyTests.SqlServer;
 
+#pragma warning disable CA1822
 // https://github.com/dotnet/SqlClient/blob/master/src/Microsoft.Data.SqlClient/netcore/src/Microsoft/Data/SqlClient/SqlClientDiagnosticListenerExtensions.cs
 class Listener :
     IObserver<DiagnosticListener>,
