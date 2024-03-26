@@ -3,7 +3,7 @@
     <TargetFrameworks>net48;net6.0;net7.0;net8.0</TargetFrameworks>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="Polyfill" Version="4.0.0" PrivateAssets="all" />
+    <PackageReference Include="Polyfill" Version="4.1.0" PrivateAssets="all" />
     <PackageReference Include="Argon" Version="0.17.0" />
     <PackageReference Include="System.Data.SqlClient" Version="4.8.6" />
     <PackageReference Include="Microsoft.Data.SqlClient" Version="5.2.0" />
