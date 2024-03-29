@@ -1,6 +1,6 @@
 ﻿public static class ModuleInit
 {
-    #region enable
+    #region Enable
 
     [ModuleInitializer]
     public static void Init() =>

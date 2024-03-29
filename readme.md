@@ -17,13 +17,13 @@ https://nuget.org/packages/Verify.SqlServer/
 ## Usage
 
 <!-- snippet: Enable -->
-<a id='snippet-enable'></a>
+<a id='snippet-Enable'></a>
 ```cs
 [ModuleInitializer]
 public static void Init() =>
     VerifySqlServer.Initialize();
 ```
-<sup><a href='/src/Tests/ModuleInit.cs#L3-L9' title='Snippet source file'>snippet source</a> | <a href='#snippet-enable' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Tests/ModuleInit.cs#L3-L9' title='Snippet source file'>snippet source</a> | <a href='#snippet-Enable' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 
@@ -32,11 +32,11 @@ public static void Init() =>
 This test:
 
 <!-- snippet: SqlServerSchema -->
-<a id='snippet-sqlserverschema'></a>
+<a id='snippet-SqlServerSchema'></a>
 ```cs
 await Verify(connection);
 ```
-<sup><a href='/src/Tests/Tests.cs#L77-L81' title='Snippet source file'>snippet source</a> | <a href='#snippet-sqlserverschema' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Tests/Tests.cs#L77-L81' title='Snippet source file'>snippet source</a> | <a href='#snippet-SqlServerSchema' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 Will result in the following verified file:
@@ -113,7 +113,7 @@ Recording allows all commands executed to be captured and then (optionally) veri
 Call `SqlRecording.StartRecording()`:
 
 <!-- snippet: Recording -->
-<a id='snippet-recording'></a>
+<a id='snippet-Recording'></a>
 ```cs
 await using var connection = new SqlConnection(connectionString);
 await connection.OpenAsync();
@@ -123,7 +123,7 @@ command.CommandText = "select Value from MyTable";
 var value = await command.ExecuteScalarAsync();
 await Verify(value!);
 ```
-<sup><a href='/src/Tests/Tests.cs#L158-L168' title='Snippet source file'>snippet source</a> | <a href='#snippet-recording' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Tests/Tests.cs#L158-L168' title='Snippet source file'>snippet source</a> | <a href='#snippet-Recording' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 Will result in the following verified file:
@@ -146,7 +146,7 @@ Will result in the following verified file:
 Sql entries can be explicitly read using `SqlRecording.FinishRecording`, optionally filtered, and passed to Verify:
 
 <!-- snippet: RecordingSpecific -->
-<a id='snippet-recordingspecific'></a>
+<a id='snippet-RecordingSpecific'></a>
 ```cs
 await using var connection = new SqlConnection(connectionString);
 await connection.OpenAsync();
@@ -163,7 +163,7 @@ await Verify(
         sql = entries
     });
 ```
-<sup><a href='/src/Tests/Tests.cs#L193-L210' title='Snippet source file'>snippet source</a> | <a href='#snippet-recordingspecific' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Tests/Tests.cs#L193-L210' title='Snippet source file'>snippet source</a> | <a href='#snippet-RecordingSpecific' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 
