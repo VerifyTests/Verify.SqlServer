@@ -11,7 +11,7 @@
     <PackageReference Include="Verify.NUnit" Version="23.6.0" />
     <PackageReference Include="LocalDb" Version="17.0.0" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.9.0" />
-    <PackageReference Include="ProjectDefaults" Version="1.0.125" PrivateAssets="all" />
+    <PackageReference Include="ProjectDefaults" Version="1.0.126" PrivateAssets="all" />
     <ProjectReference Include="..\Verify.SqlServer\Verify.SqlServer.csproj" />
   </ItemGroup>
 </Project>
