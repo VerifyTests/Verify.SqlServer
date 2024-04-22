@@ -5,7 +5,7 @@
   <ItemGroup>
     <!-- explicit to avoid a CVE -->
     <PackageReference Include="Azure.Identity" Version="1.11.1" />
-    <PackageReference Include="Polyfill" Version="4.7.0" PrivateAssets="all" />
+    <PackageReference Include="Polyfill" Version="4.9.0" PrivateAssets="all" />
     <PackageReference Include="System.Data.SqlClient" Version="4.8.6" />
     <PackageReference Include="Microsoft.Data.SqlClient" Version="5.2.0" />
     <PackageReference Include="Microsoft.Extensions.DiagnosticAdapter" Version="3.1.32" />
