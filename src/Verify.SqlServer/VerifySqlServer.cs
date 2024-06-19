@@ -25,9 +25,11 @@ public static class VerifySqlServer
             converters.Add(new MsSqlErrorConverter());
             converters.Add(new MsConnectionConverter());
             converters.Add(new MsSqlExceptionConverter());
+            converters.Add(new MsSqlParameterConverter());
             converters.Add(new SysSqlErrorConverter());
             converters.Add(new SysConnectionConverter());
             converters.Add(new SysSqlExceptionConverter());
+            converters.Add(new SysSqlParameterConverter());
         });
 
         VerifierSettings.RegisterFileConverter<MsConnection>(ToSql);
