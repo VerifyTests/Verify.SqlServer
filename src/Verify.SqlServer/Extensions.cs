@@ -1,7 +1,4 @@
-﻿using System.Data;
-using System.Data.Common;
-
-static class Extensions
+﻿static class Extensions
 {
     public static Dictionary<string, object?> ToDictionary(this DbParameterCollection collection)
     {

@@ -1,6 +1,4 @@
-﻿using System.Data.Common;
-
-namespace VerifyTests.SqlServer;
+﻿namespace VerifyTests.SqlServer;
 
 public class LogEntry(DbCommand command, Exception? exception = null)
 {
