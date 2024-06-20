@@ -1,7 +1,6 @@
 ﻿{
   Name: name,
   Value: DateTime_1,
-  DbType: Date,
   Direction: InputOutput,
   Offset: 5,
   Precision: 2,

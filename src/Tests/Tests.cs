@@ -199,7 +199,7 @@ public class Tests
     [Test]
     public Task MsSqlParameterFull()
     {
-        var parameter = new SqlParameter("name", SqlDbType.Date)
+        var parameter = new SqlParameter("name", SqlDbType.DateTime)
         {
             Direction = ParameterDirection.InputOutput,
             Offset = 5,

@@ -9,13 +9,25 @@ class MsSqlParameterConverter :
         writer.WriteStartObject();
         writer.WriteMember(parameter, parameter.ParameterName, "Name");
         writer.WriteMember(parameter, parameter.Value, "Value");
-        // if (parameter.SqlValue != parameter.Value)
-        // {
-        //     writer.WriteMember(parameter, parameter.SqlValue, "SqlValue");
-        // }
 
-        writer.WriteMember(parameter, parameter.DbType, "DbType");
-        //writer.WriteMember(parameter, parameter.SqlDbType, "SqlDbType");
+        var (tempDbType, tempSqlDbType, tempSqlValue) = InferExpectedProperties(parameter);
+        if (parameter.SqlValue != parameter.Value &&
+            !Equals(parameter.SqlValue, tempSqlValue))
+        {
+            writer.WriteMember(parameter, parameter.SqlValue, "SqlValue");
+        }
+
+        if (tempDbType != parameter.DbType)
+        {
+            writer.WriteMember(parameter, parameter.DbType, "DbType");
+        }
+
+        if (tempSqlDbType != parameter.SqlDbType &&
+            parameter.SqlDbType != parameter.DbType.ToSqlDbType())
+        {
+            writer.WriteMember(parameter, parameter.SqlDbType, "SqlDbType");
+        }
+
         if (parameter.Direction != ParameterDirection.Input)
         {
             writer.WriteMember(parameter, parameter.Direction, "Direction");
@@ -102,5 +114,16 @@ class MsSqlParameterConverter :
         }
 
         writer.WriteEndObject();
+    }
+
+    static (DbType? dbType, SqlDbType? sqlDbType, object? sqlValue) InferExpectedProperties(SqlParameter parameter)
+    {
+        if (parameter.Value == null)
+        {
+            return (null, null, null);
+        }
+
+        var temp = new SqlParameter("temp", parameter.Value);
+        return (temp.DbType, temp.SqlDbType, temp.SqlValue);
     }
 }
