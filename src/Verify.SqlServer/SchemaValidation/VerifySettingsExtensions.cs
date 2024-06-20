@@ -1,4 +1,4 @@
-﻿namespace VerifyTests;
+namespace VerifyTests;
 
 public static class VerifySettingsSqlExtensions
 {
@@ -34,13 +34,23 @@ public static class VerifySettingsSqlExtensions
 
         settings.Context.Add(
             "SqlServer",
-            new SchemaSettings(
-                storedProcedures,
-                tables,
-                views,
-                userDefinedFunctions,
-                synonyms,
-                includeItem));
+            new SchemaSettings
+            {
+                StoredProcedures = storedProcedures,
+                Tables = tables,
+                Views = views,
+                UserDefinedFunctions = userDefinedFunctions,
+                Synonyms = synonyms,
+                IncludeItem = (_) => includeItem(_.Name),
+            });
+    }
+
+    public static void SchemaSettings(this VerifySettings settings, SchemaSettings schema) => settings.Context.Add("SqlServer", schema);
+
+    public static SettingsTask SchemaSettings(this SettingsTask settings, SchemaSettings schema)
+    {
+        settings.CurrentSettings.SchemaSettings(schema);
+        return settings;
     }
 
     internal static SchemaSettings GetSchemaSettings(this IReadOnlyDictionary<string, object> context)
@@ -53,5 +63,5 @@ public static class VerifySettingsSqlExtensions
         return defaultSettings;
     }
 
-    static SchemaSettings defaultSettings = new(true, true, true, true, true, _ => true);
+    static SchemaSettings defaultSettings = new();
 }

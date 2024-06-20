@@ -1,4 +1,3 @@
-﻿using System.Data;
 using System.Data.SqlTypes;
 using Microsoft.Data.SqlClient;
 using Microsoft.SqlServer.Management.Common;
@@ -334,6 +333,29 @@ public class Tests
                 tables: true,
                 views: true,
                 includeItem: itemName => itemName == "MyTable");
+
+        #endregion
+    }
+
+    [Test]
+    public async Task SqlServerSchemaSettingsCustom()
+    {
+        await using var database = await sqlInstance.Build();
+        var connection = database.Connection;
+
+        #region SqlServerSchemaSettings
+
+        await Verify(connection)
+            .SchemaSettings(new SchemaSettings
+            {
+                StoredProcedures = true,
+                UserDefinedFunctions = true,
+                Synonyms = true,
+                Tables = true,
+                Views = true,
+                // this should cover tables & views but not stored procs / others
+                IncludeItem = (item) => item is TableViewBase,
+            });
 
         #endregion
     }
