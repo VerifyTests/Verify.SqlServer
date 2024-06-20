@@ -106,6 +106,40 @@ CREATE SYNONYM [dbo].[synonym1] FOR [MyTable]
 <!-- endSnippet -->
 
 
+#### Filtering
+
+Filter by name:
+
+<!-- snippet: SqlServerSchemaSettingsFilterByName -->
+<a id='snippet-SqlServerSchemaSettingsFilterByName'></a>
+```cs
+await Verify(connection)
+    .SchemaSettings(
+        storedProcedures: true,
+        tables: true,
+        views: true,
+        includeItem: _ => _.Name == "MyTable");
+```
+<sup><a href='/src/Tests/Tests.cs#L329-L338' title='Snippet source file'>snippet source</a> | <a href='#snippet-SqlServerSchemaSettingsFilterByName' title='Start of snippet'>anchor</a></sup>
+<!-- endSnippet -->
+
+Filter by type:
+
+<!-- snippet: SqlServerSchemaSettingsFilterByType -->
+<a id='snippet-SqlServerSchemaSettingsFilterByType'></a>
+```cs
+await Verify(connection)
+        .SchemaSettings(
+            storedProcedures: true,
+            tables: true,
+            views: true,
+            // include tables & views
+            includeItem: _ => _ is TableViewBase);
+```
+<sup><a href='/src/Tests/Tests.cs#L347-L357' title='Snippet source file'>snippet source</a> | <a href='#snippet-SqlServerSchemaSettingsFilterByType' title='Start of snippet'>anchor</a></sup>
+<!-- endSnippet -->
+
+
 ### Recording
 
 Recording allows all commands executed to be captured and then (optionally) verified.

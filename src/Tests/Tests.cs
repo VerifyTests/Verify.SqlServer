@@ -326,14 +326,14 @@ public class Tests
         await using var database = await sqlInstance.Build();
         var connection = database.Connection;
 
-        #region SqlServerSchemaSettings
+        #region SqlServerSchemaSettingsFilterByName
 
         await Verify(connection)
             .SchemaSettings(
                 storedProcedures: true,
                 tables: true,
                 views: true,
-                includeItem: itemName => itemName == "MyTable");
+                includeItem: _ => _.Name == "MyTable");
 
         #endregion
     }
@@ -344,19 +344,15 @@ public class Tests
         await using var database = await sqlInstance.Build();
         var connection = database.Connection;
 
-        #region SqlServerSchemaSettings
+        #region SqlServerSchemaSettingsFilterByType
 
         await Verify(connection)
-            .SchemaSettings(new SchemaSettings
-            {
-                StoredProcedures = true,
-                UserDefinedFunctions = true,
-                Synonyms = true,
-                Tables = true,
-                Views = true,
-                // this should cover tables & views but not stored procs / others
-                IncludeItem = (item) => item is TableViewBase,
-            });
+                .SchemaSettings(
+                    storedProcedures: true,
+                    tables: true,
+                    views: true,
+                    // include tables & views
+                    includeItem: _ => _ is TableViewBase);
 
         #endregion
     }

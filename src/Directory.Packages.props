@@ -13,7 +13,7 @@
     <PackageVersion Include="NUnit" Version="4.1.0" />
     <PackageVersion Include="NUnit3TestAdapter" Version="4.5.0" />
     <PackageVersion Include="Polyfill" Version="5.5.2" />
-    <PackageVersion Include="ProjectDefaults" Version="1.0.127" />
+    <PackageVersion Include="ProjectDefaults" Version="1.0.128" />
     <PackageVersion Include="System.Data.SqlClient" Version="4.8.6" />
     <PackageVersion Include="System.Diagnostics.DiagnosticSource" Version="8.0.1" />
     <PackageVersion Include="Verify" Version="25.0.3" />
