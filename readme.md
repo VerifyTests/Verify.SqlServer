@@ -128,7 +128,7 @@ await Verify(connection)
     // include only tables and views
     .SchemaIncludes(DbObjects.Tables | DbObjects.Views);
 ```
-<sup><a href='/src/Tests/Tests.cs#L388-L394' title='Snippet source file'>snippet source</a> | <a href='#snippet-SchemaInclude' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Tests/Tests.cs#L459-L465' title='Snippet source file'>snippet source</a> | <a href='#snippet-SchemaInclude' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 Available values:
@@ -166,7 +166,7 @@ await Verify(connection)
         _ => _ is TableViewBase ||
              _.Name == "MyTrigger");
 ```
-<sup><a href='/src/Tests/Tests.cs#L413-L421' title='Snippet source file'>snippet source</a> | <a href='#snippet-SchemaFilter' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Tests/Tests.cs#L484-L492' title='Snippet source file'>snippet source</a> | <a href='#snippet-SchemaFilter' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 
@@ -219,18 +219,62 @@ Recording.Start();
 await using var command = connection.CreateCommand();
 command.CommandText = "select Value from MyTable";
 var value = await command.ExecuteScalarAsync();
+
+await using var errorCommand = connection.CreateCommand();
+errorCommand.CommandText = "select Value from BadTable";
+try
+{
+    await errorCommand.ExecuteScalarAsync();
+}
+catch
+{
+}
+
 var entries = Recording
     .Stop()
     .Select(_ => _.Data);
-//TODO: optionally filter the results
+//Optionally filter results
 await Verify(
     new
     {
         value,
-        sql = entries
+        sqlEntries = entries
     });
 ```
-<sup><a href='/src/Tests/Tests.cs#L339-L358' title='Snippet source file'>snippet source</a> | <a href='#snippet-RecordingSpecific' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Tests/Tests.cs#L339-L369' title='Snippet source file'>snippet source</a> | <a href='#snippet-RecordingSpecific' title='Start of snippet'>anchor</a></sup>
+<!-- endSnippet -->
+
+
+#### Interpreting recording results
+
+Recording results can be interpreted in a a variety of ways:
+
+<!-- snippet: RecordingReadingResults -->
+<a id='snippet-RecordingReadingResults'></a>
+```cs
+var entries = Recording.Stop();
+
+// successful Commands via Type
+var sqlCommandsViaType = entries
+    .Select(_ => _.Data)
+    .OfType<SqlCommand>();
+
+// successful Commands via key
+var sqlCommandsViaKey = entries
+    .Where(_ => _.Name == "sqlCommand")
+    .Select(_ => (SqlCommand) _.Data);
+
+// failed Commands via Type
+var sqlErrorsViaType = entries
+    .Select(_ => _.Data)
+    .OfType<LogErrorEntry>();
+
+// failed Commands via key
+var sqlErrorsViaKey = entries
+    .Where(_ => _.Name == "sqlError")
+    .Select(_ => (LogErrorEntry) _.Data);
+```
+<sup><a href='/src/Tests/Tests.cs#L395-L419' title='Snippet source file'>snippet source</a> | <a href='#snippet-RecordingReadingResults' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 

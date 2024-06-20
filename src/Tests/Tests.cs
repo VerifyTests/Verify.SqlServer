@@ -344,18 +344,89 @@ public class Tests
         await using var command = connection.CreateCommand();
         command.CommandText = "select Value from MyTable";
         var value = await command.ExecuteScalarAsync();
+
+        await using var errorCommand = connection.CreateCommand();
+        errorCommand.CommandText = "select Value from BadTable";
+        try
+        {
+            await errorCommand.ExecuteScalarAsync();
+        }
+        catch
+        {
+        }
+
         var entries = Recording
             .Stop()
             .Select(_ => _.Data);
-        //TODO: optionally filter the results
+        //Optionally filter results
         await Verify(
             new
             {
                 value,
-                sql = entries
+                sqlEntries = entries
             });
 
         #endregion
+    }
+
+    [Test]
+    public async Task RecordingReadingResults()
+    {
+        await using var database = await sqlInstance.Build();
+        var connectionString = database.ConnectionString;
+
+        await using var connection = new SqlConnection(connectionString);
+        await connection.OpenAsync();
+        Recording.Start();
+        await using var command = connection.CreateCommand();
+        command.CommandText = "select Value from MyTable";
+        await command.ExecuteScalarAsync();
+
+        await using var errorCommand = connection.CreateCommand();
+        errorCommand.CommandText = "select Value from BadTable";
+        try
+        {
+            await errorCommand.ExecuteScalarAsync();
+        }
+        catch
+        {
+        }
+
+        #region RecordingReadingResults
+
+        var entries = Recording.Stop();
+
+        // successful Commands via Type
+        var sqlCommandsViaType = entries
+            .Select(_ => _.Data)
+            .OfType<SqlCommand>();
+
+        // successful Commands via key
+        var sqlCommandsViaKey = entries
+            .Where(_ => _.Name == "sqlCommand")
+            .Select(_ => (SqlCommand) _.Data);
+
+        // failed Commands via Type
+        var sqlErrorsViaType = entries
+            .Select(_ => _.Data)
+            .OfType<LogErrorEntry>();
+
+        // failed Commands via key
+        var sqlErrorsViaKey = entries
+            .Where(_ => _.Name == "sqlError")
+            .Select(_ => (LogErrorEntry) _.Data);
+
+        #endregion
+
+        await Verify(
+            new
+            {
+                sqlCommandsViaType,
+                sqlCommandsViaKey,
+                sqlErrorsViaType,
+                sqlErrorsViaKey
+            });
+
     }
 
     [Test]
