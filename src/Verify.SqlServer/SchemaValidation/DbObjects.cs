@@ -4,9 +4,9 @@
 public enum DbObjects
 {
     StoredProcedures = 1,
-    Tables = 2,
-    Views = 4,
+    Synonyms = 2,
+    Tables = 4,
     UserDefinedFunctions = 8,
-    Synonyms = 16,
+    Views = 16,
     All = StoredProcedures | Tables | Views | UserDefinedFunctions | Synonyms
 }
