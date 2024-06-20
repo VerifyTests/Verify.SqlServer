@@ -330,9 +330,20 @@ public class Tests
         #region SchemaInclude
 
         await Verify(connection)
+            // include only tables and views
             .SchemaIncludes(DbObjects.Tables | DbObjects.Views);
 
         #endregion
+    }
+
+    [Test]
+    public async Task SchemaIncludeAll()
+    {
+        await using var database = await sqlInstance.Build();
+        var connection = database.Connection;
+
+        await Verify(connection)
+            .SchemaIncludes(DbObjects.All);
     }
 
     [Test]
