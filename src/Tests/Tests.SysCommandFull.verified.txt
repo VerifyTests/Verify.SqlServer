@@ -1,0 +1,15 @@
+﻿{
+  Text: select * from MyTable,
+  Parameters: {
+    name: 10
+  },
+  HasTransaction: false,
+  Timeout: 10,
+  Type: StoredProcedure,
+  Notification: {
+    Options: options,
+    Timeout: 10,
+    UserData: user data
+  },
+  UpdatedRowSource: FirstReturnedRecord
+}

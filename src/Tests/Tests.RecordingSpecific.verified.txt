@@ -1,9 +1,20 @@
 ﻿{
   value: 42,
-  sql: [
+  sqlEntries: [
     {
-      HasTransaction: false,
-      Text: select Value from MyTable
+      Text: select Value from MyTable,
+      HasTransaction: false
+    },
+    {
+      Exception: {
+        Message: Invalid object name 'BadTable'.,
+        Number: 208,
+        Line: 1
+      },
+      Command: {
+        Text: select Value from BadTable,
+        HasTransaction: false
+      }
     }
   ]
 }

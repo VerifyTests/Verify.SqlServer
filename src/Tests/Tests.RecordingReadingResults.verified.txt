@@ -1,0 +1,40 @@
+﻿{
+  sqlCommandsViaType: [
+    {
+      Text: select Value from MyTable,
+      HasTransaction: false
+    }
+  ],
+  sqlCommandsViaKey: [
+    {
+      Text: select Value from MyTable,
+      HasTransaction: false
+    }
+  ],
+  sqlErrorsViaType: [
+    {
+      Exception: {
+        Message: Invalid object name 'BadTable'.,
+        Number: 208,
+        Line: 1
+      },
+      Command: {
+        Text: select Value from BadTable,
+        HasTransaction: false
+      }
+    }
+  ],
+  sqlErrorsViaKey: [
+    {
+      Exception: {
+        Message: Invalid object name 'BadTable'.,
+        Number: 208,
+        Line: 1
+      },
+      Command: {
+        Text: select Value from BadTable,
+        HasTransaction: false
+      }
+    }
+  ]
+}
