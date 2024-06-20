@@ -28,10 +28,10 @@ class SqlScriptBuilder(SchemaSettings settings)
         }
     }
 
-    public string BuildScript(MsConnection sqlConnection)
+    public string BuildScript(MsConnection connection)
     {
-        var builder = new SqlConnectionStringBuilder(sqlConnection.ConnectionString);
-        var server = new Server(new ServerConnection(sqlConnection));
+        var builder = new SqlConnectionStringBuilder(connection.ConnectionString);
+        var server = new Server(new ServerConnection(connection));
 
         return BuildScript(server, builder);
     }
