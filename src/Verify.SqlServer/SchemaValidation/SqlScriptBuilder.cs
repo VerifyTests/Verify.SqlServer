@@ -71,28 +71,28 @@ class SqlScriptBuilder(SchemaSettings settings)
 
         var builder = new StringBuilder();
 
-        if (settings.Tables)
+        if (settings.Includes.HasFlag(DbObjects.Tables))
         {
             AppendType<Table>(builder, options, database.Tables, _ => _.IsSystemObject);
             ScrubTableSettings(builder);
         }
 
-        if (settings.Views)
+        if (settings.Includes.HasFlag(DbObjects.Views))
         {
             AppendType<View>(builder, options, database.Views, _ => _.IsSystemObject);
         }
 
-        if (settings.StoredProcedures)
+        if (settings.Includes.HasFlag(DbObjects.StoredProcedures))
         {
             AppendType<StoredProcedure>(builder, options, database.StoredProcedures, _ => _.IsSystemObject);
         }
 
-        if (settings.UserDefinedFunctions)
+        if (settings.Includes.HasFlag(DbObjects.UserDefinedFunctions))
         {
             AppendType<UserDefinedFunction>(builder, options, database.UserDefinedFunctions, _ => _.IsSystemObject);
         }
 
-        if (settings.Synonyms)
+        if (settings.Includes.HasFlag(DbObjects.Synonyms))
         {
             AppendType<Synonym>(builder, options, database.Synonyms, _ => false);
         }

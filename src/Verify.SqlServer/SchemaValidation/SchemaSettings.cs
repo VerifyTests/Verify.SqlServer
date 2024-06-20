@@ -1,17 +1,7 @@
 using Microsoft.SqlServer.Management.Smo;
 
-class SchemaSettings(
-    bool storedProcedures,
-    bool tables,
-    bool views,
-    bool userDefinedFunctions,
-    bool synonyms,
-    Func<NamedSmoObject, bool> includeItem)
+class SchemaSettings
 {
-    public bool StoredProcedures { get; } = storedProcedures;
-    public bool Tables { get; } = tables;
-    public bool Views { get; } = views;
-    public bool Synonyms { get; } = synonyms;
-    public bool UserDefinedFunctions { get; } = userDefinedFunctions;
-    public Func<NamedSmoObject, bool> IncludeItem { get; } = includeItem;
+    public DbObjects Includes { get; set; } = DbObjects.All;
+    public Func<NamedSmoObject, bool> IncludeItem { get; set; } = _ => true;
 }

@@ -330,9 +330,6 @@ public class Tests
 
         await Verify(connection)
             .SchemaSettings(
-                storedProcedures: true,
-                tables: true,
-                views: true,
                 includeItem: _ => _.Name == "MyTable");
 
         #endregion
@@ -348,9 +345,6 @@ public class Tests
 
         await Verify(connection)
                 .SchemaSettings(
-                    storedProcedures: true,
-                    tables: true,
-                    views: true,
                     // include tables & views
                     includeItem: _ => _ is TableViewBase);
 

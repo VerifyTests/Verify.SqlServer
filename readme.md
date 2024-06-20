@@ -115,12 +115,9 @@ Filter by name:
 ```cs
 await Verify(connection)
     .SchemaSettings(
-        storedProcedures: true,
-        tables: true,
-        views: true,
         includeItem: _ => _.Name == "MyTable");
 ```
-<sup><a href='/src/Tests/Tests.cs#L329-L338' title='Snippet source file'>snippet source</a> | <a href='#snippet-SqlServerSchemaSettingsFilterByName' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Tests/Tests.cs#L329-L335' title='Snippet source file'>snippet source</a> | <a href='#snippet-SqlServerSchemaSettingsFilterByName' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 Filter by type:
@@ -130,13 +127,10 @@ Filter by type:
 ```cs
 await Verify(connection)
         .SchemaSettings(
-            storedProcedures: true,
-            tables: true,
-            views: true,
             // include tables & views
             includeItem: _ => _ is TableViewBase);
 ```
-<sup><a href='/src/Tests/Tests.cs#L347-L357' title='Snippet source file'>snippet source</a> | <a href='#snippet-SqlServerSchemaSettingsFilterByType' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Tests/Tests.cs#L344-L351' title='Snippet source file'>snippet source</a> | <a href='#snippet-SqlServerSchemaSettingsFilterByType' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 

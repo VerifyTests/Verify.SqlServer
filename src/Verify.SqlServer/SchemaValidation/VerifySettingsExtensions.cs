@@ -6,37 +6,29 @@ public static class VerifySettingsSqlExtensions
 {
     public static SettingsTask SchemaSettings(
         this SettingsTask settings,
-        bool storedProcedures = true,
-        bool tables = true,
-        bool views = true,
-        bool userDefinedFunctions = true,
-        bool synonyms = true,
+        DbObjects include = DbObjects.All,
         Func<NamedSmoObject, bool>? includeItem = null)
     {
         settings.CurrentSettings.SchemaSettings(
-            storedProcedures,
-            tables,
-            views,
-            userDefinedFunctions,
-            synonyms,
+            include,
             includeItem);
         return settings;
     }
 
     public static void SchemaSettings(
         this VerifySettings settings,
-        bool storedProcedures = true,
-        bool tables = true,
-        bool views = true,
-        bool userDefinedFunctions = true,
-        bool synonyms = true,
+        DbObjects include = DbObjects.All,
         Func<NamedSmoObject, bool>? includeItem = null)
     {
         includeItem ??= _ => true;
 
         settings.Context.Add(
             "SqlServer",
-            new SchemaSettings(storedProcedures, tables, views, userDefinedFunctions, synonyms, includeItem));
+            new SchemaSettings
+            {
+                Includes = include,
+                IncludeItem = includeItem
+            });
     }
 
     internal static SchemaSettings GetSchemaSettings(this IReadOnlyDictionary<string, object> context)
@@ -49,5 +41,5 @@ public static class VerifySettingsSqlExtensions
         return defaultSettings;
     }
 
-    static SchemaSettings defaultSettings = new(true, true, true, true, true, _ => true);
+    static SchemaSettings defaultSettings = new();
 }
