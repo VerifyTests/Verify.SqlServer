@@ -22,13 +22,23 @@ public static class VerifySettingsSqlExtensions
     {
         includeItem ??= _ => true;
 
-        settings.Context.Add(
-            "SqlServer",
-            new SchemaSettings
-            {
-                Includes = include,
-                IncludeItem = includeItem
-            });
+        var schemaSettings = GetOrAddSettings(settings);
+
+        schemaSettings.Includes = include;
+        schemaSettings.IncludeItem = includeItem;
+    }
+
+    static SchemaSettings GetOrAddSettings(VerifySettings settings)
+    {
+        var context = settings.Context;
+        if (context.TryGetValue("SqlServer", out var value))
+        {
+            return (SchemaSettings) value;
+        }
+
+        var schemaSettings = new SchemaSettings();
+        context["SqlServer"] = schemaSettings;
+        return schemaSettings;
     }
 
     internal static SchemaSettings GetSchemaSettings(this IReadOnlyDictionary<string, object> context)
