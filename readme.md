@@ -117,7 +117,6 @@ END;
 CREATE SYNONYM [dbo].[synonym1] FOR [MyTable]
 ```
 <!-- endInclude -->
-
 </pre>
 
 #### Object types to include
