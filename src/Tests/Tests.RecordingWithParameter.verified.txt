@@ -2,12 +2,9 @@
   target: null,
   sql: {
     HasTransaction: false,
-    Parameters: [
-      {
-        Name: param,
-        Value: 10
-      }
-    ],
+    Parameters: {
+      param: 10
+    },
     Text: select Value from MyTable where Value = @param
   }
 }

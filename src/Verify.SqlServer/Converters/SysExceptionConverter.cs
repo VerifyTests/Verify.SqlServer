@@ -1,7 +1,7 @@
-class MsSqlExceptionConverter :
-    WriteOnlyJsonConverter<MsException>
+class SysExceptionConverter :
+    WriteOnlyJsonConverter<SysException>
 {
-    public override void Write(VerifyJsonWriter writer, MsException exception)
+    public override void Write(VerifyJsonWriter writer, SysException exception)
     {
         writer.WriteStartObject();
 

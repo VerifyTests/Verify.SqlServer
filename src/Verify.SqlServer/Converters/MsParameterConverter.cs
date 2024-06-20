@@ -1,12 +1,23 @@
 ﻿using System.Data.SqlTypes;
 
-class MsSqlParameterConverter :
+class MsParameterConverter :
     WriteOnlyJsonConverter<MsParameter>
 {
+    static AsyncLocal<bool> omitName = new();
+
+    public static void OmitName() =>
+        omitName.Value = true;
+
+    public static void ClearOmitName() =>
+        omitName.Value = false;
+
     public override void Write(VerifyJsonWriter writer, MsParameter parameter)
     {
         writer.WriteStartObject();
-        writer.WriteMember(parameter, parameter.ParameterName, "Name");
+        if (!omitName.Value)
+        {
+            writer.WriteMember(parameter, parameter.ParameterName, "Name");
+        }
         writer.WriteMember(parameter, parameter.Value, "Value");
 
         var (tempDbType, tempSqlDbType, tempSqlValue) = InferExpectedProperties(parameter);

@@ -1,7 +1,7 @@
-class MsSqlErrorConverter :
-    WriteOnlyJsonConverter<MsError>
+class SysErrorConverter :
+    WriteOnlyJsonConverter<SysError>
 {
-    public override void Write(VerifyJsonWriter writer, MsError error)
+    public override void Write(VerifyJsonWriter writer, SysError error)
     {
         writer.WriteStartObject();
         writer.WriteMember(error, error.Message, "Message");

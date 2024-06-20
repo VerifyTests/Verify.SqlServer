@@ -19,14 +19,15 @@ public static class VerifySqlServer
         VerifierSettings.AddExtraSettings(settings =>
         {
             var converters = settings.Converters;
-            converters.Add(new MsSqlErrorConverter());
+            converters.Add(new MsErrorConverter());
             converters.Add(new MsConnectionConverter());
-            converters.Add(new MsSqlExceptionConverter());
-            converters.Add(new MsSqlParameterConverter());
-            converters.Add(new SysSqlErrorConverter());
+            converters.Add(new MsExceptionConverter());
+            converters.Add(new MsParameterConverter());
+            converters.Add(new MsParameterCollectionConverter());
+            converters.Add(new SysErrorConverter());
             converters.Add(new SysConnectionConverter());
-            converters.Add(new SysSqlExceptionConverter());
-            converters.Add(new SysSqlParameterConverter());
+            converters.Add(new SysExceptionConverter());
+            converters.Add(new SysParameterConverter());
         });
 
         VerifierSettings.RegisterFileConverter<MsConnection>(ToSql);
