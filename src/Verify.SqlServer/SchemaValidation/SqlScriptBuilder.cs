@@ -97,10 +97,17 @@ class SqlScriptBuilder(SchemaSettings settings)
             AppendType<Synonym>(builder, options, database.Synonyms, _ => false);
         }
 
-        var result = builder.ToString().TrimEnd();
+        var result = builder
+            .ToString()
+            .TrimEnd();
 
         if (string.IsNullOrWhiteSpace(result))
         {
+            if (settings.IsMd)
+            {
+                return "## No matching items found";
+            }
+
             return "-- No matching items found";
         }
 
@@ -120,7 +127,8 @@ class SqlScriptBuilder(SchemaSettings settings)
     void AppendType<T>(StringBuilder builder, ScriptingOptions options, SmoCollectionBase items, Func<T, bool> isSystem)
         where T : NamedSmoObject, IScriptable
     {
-        var filtered = items.Cast<T>()
+        var filtered = items
+            .Cast<T>()
             .Where(_ => !isSystem(_) && settings.IncludeItem(_))
             .ToList();
         if (filtered.Count == 0)
@@ -128,7 +136,15 @@ class SqlScriptBuilder(SchemaSettings settings)
             return;
         }
 
-        builder.AppendLineN($"-- {typeof(T).Name}s");
+        if (settings.IsMd)
+        {
+            builder.AppendLineN($"## {typeof(T).Name}s");
+        }
+        else
+        {
+            builder.AppendLineN($"-- {typeof(T).Name}s");
+        }
+
         foreach (var item in filtered)
         {
             AddItem(builder, options, item);
@@ -138,19 +154,32 @@ class SqlScriptBuilder(SchemaSettings settings)
         builder.AppendLineN();
     }
 
-    static void AddItem<T>(StringBuilder builder, ScriptingOptions options, T item)
+    void AddItem<T>(StringBuilder builder, ScriptingOptions options, T item)
         where T : NamedSmoObject, IScriptable
     {
         builder.AppendLineN();
         var lines = ScriptLines(options, item);
-        AppendLines(builder, lines);
+        if (settings.IsMd)
+        {
+            builder.AppendLineN($"### {item.Name}");
+            builder.AppendLineN();
+            builder.AppendLineN("```sql");
+            AppendLines(builder, lines);
+            builder.Append("```");
+        }
+        else
+        {
+            AppendLines(builder, lines);
+        }
     }
 
     static void AppendLines(StringBuilder builder, List<string> lines)
     {
         if (lines.Count == 1)
         {
-            builder.AppendLineN(lines[0].AsSpan().Trim());
+            builder.AppendLineN(lines[0]
+                .AsSpan()
+                .Trim());
             return;
         }
 
@@ -176,7 +205,8 @@ class SqlScriptBuilder(SchemaSettings settings)
 
     static List<string> ScriptLines<T>(ScriptingOptions options, T item)
         where T : NamedSmoObject, IScriptable =>
-        item.Script(options)
+        item
+            .Script(options)
             .Cast<string>()
             .Where(_ => !IsSet(_))
             .ToList();

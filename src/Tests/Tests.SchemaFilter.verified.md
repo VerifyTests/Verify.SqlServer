@@ -1,5 +1,8 @@
--- Tables
+## Tables
 
+### MyTable
+
+```sql
 CREATE TABLE [dbo].[MyTable](
 	[Value] [int] NULL
 ) ON [PRIMARY]
@@ -15,12 +18,16 @@ AFTER UPDATE
 AS RAISERROR ('Notify Customer Relations', 16, 10);
 
 ALTER TABLE [dbo].[MyTable] ENABLE TRIGGER [MyTrigger]
+```
 
+## Views
 
--- Views
+### MyView
 
+```sql
 CREATE VIEW MyView
 AS
   SELECT Value
   FROM MyTable
   WHERE (Value > 10);
+```
