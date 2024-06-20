@@ -3,6 +3,7 @@ using System.Data.SqlTypes;
 using Microsoft.Data.SqlClient;
 using Microsoft.SqlServer.Management.Common;
 using Microsoft.SqlServer.Management.Smo;
+using VerifyTests.SqlServer;
 
 [TestFixture]
 public class Tests
@@ -84,7 +85,7 @@ public class Tests
     }
 
     [Test]
-    public async Task SqlServerSchemaInDynamic()
+    public async Task SchemaInDynamic()
     {
         await using var database = await sqlInstance.Build();
         var connection = database.Connection;
@@ -321,27 +322,26 @@ public class Tests
     }
 
     [Test]
-    public async Task SchemaSettings()
+    public async Task SchemaInclude()
     {
         await using var database = await sqlInstance.Build();
         var connection = database.Connection;
 
-        #region SqlServerSchemaSettingsFilterByName
+        #region SchemaInclude
 
         await Verify(connection)
-            .SchemaSettings(
-                includeItem: _ => _.Name == "MyTable");
+            .SchemaIncludes(DbObjects.Tables | DbObjects.Views);
 
         #endregion
     }
 
     [Test]
-    public async Task SqlServerSchemaSettingsCustom()
+    public async Task SchemaFilter()
     {
         await using var database = await sqlInstance.Build();
         var connection = database.Connection;
 
-        #region SqlServerSchemaSettingsFilterByType
+        #region SchemaFilter
 
         await Verify(connection)
                 .SchemaSettings(

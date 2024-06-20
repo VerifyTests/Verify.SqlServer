@@ -36,7 +36,7 @@ This test:
 ```cs
 await Verify(connection);
 ```
-<sup><a href='/src/Tests/Tests.cs#L79-L83' title='Snippet source file'>snippet source</a> | <a href='#snippet-SqlServerSchema' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Tests/Tests.cs#L80-L84' title='Snippet source file'>snippet source</a> | <a href='#snippet-SqlServerSchema' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 Will result in the following verified file:
@@ -106,32 +106,32 @@ CREATE SYNONYM [dbo].[synonym1] FOR [MyTable]
 <!-- endSnippet -->
 
 
-#### Filtering
+#### Object types to include
 
-Filter by name:
-
-<!-- snippet: SqlServerSchemaSettingsFilterByName -->
-<a id='snippet-SqlServerSchemaSettingsFilterByName'></a>
+<!-- snippet: SchemaInclude -->
+<a id='snippet-SchemaInclude'></a>
 ```cs
 await Verify(connection)
-    .SchemaSettings(
-        includeItem: _ => _.Name == "MyTable");
+    .SchemaIncludes(DbObjects.Tables | DbObjects.Views);
 ```
-<sup><a href='/src/Tests/Tests.cs#L329-L335' title='Snippet source file'>snippet source</a> | <a href='#snippet-SqlServerSchemaSettingsFilterByName' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Tests/Tests.cs#L330-L335' title='Snippet source file'>snippet source</a> | <a href='#snippet-SchemaInclude' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
-Filter by type:
 
-<!-- snippet: SqlServerSchemaSettingsFilterByType -->
-<a id='snippet-SqlServerSchemaSettingsFilterByType'></a>
+#### Dynamic Filtering
+
+
+<!-- snippet: SchemaFilter -->
+<a id='snippet-SchemaFilter'></a>
 ```cs
 await Verify(connection)
         .SchemaSettings(
             // include tables & views
             includeItem: _ => _ is TableViewBase);
 ```
-<sup><a href='/src/Tests/Tests.cs#L344-L351' title='Snippet source file'>snippet source</a> | <a href='#snippet-SqlServerSchemaSettingsFilterByType' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Tests/Tests.cs#L344-L351' title='Snippet source file'>snippet source</a> | <a href='#snippet-SchemaFilter' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
+
 
 
 ### Recording
@@ -151,7 +151,7 @@ command.CommandText = "select Value from MyTable";
 var value = await command.ExecuteScalarAsync();
 await Verify(value!);
 ```
-<sup><a href='/src/Tests/Tests.cs#L163-L173' title='Snippet source file'>snippet source</a> | <a href='#snippet-Recording' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Tests/Tests.cs#L164-L174' title='Snippet source file'>snippet source</a> | <a href='#snippet-Recording' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 Will result in the following verified file:
@@ -193,7 +193,7 @@ await Verify(
         sql = entries
     });
 ```
-<sup><a href='/src/Tests/Tests.cs#L280-L299' title='Snippet source file'>snippet source</a> | <a href='#snippet-RecordingSpecific' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Tests/Tests.cs#L281-L300' title='Snippet source file'>snippet source</a> | <a href='#snippet-RecordingSpecific' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 

@@ -28,6 +28,18 @@ public static class VerifySettingsSqlExtensions
         schemaSettings.IncludeItem = includeItem;
     }
 
+    public static SettingsTask SchemaIncludes(
+        this SettingsTask settings,
+        DbObjects include)
+    {
+        settings.CurrentSettings.SchemaIncludes(include);
+        return settings;
+    }
+    public static void SchemaIncludes(
+        this VerifySettings settings,
+        DbObjects include) =>
+        GetOrAddSettings(settings).Includes = include;
+
     static SchemaSettings GetOrAddSettings(VerifySettings settings)
     {
         var context = settings.Context;
