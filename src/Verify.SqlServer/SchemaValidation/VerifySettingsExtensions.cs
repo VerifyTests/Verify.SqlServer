@@ -1,5 +1,3 @@
-using Microsoft.SqlServer.Management.Smo;
-
 namespace VerifyTests;
 
 public static class VerifySettingsSqlExtensions

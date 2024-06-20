@@ -1,6 +1,7 @@
 ﻿global using System.Data;
 global using System.Data.Common;
 global using System.Data.SqlTypes;
+global using Microsoft.Data.SqlClient;
 global using MsParameter = Microsoft.Data.SqlClient.SqlParameter;
 global using MsParameterCollection = Microsoft.Data.SqlClient.SqlParameterCollection;
 global using MsCommand = Microsoft.Data.SqlClient.SqlCommand;
@@ -16,3 +17,4 @@ global using SysError = System.Data.SqlClient.SqlError;
 global using Microsoft.Extensions.DiagnosticAdapter;
 global using Microsoft.SqlServer.Management.Common;
 global using VerifyTests.SqlServer;
+global using Microsoft.SqlServer.Management.Smo;
