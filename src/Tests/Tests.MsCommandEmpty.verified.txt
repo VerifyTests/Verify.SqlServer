@@ -1,4 +1,4 @@
 ﻿{
   CommandText: select * from MyTable,
-  CommandTimeout: 30
+  HasTransaction: false
 }

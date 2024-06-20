@@ -6,8 +6,9 @@
         writer.WriteStartObject();
         writer.WriteMember(command, command.CommandText, "CommandText");
         writer.WriteMember(command, command.Parameters, "Parameters");
+        writer.WriteMember(command, command.Transaction != null, "HasTransaction");
 
-        if (command.CommandTimeout != 30000)
+        if (command.CommandTimeout != 30)
         {
             writer.WriteMember(command, command.CommandTimeout, "CommandTimeout");
         }

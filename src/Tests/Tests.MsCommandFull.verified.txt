@@ -3,6 +3,7 @@
   Parameters: {
     name: 10
   },
+  HasTransaction: false,
   CommandTimeout: 10,
   CommandType: StoredProcedure,
   Notification: {
