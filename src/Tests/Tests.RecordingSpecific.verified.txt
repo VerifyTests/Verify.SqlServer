@@ -2,8 +2,8 @@
   value: 42,
   sql: [
     {
-      HasTransaction: false,
-      Text: select Value from MyTable
+      Text: select Value from MyTable,
+      HasTransaction: false
     }
   ]
 }

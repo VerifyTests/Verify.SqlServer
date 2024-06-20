@@ -1,11 +1,13 @@
 ﻿{
-  sql: {
-    HasTransaction: false,
+  sqlError: {
     Exception: {
       Message: Invalid object name 'MyTabl2e'.,
       Number: 208,
       Line: 1
     },
-    Text: select * from MyTabl2e
+    Command: {
+      Text: select * from MyTabl2e,
+      HasTransaction: false
+    }
   }
 }

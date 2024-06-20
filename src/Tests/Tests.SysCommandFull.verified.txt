@@ -1,11 +1,11 @@
 ﻿{
-  CommandText: select * from MyTable,
+  Text: select * from MyTable,
   Parameters: {
     name: 10
   },
   HasTransaction: false,
-  CommandTimeout: 10,
-  CommandType: StoredProcedure,
+  Timeout: 10,
+  Type: StoredProcedure,
   Notification: {
     Options: options,
     Timeout: 10,

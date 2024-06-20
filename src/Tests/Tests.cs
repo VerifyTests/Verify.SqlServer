@@ -1,6 +1,5 @@
 using System.Data;
 using System.Data.SqlTypes;
-using Microsoft.Data.Sql;
 using Microsoft.Data.SqlClient;
 using Microsoft.SqlServer.Management.Common;
 using Microsoft.SqlServer.Management.Smo;
