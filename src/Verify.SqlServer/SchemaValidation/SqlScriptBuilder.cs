@@ -117,7 +117,7 @@ class SqlScriptBuilder(SchemaSettings settings)
         builder.Replace(")WITH () ", ") ");
     }
 
-    void AppendType<T>(StringBuilder stringBuilder, ScriptingOptions options, SmoCollectionBase items, Func<T, bool> isSystem)
+    void AppendType<T>(StringBuilder builder, ScriptingOptions options, SmoCollectionBase items, Func<T, bool> isSystem)
         where T : NamedSmoObject, IScriptable
     {
         var filtered = items.Cast<T>()
@@ -128,26 +128,23 @@ class SqlScriptBuilder(SchemaSettings settings)
             return;
         }
 
-        stringBuilder.AppendLineN($"-- {typeof(T).Name}s");
+        builder.AppendLineN($"-- {typeof(T).Name}s");
         foreach (var item in filtered)
         {
-            AddItem(stringBuilder, options, item);
+            AddItem(builder, options, item);
         }
 
-        stringBuilder.AppendLineN();
-        stringBuilder.AppendLineN();
+        builder.AppendLineN();
+        builder.AppendLineN();
     }
 
-    static void AddItem<T>(StringBuilder stringBuilder, ScriptingOptions options, T item) where T : NamedSmoObject, IScriptable
+    static void AddItem<T>(StringBuilder builder, ScriptingOptions options, T item) where T : NamedSmoObject, IScriptable
     {
-        stringBuilder.AppendLineN();
-        var lines = item.Script(options)
-            .Cast<string>()
-            .Where(_ => !IsSet(_))
-            .ToList();
+        builder.AppendLineN();
+        var lines = ScriptLines(options, item);
         if (lines.Count == 1)
         {
-            stringBuilder.AppendLineN(lines[0].Trim());
+            builder.AppendLineN(lines[0].Trim());
             return;
         }
 
@@ -156,19 +153,25 @@ class SqlScriptBuilder(SchemaSettings settings)
             var line = lines[index];
             if (index == 0)
             {
-                stringBuilder.AppendLineN(line.TrimStart());
+                builder.AppendLineN(line.TrimStart());
                 continue;
             }
 
             if (index == lines.Count - 1)
             {
-                stringBuilder.AppendLineN(line.TrimEnd());
+                builder.AppendLineN(line.TrimEnd());
                 continue;
             }
 
-            stringBuilder.AppendLineN(line);
+            builder.AppendLineN(line);
         }
     }
+
+    static List<string> ScriptLines<T>(ScriptingOptions options, T item) where T : NamedSmoObject, IScriptable =>
+        item.Script(options)
+            .Cast<string>()
+            .Where(_ => !IsSet(_))
+            .ToList();
 
     static bool IsSet(string script) =>
         script is
