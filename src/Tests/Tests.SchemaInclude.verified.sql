@@ -24,15 +24,3 @@ AS
   SELECT Value
   FROM MyTable
   WHERE (Value > 10);
-
-
--- StoredProcedures
-
-CREATE PROCEDURE MyProcedure
-AS
-BEGIN
-  SET NOCOUNT ON;
-  SELECT Value
-  FROM MyTable
-  WHERE (Value > 10);
-END;

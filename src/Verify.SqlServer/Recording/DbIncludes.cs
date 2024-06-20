@@ -3,10 +3,10 @@
 [Flags]
 public enum DbObjects
 {
-    StoredProcedures = 0,
-    Tables = 1,
-    Views = 2,
-    UserDefinedFunctions = 4,
-    Synonyms = 8,
+    StoredProcedures = 1,
+    Tables = 2,
+    Views = 4,
+    UserDefinedFunctions = 8,
+    Synonyms = 16,
     All = StoredProcedures | Tables | Views | UserDefinedFunctions | Synonyms
 }
