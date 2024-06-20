@@ -2,43 +2,33 @@ using Microsoft.SqlServer.Management.Smo;
 
 namespace VerifyTests;
 
-public static class VerifySettingsSqlExtensions
+public static partial class VerifySettingsSqlExtensions
 {
-    public static SettingsTask SchemaSettings(
-        this SettingsTask settings,
-        DbObjects include = DbObjects.All,
-        Func<NamedSmoObject, bool>? includeItem = null)
-    {
-        settings.CurrentSettings.SchemaSettings(
-            include,
-            includeItem);
-        return settings;
-    }
-
-    public static void SchemaSettings(
-        this VerifySettings settings,
-        DbObjects include = DbObjects.All,
-        Func<NamedSmoObject, bool>? includeItem = null)
-    {
-        includeItem ??= _ => true;
-
-        var schemaSettings = GetOrAddSettings(settings);
-
-        schemaSettings.Includes = include;
-        schemaSettings.IncludeItem = includeItem;
-    }
-
     public static SettingsTask SchemaIncludes(
         this SettingsTask settings,
-        DbObjects include)
+        DbObjects includes)
     {
-        settings.CurrentSettings.SchemaIncludes(include);
+        settings.CurrentSettings.SchemaIncludes(includes);
         return settings;
     }
+
     public static void SchemaIncludes(
         this VerifySettings settings,
-        DbObjects include) =>
-        GetOrAddSettings(settings).Includes = include;
+        DbObjects includes) =>
+        GetOrAddSettings(settings).Includes = includes;
+
+    public static SettingsTask SchemaFilter(
+        this SettingsTask settings,
+        Func<NamedSmoObject, bool> filter)
+    {
+        settings.CurrentSettings.SchemaFilter(filter);
+        return settings;
+    }
+
+    public static void SchemaFilter(
+        this VerifySettings settings,
+        Func<NamedSmoObject, bool> filter) =>
+        GetOrAddSettings(settings).IncludeItem = filter;
 
     static SchemaSettings GetOrAddSettings(VerifySettings settings)
     {

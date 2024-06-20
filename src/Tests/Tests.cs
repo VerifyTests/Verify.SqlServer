@@ -344,9 +344,10 @@ public class Tests
         #region SchemaFilter
 
         await Verify(connection)
-                .SchemaSettings(
-                    // include tables & views
-                    includeItem: _ => _ is TableViewBase);
+            // include tables & views, or named MyTrigger
+            .SchemaFilter(
+                _ => _ is TableViewBase ||
+                     _.Name == "MyTrigger");
 
         #endregion
     }

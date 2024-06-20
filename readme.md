@@ -125,11 +125,12 @@ await Verify(connection)
 <a id='snippet-SchemaFilter'></a>
 ```cs
 await Verify(connection)
-        .SchemaSettings(
-            // include tables & views
-            includeItem: _ => _ is TableViewBase);
+    // include tables & views, or named MyTrigger
+    .SchemaFilter(
+        _ => _ is TableViewBase ||
+             _.Name == "MyTrigger");
 ```
-<sup><a href='/src/Tests/Tests.cs#L344-L351' title='Snippet source file'>snippet source</a> | <a href='#snippet-SchemaFilter' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Tests/Tests.cs#L344-L352' title='Snippet source file'>snippet source</a> | <a href='#snippet-SchemaFilter' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 
