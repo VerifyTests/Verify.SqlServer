@@ -1,5 +1,4 @@
 ﻿{
   CommandText: select * from MyTabl2e,
-  HasTransaction: false,
-  CommandTimeout: 30
+  HasTransaction: false
 }
