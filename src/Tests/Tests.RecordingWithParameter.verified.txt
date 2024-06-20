@@ -1,6 +1,6 @@
 ﻿{
   target: null,
-  sqlCommand: {
+  sql: {
     Text: select Value from MyTable where Value = @param,
     Parameters: {
       param: 10

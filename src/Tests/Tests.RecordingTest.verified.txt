@@ -1,5 +1,5 @@
 ﻿{
-  sqlCommand: [
+  sql: [
     {
       Text: select * from MyTable,
       HasTransaction: false

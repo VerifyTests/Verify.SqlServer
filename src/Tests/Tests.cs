@@ -396,35 +396,29 @@ public class Tests
 
         var entries = Recording.Stop();
 
+        // all sql entries via key
+        var sqlEntries = entries
+            .Where(_ => _.Name == "sql")
+            .Select(_ => _.Data);
+
         // successful Commands via Type
         var sqlCommandsViaType = entries
             .Select(_ => _.Data)
             .OfType<SqlCommand>();
 
-        // successful Commands via key
-        var sqlCommandsViaKey = entries
-            .Where(_ => _.Name == "sqlCommand")
-            .Select(_ => (SqlCommand) _.Data);
-
         // failed Commands via Type
         var sqlErrorsViaType = entries
             .Select(_ => _.Data)
-            .OfType<LogErrorEntry>();
-
-        // failed Commands via key
-        var sqlErrorsViaKey = entries
-            .Where(_ => _.Name == "sqlError")
-            .Select(_ => (LogErrorEntry) _.Data);
+            .OfType<ErrorEntry>();
 
         #endregion
 
         await Verify(
             new
             {
+                sqlEntries,
                 sqlCommandsViaType,
-                sqlCommandsViaKey,
                 sqlErrorsViaType,
-                sqlErrorsViaKey
             });
 
     }

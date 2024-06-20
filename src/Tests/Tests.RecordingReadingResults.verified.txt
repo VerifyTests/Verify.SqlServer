@@ -1,17 +1,9 @@
 ﻿{
-  sqlCommandsViaType: [
+  sqlEntries: [
     {
       Text: select Value from MyTable,
       HasTransaction: false
-    }
-  ],
-  sqlCommandsViaKey: [
-    {
-      Text: select Value from MyTable,
-      HasTransaction: false
-    }
-  ],
-  sqlErrorsViaType: [
+    },
     {
       Exception: {
         Message: Invalid object name 'BadTable'.,
@@ -24,7 +16,13 @@
       }
     }
   ],
-  sqlErrorsViaKey: [
+  sqlCommandsViaType: [
+    {
+      Text: select Value from MyTable,
+      HasTransaction: false
+    }
+  ],
+  sqlErrorsViaType: [
     {
       Exception: {
         Message: Invalid object name 'BadTable'.,

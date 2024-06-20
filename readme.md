@@ -128,7 +128,7 @@ await Verify(connection)
     // include only tables and views
     .SchemaIncludes(DbObjects.Tables | DbObjects.Views);
 ```
-<sup><a href='/src/Tests/Tests.cs#L459-L465' title='Snippet source file'>snippet source</a> | <a href='#snippet-SchemaInclude' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Tests/Tests.cs#L453-L459' title='Snippet source file'>snippet source</a> | <a href='#snippet-SchemaInclude' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 Available values:
@@ -166,7 +166,7 @@ await Verify(connection)
         _ => _ is TableViewBase ||
              _.Name == "MyTrigger");
 ```
-<sup><a href='/src/Tests/Tests.cs#L484-L492' title='Snippet source file'>snippet source</a> | <a href='#snippet-SchemaFilter' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Tests/Tests.cs#L478-L486' title='Snippet source file'>snippet source</a> | <a href='#snippet-SchemaFilter' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 
@@ -198,7 +198,7 @@ Will result in the following verified file:
 ```txt
 {
   target: 42,
-  sqlCommand: {
+  sql: {
     Text: select Value from MyTable,
     HasTransaction: false
   }
@@ -254,27 +254,22 @@ Recording results can be interpreted in a a variety of ways:
 ```cs
 var entries = Recording.Stop();
 
+// all sql entries via key
+var sqlEntries = entries
+    .Where(_ => _.Name == "sql")
+    .Select(_ => _.Data);
+
 // successful Commands via Type
 var sqlCommandsViaType = entries
     .Select(_ => _.Data)
     .OfType<SqlCommand>();
 
-// successful Commands via key
-var sqlCommandsViaKey = entries
-    .Where(_ => _.Name == "sqlCommand")
-    .Select(_ => (SqlCommand) _.Data);
-
 // failed Commands via Type
 var sqlErrorsViaType = entries
     .Select(_ => _.Data)
-    .OfType<LogErrorEntry>();
-
-// failed Commands via key
-var sqlErrorsViaKey = entries
-    .Where(_ => _.Name == "sqlError")
-    .Select(_ => (LogErrorEntry) _.Data);
+    .OfType<ErrorEntry>();
 ```
-<sup><a href='/src/Tests/Tests.cs#L395-L419' title='Snippet source file'>snippet source</a> | <a href='#snippet-RecordingReadingResults' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Tests/Tests.cs#L395-L414' title='Snippet source file'>snippet source</a> | <a href='#snippet-RecordingReadingResults' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 

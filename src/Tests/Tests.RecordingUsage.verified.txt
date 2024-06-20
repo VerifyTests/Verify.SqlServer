@@ -1,6 +1,6 @@
 ﻿{
   target: 42,
-  sqlCommand: {
+  sql: {
     Text: select Value from MyTable,
     HasTransaction: false
   }
