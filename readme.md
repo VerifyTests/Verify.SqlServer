@@ -44,8 +44,11 @@ Will result in the following verified file:
 <!-- snippet: Tests.Schema.verified.sql -->
 <a id='snippet-Tests.Schema.verified.sql'></a>
 ```sql
--- Tables
+## Tables
 
+### MyTable
+
+```sql
 CREATE TABLE [dbo].[MyTable](
 	[Value] [int] NULL
 ) ON [PRIMARY]
@@ -61,10 +64,14 @@ AFTER UPDATE
 AS RAISERROR ('Notify Customer Relations', 16, 10);
 
 ALTER TABLE [dbo].[MyTable] ENABLE TRIGGER [MyTrigger]
+```
 
 
--- Views
+## Views
 
+### MyView
+
+```sql
 CREATE VIEW MyView
 AS
   SELECT Value
@@ -72,8 +79,11 @@ AS
   WHERE (Value > 10);
 
 
--- StoredProcedures
+## StoredProcedures
 
+### MyProcedure
+
+```sql
 CREATE PROCEDURE MyProcedure
 AS
 BEGIN
@@ -84,8 +94,11 @@ BEGIN
 END;
 
 
--- UserDefinedFunctions
+## UserDefinedFunctions
 
+### MyFunction
+
+```sql
 CREATE FUNCTION MyFunction(
   @quantity INT,
   @list_price DEC(10,2),
@@ -98,11 +111,14 @@ BEGIN
 END;
 
 
--- Synonyms
+## Synonyms
 
+### synonym1
+
+```sql
 CREATE SYNONYM [dbo].[synonym1] FOR [MyTable]
 ```
-<sup><a href='/src/Tests/Tests.Schema.verified.sql#L1-L57' title='Snippet source file'>snippet source</a> | <a href='#snippet-Tests.Schema.verified.sql' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Tests/Tests.Schema.verified.sql#L1-L73' title='Snippet source file'>snippet source</a> | <a href='#snippet-Tests.Schema.verified.sql' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 

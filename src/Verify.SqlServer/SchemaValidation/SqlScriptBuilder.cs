@@ -129,18 +129,23 @@ class SqlScriptBuilder(SchemaSettings settings)
             return;
         }
 
-        stringBuilder.AppendLineN($"-- {typeof(T).Name}s");
+        stringBuilder.AppendLineN($"## {typeof(T).Name}s");
         foreach (var item in filtered)
         {
             AddItem(stringBuilder, options, item);
         }
 
         stringBuilder.AppendLineN();
-        stringBuilder.AppendLineN();
     }
 
-    static void AddItem<T>(StringBuilder stringBuilder, ScriptingOptions options, T item) where T : NamedSmoObject, IScriptable
+    static void AddItem<T>(StringBuilder stringBuilder, ScriptingOptions options, T item)
+        where T : NamedSmoObject, IScriptable
     {
+        stringBuilder.AppendLineN();
+        stringBuilder.Append($"### {item.Name}");
+        stringBuilder.AppendLineN();
+        stringBuilder.AppendLineN();
+        stringBuilder.Append("```sql");
         stringBuilder.AppendLineN();
         var lines = item.Script(options)
             .Cast<string>()
@@ -169,6 +174,8 @@ class SqlScriptBuilder(SchemaSettings settings)
 
             stringBuilder.AppendLineN(line);
         }
+        stringBuilder.Append("```");
+        stringBuilder.AppendLineN();
     }
 
     static bool IsSet(string script) =>

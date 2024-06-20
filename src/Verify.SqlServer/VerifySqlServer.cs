@@ -42,7 +42,7 @@ public static class VerifySqlServer
         var settings = context.GetSchemaSettings();
         var builder = new SqlScriptBuilder(settings);
         var sql = builder.BuildScript(connection);
-        return new(null, "sql", sql);
+        return new(null, "md", sql);
     }
 
     static async Task<ConversionResult> ToSql(SysConnection connection, IReadOnlyDictionary<string, object> context)
