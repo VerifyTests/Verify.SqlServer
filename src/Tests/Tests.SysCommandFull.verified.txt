@@ -1,0 +1,14 @@
+﻿{
+  CommandText: select * from MyTable,
+  Parameters: {
+    name: 10
+  },
+  CommandTimeout: 10,
+  CommandType: StoredProcedure,
+  Notification: {
+    Options: options,
+    Timeout: 10,
+    UserData: user data
+  },
+  UpdatedRowSource: FirstReturnedRecord
+}

@@ -1,0 +1,4 @@
+﻿{
+  CommandText: select * from MyTabl2e,
+  CommandTimeout: 30
+}

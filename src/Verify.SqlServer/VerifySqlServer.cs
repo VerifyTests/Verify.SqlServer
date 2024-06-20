@@ -21,11 +21,13 @@ public static class VerifySqlServer
             var converters = settings.Converters;
             converters.Add(new MsErrorConverter());
             converters.Add(new MsConnectionConverter());
+            converters.Add(new MsCommandConverter());
             converters.Add(new MsExceptionConverter());
             converters.Add(new MsParameterConverter());
             converters.Add(new MsParameterCollectionConverter());
             converters.Add(new SysErrorConverter());
             converters.Add(new SysConnectionConverter());
+            converters.Add(new SysCommandConverter());
             converters.Add(new SysExceptionConverter());
             converters.Add(new SysParameterConverter());
             converters.Add(new SysParameterCollectionConverter());

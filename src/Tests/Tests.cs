@@ -1,5 +1,6 @@
 using System.Data;
 using System.Data.SqlTypes;
+using Microsoft.Data.Sql;
 using Microsoft.Data.SqlClient;
 using Microsoft.SqlServer.Management.Common;
 using Microsoft.SqlServer.Management.Smo;
@@ -138,6 +139,50 @@ public class Tests
 
         await Verify()
             .ScrubLinesContaining("HelpLink.ProdVer");
+    }
+
+    [Test]
+    public async Task MsCommandEmpty()
+    {
+        var command = new SqlCommand();
+        command.CommandText = "select * from MyTable";
+        await Verify(command);
+    }
+
+    [Test]
+    public async Task MsCommandFull()
+    {
+        var command = new SqlCommand();
+        command.CommandText = "select * from MyTable";
+        command.CommandTimeout = 10;
+        command.CommandType = CommandType.StoredProcedure;
+        command.DesignTimeVisible = true;
+        command.UpdatedRowSource = UpdateRowSource.FirstReturnedRecord;
+        command.EnableOptimizedParameterBinding = true;
+        command.Notification = new("user data","options", 10);
+        command.Parameters.AddWithValue("name", 10);
+        await Verify(command);
+    }
+
+    [Test]
+    public async Task SysCommandEmpty()
+    {
+        var command = new System.Data.SqlClient.SqlCommand();
+        command.CommandText = "select * from MyTabl2e";
+        await Verify(command);
+    }
+    [Test]
+    public async Task SysCommandFull()
+    {
+        var command = new System.Data.SqlClient.SqlCommand();
+        command.CommandText = "select * from MyTable";
+        command.CommandTimeout = 10;
+        command.CommandType = CommandType.StoredProcedure;
+        command.DesignTimeVisible = true;
+        command.UpdatedRowSource = UpdateRowSource.FirstReturnedRecord;
+        command.Notification = new("user data","options", 10);
+        command.Parameters.AddWithValue("name", 10);
+        await Verify(command);
     }
 
     [Test]

@@ -1,0 +1,4 @@
+﻿{
+  CommandText: select * from MyTable,
+  CommandTimeout: 30
+}
