@@ -116,6 +116,36 @@ class MsSqlParameterConverter :
         writer.WriteEndObject();
     }
 
+    internal static bool IsOnlyValue(SqlParameter parameter)
+    {
+        var (tempDbType, tempSqlDbType, tempSqlValue) = InferExpectedProperties(parameter);
+        return (parameter.SqlValue == parameter.Value ||
+                Equals(parameter.SqlValue, tempSqlValue)) &&
+               tempDbType == parameter.DbType &&
+               (tempSqlDbType == parameter.SqlDbType ||
+                parameter.SqlDbType == parameter.DbType.ToSqlDbType()) &&
+               parameter is
+               {
+                   Direction: ParameterDirection.Input,
+                   Offset: 0,
+                   Precision: 0,
+                   Scale: 0,
+                   Size: 0,
+                   CompareInfo: SqlCompareOptions.None,
+                   IsNullable: false,
+                   LocaleId: 0,
+                   SourceColumn: "",
+                   SourceVersion: DataRowVersion.Current,
+                   TypeName: "",
+                   ForceColumnEncryption: false,
+                   UdtTypeName: "",
+                   SourceColumnNullMapping: false,
+                   XmlSchemaCollectionDatabase: "",
+                   XmlSchemaCollectionName: "",
+                   XmlSchemaCollectionOwningSchema: ""
+               };
+    }
+
     static (DbType? dbType, SqlDbType? sqlDbType, object? sqlValue) InferExpectedProperties(SqlParameter parameter)
     {
         if (parameter.Value == null)
