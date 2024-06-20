@@ -1,7 +1,4 @@
-﻿using MsConnection = Microsoft.Data.SqlClient.SqlConnection;
-using SysConnection = System.Data.SqlClient.SqlConnection;
-
-namespace VerifyTests;
+﻿namespace VerifyTests;
 
 public static class VerifySqlServer
 {

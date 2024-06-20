@@ -1,10 +1,9 @@
 ﻿using System.Data.SqlTypes;
-using Microsoft.Data.SqlClient;
 
 class MsSqlParameterConverter :
-    WriteOnlyJsonConverter<SqlParameter>
+    WriteOnlyJsonConverter<MsParameter>
 {
-    public override void Write(VerifyJsonWriter writer, SqlParameter parameter)
+    public override void Write(VerifyJsonWriter writer, MsParameter parameter)
     {
         writer.WriteStartObject();
         writer.WriteMember(parameter, parameter.ParameterName, "Name");
@@ -116,7 +115,7 @@ class MsSqlParameterConverter :
         writer.WriteEndObject();
     }
 
-    internal static bool IsOnlyValue(SqlParameter parameter)
+    internal static bool IsOnlyValue(MsParameter parameter)
     {
         var (tempDbType, tempSqlDbType, tempSqlValue) = InferExpectedProperties(parameter);
         return (parameter.SqlValue == parameter.Value ||
@@ -146,14 +145,14 @@ class MsSqlParameterConverter :
                };
     }
 
-    static (DbType? dbType, SqlDbType? sqlDbType, object? sqlValue) InferExpectedProperties(SqlParameter parameter)
+    static (DbType? dbType, SqlDbType? sqlDbType, object? sqlValue) InferExpectedProperties(MsParameter parameter)
     {
         if (parameter.Value == null)
         {
             return (null, null, null);
         }
 
-        var temp = new SqlParameter("temp", parameter.Value);
+        var temp = new MsParameter("temp", parameter.Value);
         return (temp.DbType, temp.SqlDbType, temp.SqlValue);
     }
 }

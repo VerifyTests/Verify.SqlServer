@@ -29,7 +29,7 @@ class SqlScriptBuilder(SchemaSettings settings)
         }
     }
 
-    public string BuildScript(SqlConnection sqlConnection)
+    public string BuildScript(MsConnection sqlConnection)
     {
         var builder = new SqlConnectionStringBuilder(sqlConnection.ConnectionString);
         var server = new Server(new ServerConnection(sqlConnection));
@@ -37,10 +37,10 @@ class SqlScriptBuilder(SchemaSettings settings)
         return BuildScript(server, builder);
     }
 
-    public async Task<string> BuildScript(System.Data.SqlClient.SqlConnection sqlConnection)
+    public async Task<string> BuildScript(SysConnection sqlConnection)
     {
         var builder = new SqlConnectionStringBuilder(sqlConnection.ConnectionString);
-        using var connection = new SqlConnection(sqlConnection.ConnectionString);
+        using var connection = new MsConnection(sqlConnection.ConnectionString);
         await connection.OpenAsync();
         var server = new Server(new ServerConnection(connection));
         return BuildScript(server, builder);

@@ -1,10 +1,9 @@
-﻿using System.Data.SqlClient;
-using System.Data.SqlTypes;
+﻿using System.Data.SqlTypes;
 
 class SysSqlParameterConverter  :
-    WriteOnlyJsonConverter<SqlParameter>
+    WriteOnlyJsonConverter<SysParameter>
 {
-    public override void Write(VerifyJsonWriter writer, SqlParameter parameter)
+    public override void Write(VerifyJsonWriter writer, SysParameter parameter)
     {
         writer.WriteStartObject();
         writer.WriteMember(parameter, parameter.ParameterName, "Name");
@@ -111,14 +110,14 @@ class SysSqlParameterConverter  :
         writer.WriteEndObject();
     }
 
-    static (DbType? dbType, SqlDbType? sqlDbType, object? sqlValue) InferExpectedProperties(SqlParameter parameter)
+    static (DbType? dbType, SqlDbType? sqlDbType, object? sqlValue) InferExpectedProperties(SysParameter parameter)
     {
         if (parameter.Value == null)
         {
             return (null, null, null);
         }
 
-        var temp = new SqlParameter("temp", parameter.Value);
+        var temp = new SysParameter("temp", parameter.Value);
         return (temp.DbType, temp.SqlDbType, temp.SqlValue);
     }
 }
