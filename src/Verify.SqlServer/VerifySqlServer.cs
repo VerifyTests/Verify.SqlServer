@@ -1,7 +1,4 @@
-﻿using MsConnection = Microsoft.Data.SqlClient.SqlConnection;
-using SysConnection = System.Data.SqlClient.SqlConnection;
-
-namespace VerifyTests;
+﻿namespace VerifyTests;
 
 public static class VerifySqlServer
 {
@@ -22,12 +19,16 @@ public static class VerifySqlServer
         VerifierSettings.AddExtraSettings(settings =>
         {
             var converters = settings.Converters;
-            converters.Add(new MsSqlErrorConverter());
+            converters.Add(new MsErrorConverter());
             converters.Add(new MsConnectionConverter());
-            converters.Add(new MsSqlExceptionConverter());
-            converters.Add(new SysSqlErrorConverter());
+            converters.Add(new MsExceptionConverter());
+            converters.Add(new MsParameterConverter());
+            converters.Add(new MsParameterCollectionConverter());
+            converters.Add(new SysErrorConverter());
             converters.Add(new SysConnectionConverter());
-            converters.Add(new SysSqlExceptionConverter());
+            converters.Add(new SysExceptionConverter());
+            converters.Add(new SysParameterConverter());
+            converters.Add(new SysParameterCollectionConverter());
         });
 
         VerifierSettings.RegisterFileConverter<MsConnection>(ToSql);

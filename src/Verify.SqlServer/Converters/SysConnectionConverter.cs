@@ -1,9 +1,7 @@
-﻿using System.Data.SqlClient;
-
-class SysConnectionConverter :
-    WriteOnlyJsonConverter<SqlConnection>
+﻿class SysConnectionConverter :
+    WriteOnlyJsonConverter<SysConnection>
 {
-    public override void Write(VerifyJsonWriter writer, SqlConnection connection)
+    public override void Write(VerifyJsonWriter writer, SysConnection connection)
     {
         var schemaSettings = writer.Context.GetSchemaSettings();
         var builder = new SqlScriptBuilder(schemaSettings);

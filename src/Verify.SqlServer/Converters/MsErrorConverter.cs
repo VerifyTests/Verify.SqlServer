@@ -1,9 +1,7 @@
-using System.Data.SqlClient;
-
-class SysSqlErrorConverter :
-    WriteOnlyJsonConverter<SqlError>
+class MsErrorConverter :
+    WriteOnlyJsonConverter<MsError>
 {
-    public override void Write(VerifyJsonWriter writer, SqlError error)
+    public override void Write(VerifyJsonWriter writer, MsError error)
     {
         writer.WriteStartObject();
         writer.WriteMember(error, error.Message, "Message");

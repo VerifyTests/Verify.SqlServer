@@ -1,3 +1,5 @@
+using System.Data;
+using System.Data.SqlTypes;
 using Microsoft.Data.SqlClient;
 using Microsoft.SqlServer.Management.Common;
 using Microsoft.SqlServer.Management.Smo;
@@ -69,7 +71,7 @@ public class Tests
             });
 
     [Test]
-    public async Task SqlServerSchema()
+    public async Task Schema()
     {
         await using var database = await sqlInstance.Build();
         var connection = database.Connection;
@@ -86,11 +88,14 @@ public class Tests
     {
         await using var database = await sqlInstance.Build();
         var connection = database.Connection;
-        await Verify(new {connection});
+        await Verify(new
+        {
+            connection
+        });
     }
 
     [Test]
-    public async Task SqlServerSchemaLegacy()
+    public async Task SchemaLegacy()
     {
         var database = await sqlInstance.Build();
         var connectionString = database.ConnectionString;
@@ -121,7 +126,7 @@ public class Tests
     }
 
     [Test]
-    public async Task SqlException()
+    public async Task Exception()
     {
         await using var database = await sqlInstance.Build();
         await using var connection = new SqlConnection(database.ConnectionString);
@@ -132,7 +137,7 @@ public class Tests
     }
 
     [Test]
-    public async Task SqlError()
+    public async Task Error()
     {
         await using var database = await sqlInstance.Build();
         await using var connection = new SqlConnection(database.ConnectionString);
@@ -185,6 +190,88 @@ public class Tests
     }
 
     [Test]
+    public Task MsParameterEmpty()
+    {
+        var parameter = new SqlParameter("name", SqlDbType.Date);
+        return Verify(parameter);
+    }
+
+    [Test]
+    public Task MsParameterFull()
+    {
+        var parameter = BuildFullMsParameter();
+
+        return Verify(parameter);
+    }
+    [Test]
+    public Task MsParameterCollectionFull()
+    {
+        var parameter = BuildFullSysParameter();
+
+        var parameters = new System.Data.SqlClient.SqlCommand().Parameters;
+        parameters.Add(parameter);
+        return Verify(parameters);
+    }
+
+    static SqlParameter BuildFullMsParameter() =>
+        new("name", SqlDbType.DateTime)
+        {
+            Direction = ParameterDirection.InputOutput,
+            Offset = 5,
+            Precision = 2,
+            Scale = 3,
+            Value = DateTime.Now,
+            CompareInfo = SqlCompareOptions.BinarySort2,
+            LocaleId = 10,
+            Size = 4,
+            IsNullable = false,
+            SourceVersion = DataRowVersion.Proposed,
+            ForceColumnEncryption = true,
+            SourceColumn = "sourceColumn"
+        };
+
+    [Test]
+    public Task SysParameterFull()
+    {
+        var parameter = BuildFullSysParameter();
+
+        return Verify(parameter);
+    }
+
+    [Test]
+    public Task SysParameterCollectionFull()
+    {
+        var parameter = BuildFullSysParameter();
+
+        var parameters = new System.Data.SqlClient.SqlCommand().Parameters;
+        parameters.Add(parameter);
+        return Verify(parameters);
+    }
+
+    static System.Data.SqlClient.SqlParameter BuildFullSysParameter() =>
+        new("name", SqlDbType.Date)
+        {
+            Direction = ParameterDirection.InputOutput,
+            Offset = 5,
+            Precision = 2,
+            Scale = 3,
+            Value = DateTime.Now,
+            CompareInfo = SqlCompareOptions.BinarySort2,
+            LocaleId = 10,
+            Size = 4,
+            IsNullable = false,
+            SourceVersion = DataRowVersion.Proposed,
+            SourceColumn = "sourceColumn"
+        };
+
+    [Test]
+    public Task SysParameterEmpty()
+    {
+        var parameter = new System.Data.SqlClient.SqlParameter("name", SqlDbType.Date);
+        return Verify(parameter);
+    }
+
+    [Test]
     public async Task RecordingSpecific()
     {
         await using var database = await sqlInstance.Build();
@@ -198,7 +285,9 @@ public class Tests
         await using var command = connection.CreateCommand();
         command.CommandText = "select Value from MyTable";
         var value = await command.ExecuteScalarAsync();
-        var entries = Recording.Stop().Select(_ => _.Data);
+        var entries = Recording
+            .Stop()
+            .Select(_ => _.Data);
         //TODO: optionally filter the results
         await Verify(
             new
@@ -232,7 +321,7 @@ public class Tests
     }
 
     [Test]
-    public async Task SqlServerSchemaSettings()
+    public async Task SchemaSettings()
     {
         await using var database = await sqlInstance.Build();
         var connection = database.Connection;

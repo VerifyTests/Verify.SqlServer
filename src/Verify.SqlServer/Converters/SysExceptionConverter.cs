@@ -1,9 +1,7 @@
-using System.Data.SqlClient;
-
-class SysSqlExceptionConverter :
-    WriteOnlyJsonConverter<SqlException>
+class SysExceptionConverter :
+    WriteOnlyJsonConverter<SysException>
 {
-    public override void Write(VerifyJsonWriter writer, SqlException exception)
+    public override void Write(VerifyJsonWriter writer, SysException exception)
     {
         writer.WriteStartObject();
 

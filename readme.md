@@ -36,13 +36,13 @@ This test:
 ```cs
 await Verify(connection);
 ```
-<sup><a href='/src/Tests/Tests.cs#L77-L81' title='Snippet source file'>snippet source</a> | <a href='#snippet-SqlServerSchema' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Tests/Tests.cs#L79-L83' title='Snippet source file'>snippet source</a> | <a href='#snippet-SqlServerSchema' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 Will result in the following verified file:
 
-<!-- snippet: Tests.SqlServerSchema.verified.sql -->
-<a id='snippet-Tests.SqlServerSchema.verified.sql'></a>
+<!-- snippet: Tests.Schema.verified.sql -->
+<a id='snippet-Tests.Schema.verified.sql'></a>
 ```sql
 -- Tables
 
@@ -102,7 +102,7 @@ END;
 
 CREATE SYNONYM [dbo].[synonym1] FOR [MyTable]
 ```
-<sup><a href='/src/Tests/Tests.SqlServerSchema.verified.sql#L1-L57' title='Snippet source file'>snippet source</a> | <a href='#snippet-Tests.SqlServerSchema.verified.sql' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Tests/Tests.Schema.verified.sql#L1-L57' title='Snippet source file'>snippet source</a> | <a href='#snippet-Tests.Schema.verified.sql' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 
@@ -123,7 +123,7 @@ command.CommandText = "select Value from MyTable";
 var value = await command.ExecuteScalarAsync();
 await Verify(value!);
 ```
-<sup><a href='/src/Tests/Tests.cs#L158-L168' title='Snippet source file'>snippet source</a> | <a href='#snippet-Recording' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Tests/Tests.cs#L163-L173' title='Snippet source file'>snippet source</a> | <a href='#snippet-Recording' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 Will result in the following verified file:
@@ -154,7 +154,9 @@ Recording.Start();
 await using var command = connection.CreateCommand();
 command.CommandText = "select Value from MyTable";
 var value = await command.ExecuteScalarAsync();
-var entries = Recording.Stop().Select(_ => _.Data);
+var entries = Recording
+    .Stop()
+    .Select(_ => _.Data);
 //TODO: optionally filter the results
 await Verify(
     new
@@ -163,7 +165,7 @@ await Verify(
         sql = entries
     });
 ```
-<sup><a href='/src/Tests/Tests.cs#L193-L210' title='Snippet source file'>snippet source</a> | <a href='#snippet-RecordingSpecific' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Tests/Tests.cs#L280-L299' title='Snippet source file'>snippet source</a> | <a href='#snippet-RecordingSpecific' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 
