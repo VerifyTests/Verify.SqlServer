@@ -154,6 +154,7 @@ class SqlScriptBuilder(SchemaSettings settings)
         if (lines.Count == 1)
         {
             stringBuilder.AppendLineN(lines[0].Trim());
+            stringBuilder.Append("```");
             return;
         }
 

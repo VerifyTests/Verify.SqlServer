@@ -41,9 +41,9 @@ await Verify(connection);
 
 Will result in the following verified file:
 
-<!-- snippet: Tests.Schema.verified.sql -->
-<a id='snippet-Tests.Schema.verified.sql'></a>
-```sql
+<!-- snippet: Tests.Schema.verified.md -->
+<a id='snippet-Tests.Schema.verified.md'></a>
+```md
 ## Tables
 
 ### MyTable
@@ -66,7 +66,6 @@ AS RAISERROR ('Notify Customer Relations', 16, 10);
 ALTER TABLE [dbo].[MyTable] ENABLE TRIGGER [MyTrigger]
 ```
 
-
 ## Views
 
 ### MyView
@@ -77,7 +76,6 @@ AS
   SELECT Value
   FROM MyTable
   WHERE (Value > 10);
-
 
 ## StoredProcedures
 
@@ -92,7 +90,6 @@ BEGIN
   FROM MyTable
   WHERE (Value > 10);
 END;
-
 
 ## UserDefinedFunctions
 
@@ -110,7 +107,6 @@ BEGIN
     RETURN @quantity * @list_price * (1 - @discount);
 END;
 
-
 ## Synonyms
 
 ### synonym1
@@ -118,7 +114,7 @@ END;
 ```sql
 CREATE SYNONYM [dbo].[synonym1] FOR [MyTable]
 ```
-<sup><a href='/src/Tests/Tests.Schema.verified.sql#L1-L73' title='Snippet source file'>snippet source</a> | <a href='#snippet-Tests.Schema.verified.sql' title='Start of snippet'>anchor</a></sup>
+<sup><a href='#snippet-Tests.Schema.verified.md' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 
