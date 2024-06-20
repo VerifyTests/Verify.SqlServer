@@ -1,6 +1,4 @@
-﻿using System.Data.SqlTypes;
-
-class MsParameterConverter :
+﻿class MsParameterConverter :
     WriteOnlyJsonConverter<MsParameter>
 {
     static AsyncLocal<bool> omitName = new();

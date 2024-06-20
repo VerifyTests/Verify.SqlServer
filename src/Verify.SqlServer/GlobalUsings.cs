@@ -1,5 +1,6 @@
 ﻿global using System.Data;
 global using System.Data.Common;
+global using System.Data.SqlTypes;
 global using MsParameter = Microsoft.Data.SqlClient.SqlParameter;
 global using MsParameterCollection = Microsoft.Data.SqlClient.SqlParameterCollection;
 global using MsCommand = Microsoft.Data.SqlClient.SqlCommand;

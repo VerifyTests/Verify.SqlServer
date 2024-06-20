@@ -1,6 +1,4 @@
-﻿using System.Data.SqlTypes;
-
-class SysParameterConverter  :
+﻿class SysParameterConverter  :
     WriteOnlyJsonConverter<SysParameter>
 {
     public override void Write(VerifyJsonWriter writer, SysParameter parameter)
