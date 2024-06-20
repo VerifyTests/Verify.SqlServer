@@ -76,7 +76,7 @@ AS
   SELECT Value
   FROM MyTable
   WHERE (Value > 10);
-
+```
 ## StoredProcedures
 
 ### MyProcedure
@@ -90,7 +90,7 @@ BEGIN
   FROM MyTable
   WHERE (Value > 10);
 END;
-
+```
 ## UserDefinedFunctions
 
 ### MyFunction
@@ -106,13 +106,14 @@ AS
 BEGIN
     RETURN @quantity * @list_price * (1 - @discount);
 END;
-
+```
 ## Synonyms
 
 ### synonym1
 
 ```sql
 CREATE SYNONYM [dbo].[synonym1] FOR [MyTable]
+```
 ```
 <sup><a href='#snippet-Tests.Schema.verified.md' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
