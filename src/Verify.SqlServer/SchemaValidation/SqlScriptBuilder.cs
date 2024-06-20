@@ -28,24 +28,24 @@ class SqlScriptBuilder(SchemaSettings settings)
         }
     }
 
-    public string BuildScript(MsConnection connection)
+    public string BuildContent(MsConnection connection)
     {
         var builder = new SqlConnectionStringBuilder(connection.ConnectionString);
         var server = new Server(new ServerConnection(connection));
 
-        return BuildScript(server, builder);
+        return BuildConent(server, builder);
     }
 
-    public async Task<string> BuildScript(SysConnection sqlConnection)
+    public async Task<string> BuildContent(SysConnection sqlConnection)
     {
         var builder = new SqlConnectionStringBuilder(sqlConnection.ConnectionString);
         using var connection = new MsConnection(sqlConnection.ConnectionString);
         await connection.OpenAsync();
         var server = new Server(new ServerConnection(connection));
-        return BuildScript(server, builder);
+        return BuildConent(server, builder);
     }
 
-    string BuildScript(Server server, SqlConnectionStringBuilder builder)
+    string BuildConent(Server server, SqlConnectionStringBuilder builder)
     {
         server.SetDefaultInitFields(typeof(Table), "Name", "IsSystemObject");
         server.SetDefaultInitFields(typeof(View), "Name", "IsSystemObject");

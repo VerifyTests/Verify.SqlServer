@@ -41,15 +41,28 @@ public static class VerifySqlServer
     {
         var settings = context.GetSchemaSettings();
         var builder = new SqlScriptBuilder(settings);
-        var sql = builder.BuildScript(connection);
-        return new(null, "sql", sql);
+        var content = builder.BuildContent(connection);
+        var extension = GetExtension(settings);
+        return new(null, extension, content);
     }
 
     static async Task<ConversionResult> ToSql(SysConnection connection, IReadOnlyDictionary<string, object> context)
     {
         var settings = context.GetSchemaSettings();
         var builder = new SqlScriptBuilder(settings);
-        var sql = await builder.BuildScript(connection);
-        return new(null, "sql", sql);
+        var content = await builder.BuildContent(connection);
+        var extension = GetExtension(settings);
+        return new(null, extension, content);
+    }
+
+    static string GetExtension(SchemaSettings settings)
+    {
+        var format = settings.Format;
+        return format switch
+        {
+            Format.Md => "md",
+            Format.Sql => "sql",
+            _ => throw new ArgumentOutOfRangeException(nameof(format), format, null)
+        };
     }
 }
