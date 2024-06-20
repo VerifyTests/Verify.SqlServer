@@ -43,10 +43,7 @@ Will result in the following verified file:
 
 <pre>
 
-<!-- snippet: Tests.Schema.verified.md -->
-<a id='snippet-Tests.Schema.verified.md'></a>
-```md
-## Tables
+## Tables<!-- include: Tests.Schema.verified.md -->
 
 ### MyTable
 
@@ -119,9 +116,7 @@ END;
 ```sql
 CREATE SYNONYM [dbo].[synonym1] FOR [MyTable]
 ```
-```
-<sup><a href='#snippet-Tests.Schema.verified.md' title='Start of snippet'>anchor</a></sup>
-<!-- endSnippet -->
+<!-- endInclude -->
 
 </pre>
 
