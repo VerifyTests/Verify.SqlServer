@@ -133,7 +133,7 @@ public enum DbObjects
     Tables = 4,
     UserDefinedFunctions = 8,
     Views = 16,
-    All = StoredProcedures | Tables | Views | UserDefinedFunctions | Synonyms
+    All = StoredProcedures | Synonyms | Tables | UserDefinedFunctions | Views
 }
 ```
 <sup><a href='/src/Verify.SqlServer/SchemaValidation/DbObjects.cs#L1-L12' title='Snippet source file'>snippet source</a> | <a href='#snippet-DbObjects.cs' title='Start of snippet'>anchor</a></sup>
