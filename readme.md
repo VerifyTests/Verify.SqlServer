@@ -117,9 +117,31 @@ await Verify(connection)
 <sup><a href='/src/Tests/Tests.cs#L330-L335' title='Snippet source file'>snippet source</a> | <a href='#snippet-SchemaInclude' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
+Available values:
 
-#### Dynamic Filtering
+<!-- snippet: DbObjects.cs -->
+<a id='snippet-DbObjects.cs'></a>
+```cs
+namespace VerifyTests.SqlServer;
 
+[Flags]
+public enum DbObjects
+{
+    StoredProcedures = 1,
+    Tables = 2,
+    Views = 4,
+    UserDefinedFunctions = 8,
+    Synonyms = 16,
+    All = StoredProcedures | Tables | Views | UserDefinedFunctions | Synonyms
+}
+```
+<sup><a href='/src/Verify.SqlServer/SchemaValidation/DbObjects.cs#L1-L12' title='Snippet source file'>snippet source</a> | <a href='#snippet-DbObjects.cs' title='Start of snippet'>anchor</a></sup>
+<!-- endSnippet -->
+
+
+#### Filtering
+
+Objects can be dynamically filtered:
 
 <!-- snippet: SchemaFilter -->
 <a id='snippet-SchemaFilter'></a>
