@@ -41,7 +41,12 @@ await Verify(connection);
 
 Will result in the following verified file:
 
-## Tables<!-- include: Tests.Schema.verified.md -->
+<pre>
+
+<!-- snippet: Tests.Schema.verified.md -->
+<a id='snippet-Tests.Schema.verified.md'></a>
+```md
+## Tables
 
 ### MyTable
 
@@ -114,8 +119,11 @@ END;
 ```sql
 CREATE SYNONYM [dbo].[synonym1] FOR [MyTable]
 ```
-<!-- endInclude -->
+```
+<sup><a href='#snippet-Tests.Schema.verified.md' title='Start of snippet'>anchor</a></sup>
+<!-- endSnippet -->
 
+</pre>
 
 #### Object types to include
 
