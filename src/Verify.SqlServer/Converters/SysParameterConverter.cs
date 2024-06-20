@@ -1,10 +1,21 @@
 ﻿class SysParameterConverter  :
     WriteOnlyJsonConverter<SysParameter>
 {
+    static AsyncLocal<bool> omitName = new();
+
+    public static void OmitName() =>
+        omitName.Value = true;
+
+    public static void ClearOmitName() =>
+        omitName.Value = false;
+
     public override void Write(VerifyJsonWriter writer, SysParameter parameter)
     {
         writer.WriteStartObject();
-        writer.WriteMember(parameter, parameter.ParameterName, "Name");
+        if (!omitName.Value)
+        {
+            writer.WriteMember(parameter, parameter.ParameterName, "Name");
+        }
         writer.WriteMember(parameter, parameter.Value, "Value");
 
         var (tempDbType, tempSqlDbType, tempSqlValue) = InferExpectedProperties(parameter);
@@ -106,6 +117,35 @@
         }
 
         writer.WriteEndObject();
+    }
+
+    internal static bool IsOnlyValue(SysParameter parameter)
+    {
+        var (tempDbType, tempSqlDbType, tempSqlValue) = InferExpectedProperties(parameter);
+        return (parameter.SqlValue == parameter.Value ||
+                Equals(parameter.SqlValue, tempSqlValue)) &&
+               tempDbType == parameter.DbType &&
+               (tempSqlDbType == parameter.SqlDbType ||
+                parameter.SqlDbType == parameter.DbType.ToSqlDbType()) &&
+               parameter is
+               {
+                   Direction: ParameterDirection.Input,
+                   Offset: 0,
+                   Precision: 0,
+                   Scale: 0,
+                   Size: 0,
+                   CompareInfo: SqlCompareOptions.None,
+                   IsNullable: false,
+                   LocaleId: 0,
+                   SourceColumn: "",
+                   SourceVersion: DataRowVersion.Current,
+                   TypeName: "",
+                   UdtTypeName: "",
+                   SourceColumnNullMapping: false,
+                   XmlSchemaCollectionDatabase: "",
+                   XmlSchemaCollectionName: "",
+                   XmlSchemaCollectionOwningSchema: ""
+               };
     }
 
     static (DbType? dbType, SqlDbType? sqlDbType, object? sqlValue) InferExpectedProperties(SysParameter parameter)

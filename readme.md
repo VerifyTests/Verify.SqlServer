@@ -41,8 +41,8 @@ await Verify(connection);
 
 Will result in the following verified file:
 
-<!-- snippet: Tests.SqlServerSchema.verified.sql -->
-<a id='snippet-Tests.SqlServerSchema.verified.sql'></a>
+<!-- snippet: Tests.Schema.verified.sql -->
+<a id='snippet-Tests.Schema.verified.sql'></a>
 ```sql
 -- Tables
 
@@ -102,7 +102,7 @@ END;
 
 CREATE SYNONYM [dbo].[synonym1] FOR [MyTable]
 ```
-<sup><a href='/src/Tests/Tests.SqlServerSchema.verified.sql#L1-L57' title='Snippet source file'>snippet source</a> | <a href='#snippet-Tests.SqlServerSchema.verified.sql' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Tests/Tests.Schema.verified.sql#L1-L57' title='Snippet source file'>snippet source</a> | <a href='#snippet-Tests.Schema.verified.sql' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 
@@ -165,7 +165,7 @@ await Verify(
         sql = entries
     });
 ```
-<sup><a href='/src/Tests/Tests.cs#L255-L274' title='Snippet source file'>snippet source</a> | <a href='#snippet-RecordingSpecific' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Tests/Tests.cs#L280-L299' title='Snippet source file'>snippet source</a> | <a href='#snippet-RecordingSpecific' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 

@@ -1,16 +1,16 @@
-class MsParameterCollectionConverter :
-    WriteOnlyJsonConverter<MsParameterCollection>
+class SysParameterCollectionConverter :
+    WriteOnlyJsonConverter<SysParameterCollection>
 {
-    public override void Write(VerifyJsonWriter writer, MsParameterCollection parameters)
+    public override void Write(VerifyJsonWriter writer, SysParameterCollection parameters)
     {
         writer.WriteStartObject();
 
-        MsParameterConverter.OmitName();
-        foreach (MsParameter parameter in parameters)
+        SysParameterConverter.OmitName();
+        foreach (SysParameter parameter in parameters)
         {
             var name = parameter.ParameterName;
             object? value;
-            if (MsParameterConverter.IsOnlyValue(parameter))
+            if (SysParameterConverter.IsOnlyValue(parameter))
             {
                 value = parameter.Value;
             }
@@ -22,7 +22,7 @@ class MsParameterCollectionConverter :
             writer.WriteMember(parameters, value, name);
         }
 
-        MsParameterConverter.ClearOmitName();
+        SysParameterConverter.ClearOmitName();
 
         writer.WriteEndObject();
     }

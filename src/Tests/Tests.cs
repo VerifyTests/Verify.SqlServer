@@ -71,7 +71,7 @@ public class Tests
             });
 
     [Test]
-    public async Task SqlServerSchema()
+    public async Task Schema()
     {
         await using var database = await sqlInstance.Build();
         var connection = database.Connection;
@@ -95,7 +95,7 @@ public class Tests
     }
 
     [Test]
-    public async Task SqlServerSchemaLegacy()
+    public async Task SchemaLegacy()
     {
         var database = await sqlInstance.Build();
         var connectionString = database.ConnectionString;
@@ -126,7 +126,7 @@ public class Tests
     }
 
     [Test]
-    public async Task SqlException()
+    public async Task Exception()
     {
         await using var database = await sqlInstance.Build();
         await using var connection = new SqlConnection(database.ConnectionString);
@@ -137,7 +137,7 @@ public class Tests
     }
 
     [Test]
-    public async Task SqlError()
+    public async Task Error()
     {
         await using var database = await sqlInstance.Build();
         await using var connection = new SqlConnection(database.ConnectionString);
@@ -190,16 +190,31 @@ public class Tests
     }
 
     [Test]
-    public Task MsSqlParameterEmpty()
+    public Task MsParameterEmpty()
     {
         var parameter = new SqlParameter("name", SqlDbType.Date);
         return Verify(parameter);
     }
 
     [Test]
-    public Task MsSqlParameterFull()
+    public Task MsParameterFull()
     {
-        var parameter = new SqlParameter("name", SqlDbType.DateTime)
+        var parameter = BuildFullMsParameter();
+
+        return Verify(parameter);
+    }
+    [Test]
+    public Task MsParameterCollectionFull()
+    {
+        var parameter = BuildFullSysParameter();
+
+        var parameters = new System.Data.SqlClient.SqlCommand().Parameters;
+        parameters.Add(parameter);
+        return Verify(parameters);
+    }
+
+    static SqlParameter BuildFullMsParameter() =>
+        new("name", SqlDbType.DateTime)
         {
             Direction = ParameterDirection.InputOutput,
             Offset = 5,
@@ -215,13 +230,26 @@ public class Tests
             SourceColumn = "sourceColumn"
         };
 
+    [Test]
+    public Task SysParameterFull()
+    {
+        var parameter = BuildFullSysParameter();
+
         return Verify(parameter);
     }
 
     [Test]
-    public Task SysSqlParameterFull()
+    public Task SysParameterCollectionFull()
     {
-        var parameter = new System.Data.SqlClient.SqlParameter("name", SqlDbType.Date)
+        var parameter = BuildFullSysParameter();
+
+        var parameters = new System.Data.SqlClient.SqlCommand().Parameters;
+        parameters.Add(parameter);
+        return Verify(parameters);
+    }
+
+    static System.Data.SqlClient.SqlParameter BuildFullSysParameter() =>
+        new("name", SqlDbType.Date)
         {
             Direction = ParameterDirection.InputOutput,
             Offset = 5,
@@ -236,11 +264,8 @@ public class Tests
             SourceColumn = "sourceColumn"
         };
 
-        return Verify(parameter);
-    }
-
     [Test]
-    public Task SysSqlParameterEmpty()
+    public Task SysParameterEmpty()
     {
         var parameter = new System.Data.SqlClient.SqlParameter("name", SqlDbType.Date);
         return Verify(parameter);
@@ -296,7 +321,7 @@ public class Tests
     }
 
     [Test]
-    public async Task SqlServerSchemaSettings()
+    public async Task SchemaSettings()
     {
         await using var database = await sqlInstance.Build();
         var connection = database.Connection;
