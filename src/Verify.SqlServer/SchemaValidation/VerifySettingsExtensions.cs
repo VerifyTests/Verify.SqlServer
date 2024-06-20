@@ -15,7 +15,8 @@ public static partial class VerifySettingsSqlExtensions
     public static void SchemaIncludes(
         this VerifySettings settings,
         DbObjects includes) =>
-        GetOrAddSettings(settings).Includes = includes;
+        GetOrAddSettings(settings)
+            .Includes = includes;
 
     public static SettingsTask SchemaFilter(
         this SettingsTask settings,
@@ -28,7 +29,32 @@ public static partial class VerifySettingsSqlExtensions
     public static void SchemaFilter(
         this VerifySettings settings,
         Func<NamedSmoObject, bool> filter) =>
-        GetOrAddSettings(settings).IncludeItem = filter;
+        GetOrAddSettings(settings)
+            .IncludeItem = filter;
+
+    public static SettingsTask SchemaAsMarkdown(
+        this SettingsTask settings)
+    {
+        settings.CurrentSettings.SchemaAsMarkdown();
+        return settings;
+    }
+
+    public static void SchemaAsMarkdown(
+        this VerifySettings settings) =>
+        GetOrAddSettings(settings)
+            .Format = Format.Md;
+
+    public static SettingsTask SchemaAsSql(
+        this SettingsTask settings)
+    {
+        settings.CurrentSettings.SchemaAsSql();
+        return settings;
+    }
+
+    public static void SchemaAsSql(
+        this VerifySettings settings) =>
+        GetOrAddSettings(settings)
+            .Format = Format.Sql;
 
     static SchemaSettings GetOrAddSettings(VerifySettings settings)
     {
