@@ -1,4 +1,4 @@
-﻿using Microsoft.Data.SqlClient;
+using Microsoft.Data.SqlClient;
 using Microsoft.SqlServer.Management.Smo;
 
 class SqlScriptBuilder(SchemaSettings settings)
@@ -122,7 +122,7 @@ class SqlScriptBuilder(SchemaSettings settings)
         where T : NamedSmoObject, IScriptable
     {
         var filtered = items.Cast<T>()
-            .Where(_ => !isSystem(_) && settings.IncludeItem(_.Name))
+            .Where(_ => !isSystem(_) && settings.IncludeItem(_))
             .ToList();
         if (filtered.Count == 0)
         {
