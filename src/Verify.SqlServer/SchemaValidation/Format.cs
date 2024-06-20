@@ -1,0 +1,5 @@
+﻿enum Format
+{
+    Md,
+    Sql,
+}

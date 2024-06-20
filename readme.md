@@ -41,11 +41,13 @@ await Verify(connection);
 
 Will result in the following verified file:
 
-<!-- snippet: Tests.Schema.verified.sql -->
-<a id='snippet-Tests.Schema.verified.sql'></a>
-```sql
--- Tables
+<pre>
 
+## Tables<!-- include: Tests.Schema.verified.md -->
+
+### MyTable
+
+```sql
 CREATE TABLE [dbo].[MyTable](
 	[Value] [int] NULL
 ) ON [PRIMARY]
@@ -61,19 +63,25 @@ AFTER UPDATE
 AS RAISERROR ('Notify Customer Relations', 16, 10);
 
 ALTER TABLE [dbo].[MyTable] ENABLE TRIGGER [MyTrigger]
+```
 
+## Views
 
--- Views
+### MyView
 
+```sql
 CREATE VIEW MyView
 AS
   SELECT Value
   FROM MyTable
   WHERE (Value > 10);
+```
 
+## StoredProcedures
 
--- StoredProcedures
+### MyProcedure
 
+```sql
 CREATE PROCEDURE MyProcedure
 AS
 BEGIN
@@ -82,10 +90,13 @@ BEGIN
   FROM MyTable
   WHERE (Value > 10);
 END;
+```
 
+## UserDefinedFunctions
 
--- UserDefinedFunctions
+### MyFunction
 
+```sql
 CREATE FUNCTION MyFunction(
   @quantity INT,
   @list_price DEC(10,2),
@@ -96,15 +107,17 @@ AS
 BEGIN
     RETURN @quantity * @list_price * (1 - @discount);
 END;
+```
 
+## Synonyms
 
--- Synonyms
+### synonym1
 
+```sql
 CREATE SYNONYM [dbo].[synonym1] FOR [MyTable]
 ```
-<sup><a href='/src/Tests/Tests.Schema.verified.sql#L1-L57' title='Snippet source file'>snippet source</a> | <a href='#snippet-Tests.Schema.verified.sql' title='Start of snippet'>anchor</a></sup>
-<!-- endSnippet -->
-
+<!-- endInclude -->
+</pre>
 
 #### Object types to include
 
@@ -115,7 +128,7 @@ await Verify(connection)
     // include only tables and views
     .SchemaIncludes(DbObjects.Tables | DbObjects.Views);
 ```
-<sup><a href='/src/Tests/Tests.cs#L330-L336' title='Snippet source file'>snippet source</a> | <a href='#snippet-SchemaInclude' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Tests/Tests.cs#L344-L350' title='Snippet source file'>snippet source</a> | <a href='#snippet-SchemaInclude' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 Available values:
@@ -153,7 +166,7 @@ await Verify(connection)
         _ => _ is TableViewBase ||
              _.Name == "MyTrigger");
 ```
-<sup><a href='/src/Tests/Tests.cs#L355-L363' title='Snippet source file'>snippet source</a> | <a href='#snippet-SchemaFilter' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Tests/Tests.cs#L369-L377' title='Snippet source file'>snippet source</a> | <a href='#snippet-SchemaFilter' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 
@@ -175,7 +188,7 @@ command.CommandText = "select Value from MyTable";
 var value = await command.ExecuteScalarAsync();
 await Verify(value!);
 ```
-<sup><a href='/src/Tests/Tests.cs#L164-L174' title='Snippet source file'>snippet source</a> | <a href='#snippet-Recording' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Tests/Tests.cs#L178-L188' title='Snippet source file'>snippet source</a> | <a href='#snippet-Recording' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 Will result in the following verified file:
@@ -217,7 +230,7 @@ await Verify(
         sql = entries
     });
 ```
-<sup><a href='/src/Tests/Tests.cs#L281-L300' title='Snippet source file'>snippet source</a> | <a href='#snippet-RecordingSpecific' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Tests/Tests.cs#L295-L314' title='Snippet source file'>snippet source</a> | <a href='#snippet-RecordingSpecific' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 

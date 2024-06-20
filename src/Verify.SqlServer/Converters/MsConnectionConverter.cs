@@ -5,7 +5,7 @@
     {
         var schemaSettings = writer.Context.GetSchemaSettings();
         var builder = new SqlScriptBuilder(schemaSettings);
-        var script = builder.BuildScript(connection);
+        var script = builder.BuildContent(connection);
         writer.WriteValue(script);
     }
 }
