@@ -1,3 +1,4 @@
+using Microsoft.Data.SqlClient;
 using Microsoft.SqlServer.Management.Smo;
 
 class SqlScriptBuilder(SchemaSettings settings)

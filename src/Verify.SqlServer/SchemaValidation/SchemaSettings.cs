@@ -1,3 +1,5 @@
+using Microsoft.SqlServer.Management.Smo;
+
 class SchemaSettings(
     bool storedProcedures,
     bool tables,
