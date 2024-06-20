@@ -138,36 +138,44 @@ class SqlScriptBuilder(SchemaSettings settings)
         builder.AppendLineN();
     }
 
-    static void AddItem<T>(StringBuilder builder, ScriptingOptions options, T item) where T : NamedSmoObject, IScriptable
+    static void AddItem<T>(StringBuilder builder, ScriptingOptions options, T item)
+        where T : NamedSmoObject, IScriptable
     {
         builder.AppendLineN();
         var lines = ScriptLines(options, item);
+        AppendLines(builder, lines);
+    }
+
+    static void AppendLines(StringBuilder builder, List<string> lines)
+    {
         if (lines.Count == 1)
         {
-            builder.AppendLineN(lines[0].Trim());
+            builder.AppendLineN(lines[0].AsSpan().Trim());
             return;
         }
 
         for (var index = 0; index < lines.Count; index++)
         {
             var line = lines[index];
+            var span = line.AsSpan();
             if (index == 0)
             {
-                builder.AppendLineN(line.TrimStart());
+                builder.AppendLineN(span.TrimStart());
                 continue;
             }
 
             if (index == lines.Count - 1)
             {
-                builder.AppendLineN(line.TrimEnd());
+                builder.AppendLineN(span.TrimEnd());
                 continue;
             }
 
-            builder.AppendLineN(line);
+            builder.AppendLineN(span);
         }
     }
 
-    static List<string> ScriptLines<T>(ScriptingOptions options, T item) where T : NamedSmoObject, IScriptable =>
+    static List<string> ScriptLines<T>(ScriptingOptions options, T item)
+        where T : NamedSmoObject, IScriptable =>
         item.Script(options)
             .Cast<string>()
             .Where(_ => !IsSet(_))
