@@ -2,41 +2,45 @@ using Microsoft.SqlServer.Management.Smo;
 
 namespace VerifyTests;
 
-public static class VerifySettingsSqlExtensions
+public static partial class VerifySettingsSqlExtensions
 {
-    public static SettingsTask SchemaSettings(
+    public static SettingsTask SchemaIncludes(
         this SettingsTask settings,
-        bool storedProcedures = true,
-        bool tables = true,
-        bool views = true,
-        bool userDefinedFunctions = true,
-        bool synonyms = true,
-        Func<NamedSmoObject, bool>? includeItem = null)
+        DbObjects includes)
     {
-        settings.CurrentSettings.SchemaSettings(
-            storedProcedures,
-            tables,
-            views,
-            userDefinedFunctions,
-            synonyms,
-            includeItem);
+        settings.CurrentSettings.SchemaIncludes(includes);
         return settings;
     }
 
-    public static void SchemaSettings(
+    public static void SchemaIncludes(
         this VerifySettings settings,
-        bool storedProcedures = true,
-        bool tables = true,
-        bool views = true,
-        bool userDefinedFunctions = true,
-        bool synonyms = true,
-        Func<NamedSmoObject, bool>? includeItem = null)
-    {
-        includeItem ??= _ => true;
+        DbObjects includes) =>
+        GetOrAddSettings(settings).Includes = includes;
 
-        settings.Context.Add(
-            "SqlServer",
-            new SchemaSettings(storedProcedures, tables, views, userDefinedFunctions, synonyms, includeItem));
+    public static SettingsTask SchemaFilter(
+        this SettingsTask settings,
+        Func<NamedSmoObject, bool> filter)
+    {
+        settings.CurrentSettings.SchemaFilter(filter);
+        return settings;
+    }
+
+    public static void SchemaFilter(
+        this VerifySettings settings,
+        Func<NamedSmoObject, bool> filter) =>
+        GetOrAddSettings(settings).IncludeItem = filter;
+
+    static SchemaSettings GetOrAddSettings(VerifySettings settings)
+    {
+        var context = settings.Context;
+        if (context.TryGetValue("SqlServer", out var value))
+        {
+            return (SchemaSettings) value;
+        }
+
+        var schemaSettings = new SchemaSettings();
+        context["SqlServer"] = schemaSettings;
+        return schemaSettings;
     }
 
     internal static SchemaSettings GetSchemaSettings(this IReadOnlyDictionary<string, object> context)
@@ -49,5 +53,5 @@ public static class VerifySettingsSqlExtensions
         return defaultSettings;
     }
 
-    static SchemaSettings defaultSettings = new(true, true, true, true, true, _ => true);
+    static SchemaSettings defaultSettings = new();
 }

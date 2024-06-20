@@ -3,6 +3,7 @@ using System.Data.SqlTypes;
 using Microsoft.Data.SqlClient;
 using Microsoft.SqlServer.Management.Common;
 using Microsoft.SqlServer.Management.Smo;
+using VerifyTests.SqlServer;
 
 [TestFixture]
 public class Tests
@@ -84,7 +85,7 @@ public class Tests
     }
 
     [Test]
-    public async Task SqlServerSchemaInDynamic()
+    public async Task SchemaInDynamic()
     {
         await using var database = await sqlInstance.Build();
         var connection = database.Connection;
@@ -321,38 +322,43 @@ public class Tests
     }
 
     [Test]
-    public async Task SchemaSettings()
+    public async Task SchemaInclude()
     {
         await using var database = await sqlInstance.Build();
         var connection = database.Connection;
 
-        #region SqlServerSchemaSettingsFilterByName
+        #region SchemaInclude
 
         await Verify(connection)
-            .SchemaSettings(
-                storedProcedures: true,
-                tables: true,
-                views: true,
-                includeItem: _ => _.Name == "MyTable");
+            // include only tables and views
+            .SchemaIncludes(DbObjects.Tables | DbObjects.Views);
 
         #endregion
     }
 
     [Test]
-    public async Task SqlServerSchemaSettingsCustom()
+    public async Task SchemaIncludeAll()
     {
         await using var database = await sqlInstance.Build();
         var connection = database.Connection;
 
-        #region SqlServerSchemaSettingsFilterByType
+        await Verify(connection)
+            .SchemaIncludes(DbObjects.All);
+    }
+
+    [Test]
+    public async Task SchemaFilter()
+    {
+        await using var database = await sqlInstance.Build();
+        var connection = database.Connection;
+
+        #region SchemaFilter
 
         await Verify(connection)
-                .SchemaSettings(
-                    storedProcedures: true,
-                    tables: true,
-                    views: true,
-                    // include tables & views
-                    includeItem: _ => _ is TableViewBase);
+            // include tables & views, or named MyTrigger
+            .SchemaFilter(
+                _ => _ is TableViewBase ||
+                     _.Name == "MyTrigger");
 
         #endregion
     }

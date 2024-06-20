@@ -36,7 +36,7 @@ This test:
 ```cs
 await Verify(connection);
 ```
-<sup><a href='/src/Tests/Tests.cs#L79-L83' title='Snippet source file'>snippet source</a> | <a href='#snippet-SqlServerSchema' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Tests/Tests.cs#L80-L84' title='Snippet source file'>snippet source</a> | <a href='#snippet-SqlServerSchema' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 Will result in the following verified file:
@@ -106,38 +106,56 @@ CREATE SYNONYM [dbo].[synonym1] FOR [MyTable]
 <!-- endSnippet -->
 
 
+#### Object types to include
+
+<!-- snippet: SchemaInclude -->
+<a id='snippet-SchemaInclude'></a>
+```cs
+await Verify(connection)
+    // include only tables and views
+    .SchemaIncludes(DbObjects.Tables | DbObjects.Views);
+```
+<sup><a href='/src/Tests/Tests.cs#L330-L336' title='Snippet source file'>snippet source</a> | <a href='#snippet-SchemaInclude' title='Start of snippet'>anchor</a></sup>
+<!-- endSnippet -->
+
+Available values:
+
+<!-- snippet: DbObjects.cs -->
+<a id='snippet-DbObjects.cs'></a>
+```cs
+namespace VerifyTests.SqlServer;
+
+[Flags]
+public enum DbObjects
+{
+    StoredProcedures = 1,
+    Synonyms = 2,
+    Tables = 4,
+    UserDefinedFunctions = 8,
+    Views = 16,
+    All = StoredProcedures | Synonyms | Tables | UserDefinedFunctions | Views
+}
+```
+<sup><a href='/src/Verify.SqlServer/SchemaValidation/DbObjects.cs#L1-L12' title='Snippet source file'>snippet source</a> | <a href='#snippet-DbObjects.cs' title='Start of snippet'>anchor</a></sup>
+<!-- endSnippet -->
+
+
 #### Filtering
 
-Filter by name:
+Objects can be dynamically filtered:
 
-<!-- snippet: SqlServerSchemaSettingsFilterByName -->
-<a id='snippet-SqlServerSchemaSettingsFilterByName'></a>
+<!-- snippet: SchemaFilter -->
+<a id='snippet-SchemaFilter'></a>
 ```cs
 await Verify(connection)
-    .SchemaSettings(
-        storedProcedures: true,
-        tables: true,
-        views: true,
-        includeItem: _ => _.Name == "MyTable");
+    // include tables & views, or named MyTrigger
+    .SchemaFilter(
+        _ => _ is TableViewBase ||
+             _.Name == "MyTrigger");
 ```
-<sup><a href='/src/Tests/Tests.cs#L329-L338' title='Snippet source file'>snippet source</a> | <a href='#snippet-SqlServerSchemaSettingsFilterByName' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Tests/Tests.cs#L355-L363' title='Snippet source file'>snippet source</a> | <a href='#snippet-SchemaFilter' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
-Filter by type:
-
-<!-- snippet: SqlServerSchemaSettingsFilterByType -->
-<a id='snippet-SqlServerSchemaSettingsFilterByType'></a>
-```cs
-await Verify(connection)
-        .SchemaSettings(
-            storedProcedures: true,
-            tables: true,
-            views: true,
-            // include tables & views
-            includeItem: _ => _ is TableViewBase);
-```
-<sup><a href='/src/Tests/Tests.cs#L347-L357' title='Snippet source file'>snippet source</a> | <a href='#snippet-SqlServerSchemaSettingsFilterByType' title='Start of snippet'>anchor</a></sup>
-<!-- endSnippet -->
 
 
 ### Recording
@@ -157,7 +175,7 @@ command.CommandText = "select Value from MyTable";
 var value = await command.ExecuteScalarAsync();
 await Verify(value!);
 ```
-<sup><a href='/src/Tests/Tests.cs#L163-L173' title='Snippet source file'>snippet source</a> | <a href='#snippet-Recording' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Tests/Tests.cs#L164-L174' title='Snippet source file'>snippet source</a> | <a href='#snippet-Recording' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 Will result in the following verified file:
@@ -199,7 +217,7 @@ await Verify(
         sql = entries
     });
 ```
-<sup><a href='/src/Tests/Tests.cs#L280-L299' title='Snippet source file'>snippet source</a> | <a href='#snippet-RecordingSpecific' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Tests/Tests.cs#L281-L300' title='Snippet source file'>snippet source</a> | <a href='#snippet-RecordingSpecific' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 
