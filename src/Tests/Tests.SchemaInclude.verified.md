@@ -1,4 +1,4 @@
-﻿-- Tables
+-- Tables
 
 CREATE TABLE [dbo].[MyTable](
 	[Value] [int] NULL

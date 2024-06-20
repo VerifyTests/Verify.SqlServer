@@ -33,7 +33,7 @@ class SqlScriptBuilder(SchemaSettings settings)
         var builder = new SqlConnectionStringBuilder(connection.ConnectionString);
         var server = new Server(new ServerConnection(connection));
 
-        return BuildConent(server, builder);
+        return BuildContent(server, builder);
     }
 
     public async Task<string> BuildContent(SysConnection sqlConnection)
@@ -42,10 +42,10 @@ class SqlScriptBuilder(SchemaSettings settings)
         using var connection = new MsConnection(sqlConnection.ConnectionString);
         await connection.OpenAsync();
         var server = new Server(new ServerConnection(connection));
-        return BuildConent(server, builder);
+        return BuildContent(server, builder);
     }
 
-    string BuildConent(Server server, SqlConnectionStringBuilder builder)
+    string BuildContent(Server server, SqlConnectionStringBuilder builder)
     {
         server.SetDefaultInitFields(typeof(Table), "Name", "IsSystemObject");
         server.SetDefaultInitFields(typeof(View), "Name", "IsSystemObject");

@@ -41,9 +41,9 @@ await Verify(connection);
 
 Will result in the following verified file:
 
-<!-- snippet: Tests.Schema.verified.sql -->
-<a id='snippet-Tests.Schema.verified.sql'></a>
-```sql
+<!-- snippet: Tests.Schema.verified.md -->
+<a id='snippet-Tests.Schema.verified.md'></a>
+```md
 -- Tables
 
 CREATE TABLE [dbo].[MyTable](
@@ -102,7 +102,18 @@ END;
 
 CREATE SYNONYM [dbo].[synonym1] FOR [MyTable]
 ```
-<sup><a href='/src/Tests/Tests.Schema.verified.sql#L1-L57' title='Snippet source file'>snippet source</a> | <a href='#snippet-Tests.Schema.verified.sql' title='Start of snippet'>anchor</a></sup>
+<sup><a href='#snippet-Tests.Schema.verified.md' title='Start of snippet'>anchor</a></sup>
+<!-- endSnippet -->
+
+The default format is Markdown. To use sql as a format:
+
+<!-- snippet: SqlServerSchemaAsSql -->
+<a id='snippet-SqlServerSchemaAsSql'></a>
+```cs
+await Verify(connection)
+    .SchemaAsSql();
+```
+<sup><a href='/src/Tests/Tests.cs#L91-L96' title='Snippet source file'>snippet source</a> | <a href='#snippet-SqlServerSchemaAsSql' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 

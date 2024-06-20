@@ -82,7 +82,9 @@ public class Tests
         await Verify(connection);
 
         #endregion
-    } [Test]
+    }
+
+    [Test]
     public async Task SchemaAsSql()
     {
         await using var database = await sqlInstance.Build();
