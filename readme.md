@@ -45,6 +45,14 @@ Will result in the following verified file:
 
 ## Tables<!-- include: Tests.Schema.verified.md -->
 
+### MyOtherTable
+
+```sql
+CREATE TABLE [dbo].[MyOtherTable](
+	[Value] [int] NULL
+) ON [PRIMARY]
+```
+
 ### MyTable
 
 ```sql
