@@ -144,20 +144,17 @@ class SqlScriptBuilder(SchemaSettings settings)
         {
             builder.AppendLineN($"-- {typeof(T).Name}s");
         }
+        builder.AppendLineN();
 
         foreach (var item in filtered)
         {
             AddItem(builder, options, item);
         }
-
-        builder.AppendLineN();
-        builder.AppendLineN();
     }
 
     void AddItem<T>(StringBuilder builder, ScriptingOptions options, T item)
         where T : NamedSmoObject, IScriptable
     {
-        builder.AppendLineN();
         var lines = ScriptLines(options, item);
         if (settings.IsMd)
         {
@@ -165,21 +162,24 @@ class SqlScriptBuilder(SchemaSettings settings)
             builder.AppendLineN();
             builder.AppendLineN("```sql");
             AppendLines(builder, lines);
-            builder.Append("```");
+            builder.AppendLineN("```");
         }
         else
         {
             AppendLines(builder, lines);
         }
+
+        builder.AppendLineN();
     }
 
     static void AppendLines(StringBuilder builder, List<string> lines)
     {
         if (lines.Count == 1)
         {
-            builder.AppendLineN(lines[0]
-                .AsSpan()
-                .Trim());
+            builder.AppendLineN(
+                lines[0]
+                    .AsSpan()
+                    .Trim());
             return;
         }
 

@@ -1,5 +1,9 @@
 ﻿-- Tables
 
+CREATE TABLE [dbo].[MyOtherTable](
+	[Value] [int] NULL
+) ON [PRIMARY]
+
 CREATE TABLE [dbo].[MyTable](
 	[Value] [int] NULL
 ) ON [PRIMARY]
@@ -16,7 +20,6 @@ AS RAISERROR ('Notify Customer Relations', 16, 10);
 
 ALTER TABLE [dbo].[MyTable] ENABLE TRIGGER [MyTrigger]
 
-
 -- Views
 
 CREATE VIEW MyView
@@ -24,7 +27,6 @@ AS
   SELECT Value
   FROM MyTable
   WHERE (Value > 10);
-
 
 -- StoredProcedures
 
@@ -36,7 +38,6 @@ BEGIN
   FROM MyTable
   WHERE (Value > 10);
 END;
-
 
 -- UserDefinedFunctions
 
@@ -50,7 +51,6 @@ AS
 BEGIN
     RETURN @quantity * @list_price * (1 - @discount);
 END;
-
 
 -- Synonyms
 

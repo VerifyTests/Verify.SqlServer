@@ -36,6 +36,10 @@ public class Tests
                     AS RAISERROR ('Notify Customer Relations', 16, 10);
                     GO
 
+                    CREATE TABLE
+                    MyOtherTable(Value int);
+                    GO
+
                     CREATE VIEW MyView
                     AS
                       SELECT Value
@@ -158,7 +162,7 @@ public class Tests
         command.DesignTimeVisible = true;
         command.UpdatedRowSource = UpdateRowSource.FirstReturnedRecord;
         command.EnableOptimizedParameterBinding = true;
-        command.Notification = new("user data","options", 10);
+        command.Notification = new("user data", "options", 10);
         command.Parameters.AddWithValue("name", 10);
         await Verify(command);
     }
@@ -170,6 +174,7 @@ public class Tests
         command.CommandText = "select * from MyTabl2e";
         await Verify(command);
     }
+
     [Test]
     public async Task SysCommandFull()
     {
@@ -179,7 +184,7 @@ public class Tests
         command.CommandType = CommandType.StoredProcedure;
         command.DesignTimeVisible = true;
         command.UpdatedRowSource = UpdateRowSource.FirstReturnedRecord;
-        command.Notification = new("user data","options", 10);
+        command.Notification = new("user data", "options", 10);
         command.Parameters.AddWithValue("name", 10);
         await Verify(command);
     }
@@ -262,6 +267,7 @@ public class Tests
 
         return Verify(parameter);
     }
+
     [Test]
     public Task MsParameterCollectionFull()
     {

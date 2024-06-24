@@ -1,4 +1,12 @@
-## Tables
+﻿## Tables
+
+### MyOtherTable
+
+```sql
+CREATE TABLE [dbo].[MyOtherTable](
+	[Value] [int] NULL
+) ON [PRIMARY]
+```
 
 ### MyTable
 
