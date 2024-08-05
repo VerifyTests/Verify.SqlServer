@@ -12,7 +12,7 @@
     <PackageVersion Include="Microsoft.SqlServer.SqlManagementObjects" Version="171.30.0" />
     <PackageVersion Include="NUnit" Version="4.1.0" />
     <PackageVersion Include="NUnit3TestAdapter" Version="4.6.0" />
-    <PackageVersion Include="Polyfill" Version="6.0.0" />
+    <PackageVersion Include="Polyfill" Version="6.1.1" />
     <PackageVersion Include="ProjectDefaults" Version="1.0.133" />
     <PackageVersion Include="System.Data.SqlClient" Version="4.8.6" />
     <PackageVersion Include="System.Diagnostics.DiagnosticSource" Version="8.0.1" />
