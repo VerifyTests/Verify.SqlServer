@@ -174,21 +174,25 @@ public class Tests
     [Test]
     public async Task SysCommandEmpty()
     {
-        var command = new System.Data.SqlClient.SqlCommand();
-        command.CommandText = "select * from MyTabl2e";
+        var command = new System.Data.SqlClient.SqlCommand
+        {
+            CommandText = "select * from MyTabl2e"
+        };
         await Verify(command);
     }
 
     [Test]
     public async Task SysCommandFull()
     {
-        var command = new System.Data.SqlClient.SqlCommand();
-        command.CommandText = "select * from MyTable";
-        command.CommandTimeout = 10;
-        command.CommandType = CommandType.StoredProcedure;
-        command.DesignTimeVisible = true;
-        command.UpdatedRowSource = UpdateRowSource.FirstReturnedRecord;
-        command.Notification = new("user data", "options", 10);
+        var command = new System.Data.SqlClient.SqlCommand
+        {
+            CommandText = "select * from MyTable",
+            CommandTimeout = 10,
+            CommandType = CommandType.StoredProcedure,
+            DesignTimeVisible = true,
+            UpdatedRowSource = UpdateRowSource.FirstReturnedRecord,
+            Notification = new("user data", "options", 10)
+        };
         command.Parameters.AddWithValue("name", 10);
         await Verify(command);
     }
