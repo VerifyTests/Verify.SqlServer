@@ -147,22 +147,26 @@ public class Tests
     [Test]
     public async Task MsCommandEmpty()
     {
-        var command = new SqlCommand();
-        command.CommandText = "select * from MyTable";
+        var command = new SqlCommand
+        {
+            CommandText = "select * from MyTable"
+        };
         await Verify(command);
     }
 
     [Test]
     public async Task MsCommandFull()
     {
-        var command = new SqlCommand();
-        command.CommandText = "select * from MyTable";
-        command.CommandTimeout = 10;
-        command.CommandType = CommandType.StoredProcedure;
-        command.DesignTimeVisible = true;
-        command.UpdatedRowSource = UpdateRowSource.FirstReturnedRecord;
-        command.EnableOptimizedParameterBinding = true;
-        command.Notification = new("user data", "options", 10);
+        var command = new SqlCommand
+        {
+            CommandText = "select * from MyTable",
+            CommandTimeout = 10,
+            CommandType = CommandType.StoredProcedure,
+            DesignTimeVisible = true,
+            UpdatedRowSource = UpdateRowSource.FirstReturnedRecord,
+            EnableOptimizedParameterBinding = true,
+            Notification = new("user data", "options", 10)
+        };
         command.Parameters.AddWithValue("name", 10);
         await Verify(command);
     }

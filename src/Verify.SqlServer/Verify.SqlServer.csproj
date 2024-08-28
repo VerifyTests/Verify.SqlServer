@@ -11,6 +11,5 @@
     <PackageReference Include="Verify" />
     <PackageReference Include="ProjectDefaults" PrivateAssets="all" />
     <PackageReference Include="Microsoft.SqlServer.SqlManagementObjects" />
-    <PackageReference Include="Azure.Identity" />
   </ItemGroup>
 </Project>
