@@ -43,88 +43,7 @@ Will result in the following verified file:
 
 <pre>
 
-## Tables<!-- include: Tests.Schema.verified.md -->
-
-### MyOtherTable
-
-```sql
-CREATE TABLE [dbo].[MyOtherTable](
-	[Value] [int] NULL
-) ON [PRIMARY]
-```
-
-### MyTable
-
-```sql
-CREATE TABLE [dbo].[MyTable](
-	[Value] [int] NULL
-) ON [PRIMARY]
-
-CREATE NONCLUSTERED INDEX [MyIndex] ON [dbo].[MyTable]
-(
-	[Value] ASC
-) ON [PRIMARY]
-
-CREATE TRIGGER MyTrigger
-ON MyTable
-AFTER UPDATE
-AS RAISERROR ('Notify Customer Relations', 16, 10);
-
-ALTER TABLE [dbo].[MyTable] ENABLE TRIGGER [MyTrigger]
-```
-
-## Views
-
-### MyView
-
-```sql
-CREATE VIEW MyView
-AS
-  SELECT Value
-  FROM MyTable
-  WHERE (Value > 10);
-```
-
-## StoredProcedures
-
-### MyProcedure
-
-```sql
-CREATE PROCEDURE MyProcedure
-AS
-BEGIN
-  SET NOCOUNT ON;
-  SELECT Value
-  FROM MyTable
-  WHERE (Value > 10);
-END;
-```
-
-## UserDefinedFunctions
-
-### MyFunction
-
-```sql
-CREATE FUNCTION MyFunction(
-  @quantity INT,
-  @list_price DEC(10,2),
-  @discount DEC(4,2)
-)
-RETURNS DEC(10,2)
-AS
-BEGIN
-    RETURN @quantity * @list_price * (1 - @discount);
-END;
-```
-
-## Synonyms
-
-### synonym1
-
-```sql
-CREATE SYNONYM [dbo].[synonym1] FOR [MyTable]
-```
-<!-- endInclude -->
+<!-- emptyInclude: Tests.Schema.verified.md -->
 </pre>
 
 #### Object types to include
@@ -136,7 +55,7 @@ await Verify(connection)
     // include only tables and views
     .SchemaIncludes(DbObjects.Tables | DbObjects.Views);
 ```
-<sup><a href='/src/Tests/Tests.cs#L467-L473' title='Snippet source file'>snippet source</a> | <a href='#snippet-SchemaInclude' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Tests/Tests.cs#L390-L396' title='Snippet source file'>snippet source</a> | <a href='#snippet-SchemaInclude' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 Available values:
@@ -174,7 +93,7 @@ await Verify(connection)
         _ => _ is TableViewBase ||
              _.Name == "MyTrigger");
 ```
-<sup><a href='/src/Tests/Tests.cs#L492-L500' title='Snippet source file'>snippet source</a> | <a href='#snippet-SchemaFilter' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Tests/Tests.cs#L415-L423' title='Snippet source file'>snippet source</a> | <a href='#snippet-SchemaFilter' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 
@@ -196,7 +115,7 @@ command.CommandText = "select Value from MyTable";
 var value = await command.ExecuteScalarAsync();
 await Verify(value!);
 ```
-<sup><a href='/src/Tests/Tests.cs#L235-L245' title='Snippet source file'>snippet source</a> | <a href='#snippet-Recording' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Tests/Tests.cs#L199-L209' title='Snippet source file'>snippet source</a> | <a href='#snippet-Recording' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 Will result in the following verified file:
@@ -204,15 +123,9 @@ Will result in the following verified file:
 <!-- snippet: Tests.RecordingUsage.verified.txt -->
 <a id='snippet-Tests.RecordingUsage.verified.txt'></a>
 ```txt
-{
-  target: 42,
-  sql: {
-    Text: select Value from MyTable,
-    HasTransaction: false
-  }
-}
+
 ```
-<sup><a href='/src/Tests/Tests.RecordingUsage.verified.txt#L1-L7' title='Snippet source file'>snippet source</a> | <a href='#snippet-Tests.RecordingUsage.verified.txt' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Tests/Tests.RecordingUsage.verified.txt#L1-L1' title='Snippet source file'>snippet source</a> | <a href='#snippet-Tests.RecordingUsage.verified.txt' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 
@@ -249,7 +162,7 @@ await Verify(
         sqlEntries = entries
     });
 ```
-<sup><a href='/src/Tests/Tests.cs#L353-L383' title='Snippet source file'>snippet source</a> | <a href='#snippet-RecordingSpecific' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Tests/Tests.cs#L276-L306' title='Snippet source file'>snippet source</a> | <a href='#snippet-RecordingSpecific' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 
@@ -277,7 +190,7 @@ var sqlErrorsViaType = entries
     .Select(_ => _.Data)
     .OfType<ErrorEntry>();
 ```
-<sup><a href='/src/Tests/Tests.cs#L409-L428' title='Snippet source file'>snippet source</a> | <a href='#snippet-RecordingReadingResults' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Tests/Tests.cs#L332-L351' title='Snippet source file'>snippet source</a> | <a href='#snippet-RecordingReadingResults' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 

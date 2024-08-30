@@ -1,10 +1,1 @@
-﻿{
-  target: null,
-  sql: {
-    Text: select Value from MyTable where Value = @param,
-    Parameters: {
-      param: 10
-    },
-    HasTransaction: false
-  }
-}
+﻿

@@ -19,20 +19,12 @@ class Listener :
                 _ => Recording.IsRecording()));
     }
 
-    [DiagnosticName("System.Data.SqlClient.WriteCommandAfter")]
-    public void OnSystemCommandAfter(SysCommand command) =>
-        Recording.TryAdd("sql", command.Clone());
-
     [DiagnosticName("Microsoft.Data.SqlClient.WriteCommandAfter")]
-    public void OnMsCommandAfter(MsCommand command) =>
+    public void OnMsCommandAfter(SqlCommand command) =>
         Recording.TryAdd("sql", command.Clone());
-
-    [DiagnosticName("System.Data.SqlClient.WriteCommandError")]
-    public void OnSysErrorExecuteCommand(SysCommand command, SysException exception) =>
-        Recording.TryAdd("sql", new ErrorEntry(command.Clone(), exception));
 
     [DiagnosticName("Microsoft.Data.SqlClient.WriteCommandError")]
-    public void OnMsErrorExecuteCommand(MsCommand command, MsException exception) =>
+    public void OnMsErrorExecuteCommand(SqlCommand command, SqlException exception) =>
         Recording.TryAdd("sql", new ErrorEntry(command.Clone(), exception));
 
     void Clear()

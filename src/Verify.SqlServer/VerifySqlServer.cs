@@ -19,40 +19,24 @@ public static class VerifySqlServer
         VerifierSettings.AddExtraSettings(settings =>
         {
             var converters = settings.Converters;
-            converters.Add(new MsErrorConverter());
-            converters.Add(new MsConnectionConverter());
-            converters.Add(new MsCommandConverter());
-            converters.Add(new MsExceptionConverter());
-            converters.Add(new MsParameterConverter());
-            converters.Add(new MsParameterCollectionConverter());
-            converters.Add(new SysErrorConverter());
-            converters.Add(new SysConnectionConverter());
-            converters.Add(new SysCommandConverter());
-            converters.Add(new SysExceptionConverter());
-            converters.Add(new SysParameterConverter());
-            converters.Add(new SysParameterCollectionConverter());
+            converters.Add(new ErrorConverter());
+            converters.Add(new ConnectionConverter());
+            converters.Add(new CommandConverter());
+            converters.Add(new ExceptionConverter());
+            converters.Add(new ParameterConverter());
+            converters.Add(new ParameterCollectionConverter());
         });
 
-        VerifierSettings.RegisterFileConverter<MsConnection>(ToSql);
-        VerifierSettings.RegisterFileConverter<SysConnection>(ToSql);
+        VerifierSettings.RegisterFileConverter<SqlConnection>(ToSql);
         // ReSharper disable once UnusedVariable
         var subscription = DiagnosticListener.AllListeners.Subscribe(listener);
     }
 
-    static ConversionResult ToSql(MsConnection connection, IReadOnlyDictionary<string, object> context)
+    static ConversionResult ToSql(SqlConnection connection, IReadOnlyDictionary<string, object> context)
     {
         var settings = context.GetSchemaSettings();
         var builder = new SqlScriptBuilder(settings);
         var content = builder.BuildContent(connection);
-        var extension = GetExtension(settings);
-        return new(null, extension, content);
-    }
-
-    static async Task<ConversionResult> ToSql(SysConnection connection, IReadOnlyDictionary<string, object> context)
-    {
-        var settings = context.GetSchemaSettings();
-        var builder = new SqlScriptBuilder(settings);
-        var content = await builder.BuildContent(connection);
         var extension = GetExtension(settings);
         return new(null, extension, content);
     }

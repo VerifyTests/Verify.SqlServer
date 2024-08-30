@@ -28,20 +28,11 @@ class SqlScriptBuilder(SchemaSettings settings)
         }
     }
 
-    public string BuildContent(MsConnection connection)
+    public string BuildContent(SqlConnection connection)
     {
         var builder = new SqlConnectionStringBuilder(connection.ConnectionString);
         var server = new Server(new ServerConnection(connection));
 
-        return BuildContent(server, builder);
-    }
-
-    public async Task<string> BuildContent(SysConnection sqlConnection)
-    {
-        var builder = new SqlConnectionStringBuilder(sqlConnection.ConnectionString);
-        using var connection = new MsConnection(sqlConnection.ConnectionString);
-        await connection.OpenAsync();
-        var server = new Server(new ServerConnection(connection));
         return BuildContent(server, builder);
     }
 

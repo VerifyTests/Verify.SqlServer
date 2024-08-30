@@ -114,16 +114,6 @@ public class Tests
     }
 
     [Test]
-    public async Task SchemaLegacy()
-    {
-        var database = await sqlInstance.Build();
-        var connectionString = database.ConnectionString;
-        await using var connection = new System.Data.SqlClient.SqlConnection(connectionString);
-        await connection.OpenAsync();
-        await Verify(connection);
-    }
-
-    [Test]
     public async Task RecordingError()
     {
         await using var database = await sqlInstance.Build();
@@ -145,7 +135,7 @@ public class Tests
     }
 
     [Test]
-    public async Task MsCommandEmpty()
+    public async Task CommandEmpty()
     {
         var command = new SqlCommand
         {
@@ -155,7 +145,7 @@ public class Tests
     }
 
     [Test]
-    public async Task MsCommandFull()
+    public async Task CommandFull()
     {
         var command = new SqlCommand
         {
@@ -165,32 +155,6 @@ public class Tests
             DesignTimeVisible = true,
             UpdatedRowSource = UpdateRowSource.FirstReturnedRecord,
             EnableOptimizedParameterBinding = true,
-            Notification = new("user data", "options", 10)
-        };
-        command.Parameters.AddWithValue("name", 10);
-        await Verify(command);
-    }
-
-    [Test]
-    public async Task SysCommandEmpty()
-    {
-        var command = new System.Data.SqlClient.SqlCommand
-        {
-            CommandText = "select * from MyTabl2e"
-        };
-        await Verify(command);
-    }
-
-    [Test]
-    public async Task SysCommandFull()
-    {
-        var command = new System.Data.SqlClient.SqlCommand
-        {
-            CommandText = "select * from MyTable",
-            CommandTimeout = 10,
-            CommandType = CommandType.StoredProcedure,
-            DesignTimeVisible = true,
-            UpdatedRowSource = UpdateRowSource.FirstReturnedRecord,
             Notification = new("user data", "options", 10)
         };
         command.Parameters.AddWithValue("name", 10);
@@ -262,31 +226,31 @@ public class Tests
     }
 
     [Test]
-    public Task MsParameterEmpty()
+    public Task ParameterEmpty()
     {
         var parameter = new SqlParameter("name", SqlDbType.Date);
         return Verify(parameter);
     }
 
     [Test]
-    public Task MsParameterFull()
+    public Task ParameterFull()
     {
-        var parameter = BuildFullMsParameter();
+        var parameter = BuildFullParameter();
 
         return Verify(parameter);
     }
 
     [Test]
-    public Task MsParameterCollectionFull()
+    public Task ParameterCollectionFull()
     {
-        var parameter = BuildFullSysParameter();
+        var parameter = BuildFullParameter();
 
-        var parameters = new System.Data.SqlClient.SqlCommand().Parameters;
+        var parameters = new SqlCommand().Parameters;
         parameters.Add(parameter);
         return Verify(parameters);
     }
 
-    static SqlParameter BuildFullMsParameter() =>
+    static SqlParameter BuildFullParameter() =>
         new("name", SqlDbType.DateTime)
         {
             Direction = ParameterDirection.InputOutput,
@@ -302,47 +266,6 @@ public class Tests
             ForceColumnEncryption = true,
             SourceColumn = "sourceColumn"
         };
-
-    [Test]
-    public Task SysParameterFull()
-    {
-        var parameter = BuildFullSysParameter();
-
-        return Verify(parameter);
-    }
-
-    [Test]
-    public Task SysParameterCollectionFull()
-    {
-        var parameter = BuildFullSysParameter();
-
-        var parameters = new System.Data.SqlClient.SqlCommand().Parameters;
-        parameters.Add(parameter);
-        return Verify(parameters);
-    }
-
-    static System.Data.SqlClient.SqlParameter BuildFullSysParameter() =>
-        new("name", SqlDbType.Date)
-        {
-            Direction = ParameterDirection.InputOutput,
-            Offset = 5,
-            Precision = 2,
-            Scale = 3,
-            Value = DateTime.Now,
-            CompareInfo = SqlCompareOptions.BinarySort2,
-            LocaleId = 10,
-            Size = 4,
-            IsNullable = false,
-            SourceVersion = DataRowVersion.Proposed,
-            SourceColumn = "sourceColumn"
-        };
-
-    [Test]
-    public Task SysParameterEmpty()
-    {
-        var parameter = new System.Data.SqlClient.SqlParameter("name", SqlDbType.Date);
-        return Verify(parameter);
-    }
 
     [Test]
     public async Task RecordingSpecific()
