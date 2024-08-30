@@ -1,1 +1,7 @@
-﻿
+﻿{
+  target: 42,
+  sql: {
+    Text: select Value from MyTable,
+    HasTransaction: false
+  }
+}
