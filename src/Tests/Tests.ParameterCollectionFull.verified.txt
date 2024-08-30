@@ -1,7 +1,6 @@
 ﻿{
   name: {
     Value: DateTime_1,
-    DbType: Date,
     Direction: InputOutput,
     Offset: 5,
     Precision: 2,
@@ -9,6 +8,7 @@
     Size: 4,
     LocaleId: 10,
     SourceColumn: sourceColumn,
-    SourceVersion: Proposed
+    SourceVersion: Proposed,
+    ForceColumnEncryption: true
   }
 }

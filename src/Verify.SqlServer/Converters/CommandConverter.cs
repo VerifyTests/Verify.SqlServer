@@ -1,7 +1,7 @@
-﻿class MsCommandConverter :
-    WriteOnlyJsonConverter<MsCommand>
+﻿class CommandConverter :
+    WriteOnlyJsonConverter<SqlCommand>
 {
-    public override void Write(VerifyJsonWriter writer, MsCommand command)
+    public override void Write(VerifyJsonWriter writer, SqlCommand command)
     {
         writer.WriteStartObject();
         writer.WriteMember(command, command.CommandText, "Text");

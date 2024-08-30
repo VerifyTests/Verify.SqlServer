@@ -1,4 +1,0 @@
-﻿{
-  Text: select * from MyTabl2e,
-  HasTransaction: false
-}

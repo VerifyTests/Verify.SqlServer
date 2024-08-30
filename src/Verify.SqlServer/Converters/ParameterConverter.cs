@@ -1,5 +1,5 @@
-﻿class MsParameterConverter :
-    WriteOnlyJsonConverter<MsParameter>
+﻿class ParameterConverter :
+    WriteOnlyJsonConverter<SqlParameter>
 {
     static AsyncLocal<bool> omitName = new();
 
@@ -9,7 +9,7 @@
     public static void ClearOmitName() =>
         omitName.Value = false;
 
-    public override void Write(VerifyJsonWriter writer, MsParameter parameter)
+    public override void Write(VerifyJsonWriter writer, SqlParameter parameter)
     {
         writer.WriteStartObject();
         if (!omitName.Value)
@@ -124,7 +124,7 @@
         writer.WriteEndObject();
     }
 
-    internal static bool IsOnlyValue(MsParameter parameter)
+    internal static bool IsOnlyValue(SqlParameter parameter)
     {
         var (tempDbType, tempSqlDbType, tempSqlValue) = InferExpectedProperties(parameter);
         return (parameter.SqlValue == parameter.Value ||
@@ -154,14 +154,14 @@
                };
     }
 
-    static (DbType? dbType, SqlDbType? sqlDbType, object? sqlValue) InferExpectedProperties(MsParameter parameter)
+    static (DbType? dbType, SqlDbType? sqlDbType, object? sqlValue) InferExpectedProperties(SqlParameter parameter)
     {
         if (parameter.Value == null)
         {
             return (null, null, null);
         }
 
-        var temp = new MsParameter("temp", parameter.Value);
+        var temp = new SqlParameter("temp", parameter.Value);
         return (temp.DbType, temp.SqlDbType, temp.SqlValue);
     }
 }
