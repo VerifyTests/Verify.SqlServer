@@ -12,7 +12,7 @@
     <PackageVersion Include="Microsoft.SqlServer.SqlManagementObjects" Version="172.52.0" />
     <PackageVersion Include="NUnit" Version="4.2.2" />
     <PackageVersion Include="NUnit3TestAdapter" Version="4.6.0" />
-    <PackageVersion Include="ProjectDefaults" Version="1.0.144" />
+    <PackageVersion Include="ProjectDefaults" Version="1.0.145" />
     <PackageVersion Include="System.Diagnostics.DiagnosticSource" Version="9.0.0" />
     <PackageVersion Include="System.Runtime.Caching" Version="9.0.0" />
     <PackageVersion Include="Verify" Version="28.4.0" />
