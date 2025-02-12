@@ -19,7 +19,7 @@ class SqlScriptBuilder(SchemaSettings settings)
             "OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF",
             "SORT_IN_TEMPDB = OFF"
         ];
-        tableSettingsToScrubLookup = new();
+        tableSettingsToScrubLookup = [];
         foreach (var toScrub in defaultsToScrub)
         {
             tableSettingsToScrubLookup[$"({toScrub}, "] = "(";
