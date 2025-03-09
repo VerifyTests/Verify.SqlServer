@@ -1,5 +1,7 @@
 ﻿{
-  Text: select * from MyTable,
+  Text:
+Select *
+From   MyTable;,
   Parameters: {
     name: 10
   },

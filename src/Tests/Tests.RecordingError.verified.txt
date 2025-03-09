@@ -6,7 +6,9 @@
       Line: 1
     },
     Command: {
-      Text: select * from MyTabl2e,
+      Text:
+Select *
+From   MyTabl2e;,
       HasTransaction: false
     }
   }

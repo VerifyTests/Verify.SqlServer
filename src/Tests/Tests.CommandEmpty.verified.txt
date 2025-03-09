@@ -1,4 +1,6 @@
 ﻿{
-  Text: select * from MyTable,
+  Text:
+Select *
+From   MyTable;,
   HasTransaction: false
 }
