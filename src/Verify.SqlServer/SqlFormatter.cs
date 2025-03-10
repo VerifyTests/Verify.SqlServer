@@ -1,6 +1,6 @@
 ﻿static class SqlFormatter
 {
-    public static string Format(string input)
+    public static ReadOnlySpan<char> Format(string input)
     {
         var parser = new TSql170Parser(false);
         using var reader = new StringReader(input);
@@ -27,10 +27,9 @@
                 KeywordCasing = KeywordCasing.Lowercase,
                 IndentationSize = 2,
                 AlignClauseBodies = true,
-                sem
             });
 
         generator.GenerateScript(fragment, out var output);
-        return output.TrimEnd();
+        return output.AsSpan().TrimEnd().TrimEnd(';').Tos;
     }
 }
