@@ -1,10 +1,3 @@
-using System.Data;
-using System.Data.SqlTypes;
-using Microsoft.Data.SqlClient;
-using Microsoft.SqlServer.Management.Common;
-using Microsoft.SqlServer.Management.Smo;
-using VerifyTests.SqlServer;
-
 [TestFixture]
 public class Tests
 {
