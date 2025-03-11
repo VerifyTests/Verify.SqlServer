@@ -1,6 +1,6 @@
 ﻿{
   Text:
-Select *
-From   MyTable;,
+select *
+from   MyTable,
   HasTransaction: false
 }

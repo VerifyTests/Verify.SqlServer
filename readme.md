@@ -126,12 +126,14 @@ Will result in the following verified file:
 {
   target: 42,
   sql: {
-    Text: select Value from MyTable,
+    Text:
+select Value
+from   MyTable,
     HasTransaction: false
   }
 }
 ```
-<sup><a href='/src/Tests/Tests.RecordingUsage.verified.txt#L1-L7' title='Snippet source file'>snippet source</a> | <a href='#snippet-Tests.RecordingUsage.verified.txt' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Tests/Tests.RecordingUsage.verified.txt#L1-L9' title='Snippet source file'>snippet source</a> | <a href='#snippet-Tests.RecordingUsage.verified.txt' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 

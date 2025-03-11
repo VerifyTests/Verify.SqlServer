@@ -30,6 +30,6 @@
             });
 
         generator.GenerateScript(fragment, out var output);
-        return output.AsSpan().TrimEnd().TrimEnd(';').Tos;
+        return output.AsSpan().TrimEnd().TrimEnd(';');
     }
 }

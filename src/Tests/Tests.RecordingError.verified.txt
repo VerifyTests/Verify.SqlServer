@@ -7,8 +7,8 @@
     },
     Command: {
       Text:
-Select *
-From   MyTabl2e;,
+select *
+from   MyTabl2e,
       HasTransaction: false
     }
   }

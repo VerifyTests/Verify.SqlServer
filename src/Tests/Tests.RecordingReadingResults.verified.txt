@@ -2,8 +2,8 @@
   sqlEntries: [
     {
       Text:
-Select Value
-From   MyTable;,
+select Value
+from   MyTable,
       HasTransaction: false
     },
     {
@@ -14,8 +14,8 @@ From   MyTable;,
       },
       Command: {
         Text:
-Select Value
-From   BadTable;,
+select Value
+from   BadTable,
         HasTransaction: false
       }
     }
@@ -23,8 +23,8 @@ From   BadTable;,
   sqlCommandsViaType: [
     {
       Text:
-Select Value
-From   MyTable;,
+select Value
+from   MyTable,
       HasTransaction: false
     }
   ],
@@ -37,8 +37,8 @@ From   MyTable;,
       },
       Command: {
         Text:
-Select Value
-From   BadTable;,
+select Value
+from   BadTable,
         HasTransaction: false
       }
     }
