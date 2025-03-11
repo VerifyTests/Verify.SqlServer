@@ -1,7 +1,9 @@
 ﻿{
   sqlEntries: [
     {
-      Text: select Value from MyTable,
+      Text:
+select Value
+from   MyTable,
       HasTransaction: false
     },
     {
@@ -11,14 +13,18 @@
         Line: 1
       },
       Command: {
-        Text: select Value from BadTable,
+        Text:
+select Value
+from   BadTable,
         HasTransaction: false
       }
     }
   ],
   sqlCommandsViaType: [
     {
-      Text: select Value from MyTable,
+      Text:
+select Value
+from   MyTable,
       HasTransaction: false
     }
   ],
@@ -30,7 +36,9 @@
         Line: 1
       },
       Command: {
-        Text: select Value from BadTable,
+        Text:
+select Value
+from   BadTable,
         HasTransaction: false
       }
     }
