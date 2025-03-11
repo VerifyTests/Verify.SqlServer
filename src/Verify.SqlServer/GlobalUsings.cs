@@ -4,4 +4,5 @@ global using System.Data.SqlTypes;
 global using Microsoft.Data.SqlClient;
 global using Microsoft.Extensions.DiagnosticAdapter;
 global using Microsoft.SqlServer.Management.Common;
+global using Microsoft.SqlServer.TransactSql.ScriptDom;
 global using VerifyTests.SqlServer;
