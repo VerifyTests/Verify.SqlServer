@@ -128,6 +128,16 @@ public class Tests
     }
 
     [Test]
+    public async Task CommandEscaped()
+    {
+        var command = new SqlCommand
+        {
+            CommandText = "select * from [MyTable]"
+        };
+        await Verify(command);
+    }
+
+    [Test]
     public async Task CommandEmpty()
     {
         var command = new SqlCommand

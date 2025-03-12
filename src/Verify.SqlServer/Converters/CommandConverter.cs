@@ -4,7 +4,7 @@
     public override void Write(VerifyJsonWriter writer, SqlCommand command)
     {
         writer.WriteStartObject();
-        writer.WriteMember(command, SqlFormatter.Format(command.CommandText), "Text");
+        writer.WriteMember(command, SqlFormatter.Format(command.CommandText).ToString(), "Text");
         writer.WriteMember(command, command.Parameters, "Parameters");
         writer.WriteMember(command, command.Transaction != null, "HasTransaction");
 

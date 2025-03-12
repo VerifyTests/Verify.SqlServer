@@ -1,6 +1,6 @@
 ﻿static class SqlFormatter
 {
-    public static ReadOnlySpan<char> Format(string input)
+    public static StringBuilder Format(string input)
     {
         var parser = new TSql170Parser(false);
         using var reader = new StringReader(input);
@@ -20,16 +20,31 @@
                  """);
         }
 
+        var visitor = new RemoveSquareBracketVisitor();
+        fragment.Accept(visitor);
+
         var generator = new Sql170ScriptGenerator(
             new()
             {
                 SqlVersion = SqlVersion.Sql170,
                 KeywordCasing = KeywordCasing.Lowercase,
                 IndentationSize = 2,
-                AlignClauseBodies = true,
+                AlignClauseBodies = true
             });
 
-        generator.GenerateScript(fragment, out var output);
-        return output.AsSpan().TrimEnd().TrimEnd(';');
+        var builder = new StringBuilder();
+        using (var writer = new StringWriter(builder, CultureInfo.InvariantCulture))
+        {
+            generator.GenerateScript(fragment, writer);
+        }
+
+        builder.TrimEnd();
+        // ReSharper disable once UseIndexFromEndExpression
+        if (builder[builder.Length -1] == ';')
+        {
+            builder.Length--;
+        }
+
+        return builder;
     }
 }
