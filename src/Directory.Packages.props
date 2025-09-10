@@ -9,7 +9,7 @@
     <PackageVersion Include="Microsoft.Data.SqlClient" Version="6.1.1" />
     <PackageVersion Include="Microsoft.Extensions.DiagnosticAdapter" Version="3.1.32" />
     <PackageVersion Include="Microsoft.NET.Test.Sdk" Version="17.14.1" />
-    <PackageVersion Include="Microsoft.SqlServer.TransactSql.ScriptDom" Version="170.64.0" />
+    <PackageVersion Include="Microsoft.SqlServer.TransactSql.ScriptDom" Version="170.100.0" />
     <PackageVersion Include="Microsoft.SqlServer.SqlManagementObjects" Version="172.76.0" />
     <PackageVersion Include="NUnit" Version="4.4.0" />
     <PackageVersion Include="NUnit3TestAdapter" Version="5.1.0" />
