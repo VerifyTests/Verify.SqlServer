@@ -10,7 +10,7 @@
     <PackageVersion Include="Microsoft.Extensions.DiagnosticAdapter" Version="3.1.32" />
     <PackageVersion Include="Microsoft.NET.Test.Sdk" Version="18.0.0" />
     <PackageVersion Include="Microsoft.SqlServer.TransactSql.ScriptDom" Version="170.128.0" />
-    <PackageVersion Include="Microsoft.SqlServer.SqlManagementObjects" Version="172.76.0" />
+    <PackageVersion Include="Microsoft.SqlServer.SqlManagementObjects" Version="172.87.0" />
     <PackageVersion Include="NUnit" Version="4.4.0" />
     <PackageVersion Include="NUnit3TestAdapter" Version="5.2.0" />
     <PackageVersion Include="ProjectDefaults" Version="1.0.162" />
