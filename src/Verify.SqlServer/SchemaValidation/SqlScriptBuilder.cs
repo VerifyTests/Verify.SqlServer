@@ -115,11 +115,10 @@ class SqlScriptBuilder(SchemaSettings settings)
         builder.Replace(")WITH () ", ") ");
     }
 
-    void AppendType<T>(StringBuilder builder, ScriptingOptions options, SmoCollectionBase items, Func<T, bool> isSystem)
+    void AppendType<T>(StringBuilder builder, ScriptingOptions options, IEnumerable<T> items, Func<T, bool> isSystem)
         where T : NamedSmoObject, IScriptable
     {
         var filtered = items
-            .Cast<T>()
             .Where(_ => !isSystem(_) && settings.IncludeItem(_))
             .ToList();
         if (filtered.Count == 0)
