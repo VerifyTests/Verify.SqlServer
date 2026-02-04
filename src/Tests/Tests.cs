@@ -165,6 +165,36 @@ public class Tests
     }
 
     [Test]
+    public async Task CommandOrderBySingleColumn()
+    {
+        var command = new SqlCommand
+        {
+            CommandText = "select Value from MyTable order by Value"
+        };
+        await Verify(command);
+    }
+
+    [Test]
+    public async Task CommandOrderByMultipleColumns()
+    {
+        var command = new SqlCommand
+        {
+            CommandText = "select Id, Name from MyTable order by Name, Id"
+        };
+        await Verify(command);
+    }
+
+    [Test]
+    public async Task CommandOrderByMultipleColumnsDesc()
+    {
+        var command = new SqlCommand
+        {
+            CommandText = "select Id, Name from MyTable order by Name desc, Id asc"
+        };
+        await Verify(command);
+    }
+
+    [Test]
     public async Task Exception()
     {
         await using var database = await sqlInstance.Build();
