@@ -1,0 +1,9 @@
+﻿{
+  Text:
+select   Id,
+         Name
+from     MyTable
+order by Name desc,
+         Id asc,
+  HasTransaction: false
+}
