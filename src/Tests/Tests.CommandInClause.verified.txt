@@ -1,0 +1,11 @@
+{
+  Text:
+select Id,
+       Name
+from   MyTable
+where  Id in (1,
+              2,
+              4,
+              6),
+  HasTransaction: false
+}

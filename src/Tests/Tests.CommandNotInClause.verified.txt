@@ -1,0 +1,10 @@
+{
+  Text:
+select Id,
+       Name
+from   MyTable
+where  Id not in (1,
+                  2,
+                  4),
+  HasTransaction: false
+}
