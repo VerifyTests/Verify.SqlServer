@@ -50,6 +50,43 @@
 #endif
         }
 
+        var inCollector = new InPredicateCollector();
+        fragment.Accept(inCollector);
+
+        foreach (var inPredicate in inCollector.Predicates)
+        {
+            if (inPredicate.Values.Count <= 1)
+            {
+                continue;
+            }
+
+            var values = new List<string>(inPredicate.Values.Count);
+            foreach (var value in inPredicate.Values)
+            {
+                generator.GenerateScript(value, out var text);
+                values.Add(text);
+            }
+
+            var singleLine = string.Join(", ", values);
+
+            var pos = script.IndexOf(singleLine, StringComparison.Ordinal);
+            if (pos == -1)
+            {
+                continue;
+            }
+
+            var lineStart = script.LastIndexOf('\n', pos) + 1;
+            var indent = new string(' ', pos - lineStart);
+
+#if NET48
+            var multiLine = string.Join(",\n" + indent, values);
+            script = script.Substring(0, pos) + multiLine + script.Substring(pos + singleLine.Length);
+#else
+            var multiLine = string.Join(",\n" + indent, values);
+            script = string.Concat(script.AsSpan(0, pos), multiLine, script.AsSpan(pos + singleLine.Length));
+#endif
+        }
+
         return script;
     }
 }

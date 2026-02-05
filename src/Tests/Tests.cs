@@ -195,6 +195,26 @@ public class Tests
     }
 
     [Test]
+    public async Task CommandInClause()
+    {
+        var command = new SqlCommand
+        {
+            CommandText = "select Id, Name from MyTable where Id in (1, 2, 4, 6)"
+        };
+        await Verify(command);
+    }
+
+    [Test]
+    public async Task CommandNotInClause()
+    {
+        var command = new SqlCommand
+        {
+            CommandText = "select Id, Name from MyTable where Id not in (1, 2, 4)"
+        };
+        await Verify(command);
+    }
+
+    [Test]
     public async Task Exception()
     {
         await using var database = await sqlInstance.Build();
