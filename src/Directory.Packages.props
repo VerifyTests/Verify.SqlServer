@@ -11,7 +11,7 @@
     <PackageVersion Include="Microsoft.NET.Test.Sdk" Version="18.0.1" />
     <PackageVersion Include="Microsoft.SqlServer.TransactSql.ScriptDom" Version="170.168.0" />
     <PackageVersion Include="Microsoft.SqlServer.SqlManagementObjects" Version="180.10.0" />
-    <PackageVersion Include="NUnit" Version="4.4.0" />
+    <PackageVersion Include="NUnit" Version="4.5.0" />
     <PackageVersion Include="NUnit3TestAdapter" Version="6.1.0" />
     <PackageVersion Include="ProjectDefaults" Version="1.0.172" />
     <PackageVersion Include="System.Diagnostics.DiagnosticSource" Version="10.0.3" />
