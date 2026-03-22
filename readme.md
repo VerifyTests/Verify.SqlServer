@@ -50,7 +50,7 @@ This test:
 ```cs
 await Verify(connection);
 ```
-<sup><a href='/src/Tests/Tests.cs#L83-L87' title='Snippet source file'>snippet source</a> | <a href='#snippet-SqlServerSchema' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Tests/Tests.cs#L81-L85' title='Snippet source file'>snippet source</a> | <a href='#snippet-SqlServerSchema' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 Will result in the following verified file:
@@ -69,7 +69,7 @@ await Verify(connection)
     // include only tables and views
     .SchemaIncludes(DbObjects.Tables | DbObjects.Views);
 ```
-<sup><a href='/src/Tests/Tests.cs#L449-L455' title='Snippet source file'>snippet source</a> | <a href='#snippet-SchemaInclude' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Tests/Tests.cs#L447-L453' title='Snippet source file'>snippet source</a> | <a href='#snippet-SchemaInclude' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 Available values:
@@ -107,7 +107,7 @@ await Verify(connection)
         _ => _ is TableViewBase ||
              _.Name == "MyTrigger");
 ```
-<sup><a href='/src/Tests/Tests.cs#L474-L482' title='Snippet source file'>snippet source</a> | <a href='#snippet-SchemaFilter' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Tests/Tests.cs#L472-L480' title='Snippet source file'>snippet source</a> | <a href='#snippet-SchemaFilter' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 
@@ -129,7 +129,7 @@ command.CommandText = "select Value from MyTable";
 var value = await command.ExecuteScalarAsync();
 await Verify(value!);
 ```
-<sup><a href='/src/Tests/Tests.cs#L258-L268' title='Snippet source file'>snippet source</a> | <a href='#snippet-Recording' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Tests/Tests.cs#L256-L266' title='Snippet source file'>snippet source</a> | <a href='#snippet-Recording' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 Will result in the following verified file:
@@ -184,7 +184,7 @@ await Verify(
         sqlEntries = entries
     });
 ```
-<sup><a href='/src/Tests/Tests.cs#L335-L365' title='Snippet source file'>snippet source</a> | <a href='#snippet-RecordingSpecific' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Tests/Tests.cs#L333-L363' title='Snippet source file'>snippet source</a> | <a href='#snippet-RecordingSpecific' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 
@@ -212,7 +212,7 @@ var sqlErrorsViaType = entries
     .Select(_ => _.Data)
     .OfType<ErrorEntry>();
 ```
-<sup><a href='/src/Tests/Tests.cs#L391-L410' title='Snippet source file'>snippet source</a> | <a href='#snippet-RecordingReadingResults' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Tests/Tests.cs#L389-L408' title='Snippet source file'>snippet source</a> | <a href='#snippet-RecordingReadingResults' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 
