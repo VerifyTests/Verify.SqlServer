@@ -8,7 +8,13 @@ public class Tests
             "VerifySqlServer",
             connection =>
             {
-                var server = new Server(new ServerConnection(connection));
+                var connBuilder = new SqlConnectionStringBuilder(connection.ConnectionString);
+                var serverConnection = new ServerConnection(connBuilder.DataSource)
+                {
+                    LoginSecure = true,
+                    DatabaseName = connBuilder.InitialCatalog,
+                };
+                var server = new Server(serverConnection);
                 server.ConnectionContext.ExecuteNonQuery(
                     """
                     CREATE TABLE
