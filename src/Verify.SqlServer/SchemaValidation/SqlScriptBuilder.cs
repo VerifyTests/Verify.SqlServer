@@ -31,7 +31,11 @@ class SqlScriptBuilder(SchemaSettings settings)
     public string BuildContent(SqlConnection connection)
     {
         var builder = new SqlConnectionStringBuilder(connection.ConnectionString);
-        var server = new Server(new ServerConnection(connection));
+        var serverConnection = new ServerConnection
+        {
+            ConnectionString = connection.ConnectionString,
+        };
+        var server = new Server(serverConnection);
 
         return BuildContent(server, builder);
     }
