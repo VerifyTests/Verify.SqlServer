@@ -68,6 +68,225 @@ public class Tests
                     BEGIN
                         RETURN @quantity * @list_price * (1 - @discount);
                     END;
+                    GO
+
+                    CREATE TABLE ColumnTypes(
+                      Id int NOT NULL IDENTITY(1,1),
+                      Name nvarchar(100) NOT NULL,
+                      Description nvarchar(max) NULL,
+                      Code varchar(20) NULL,
+                      Amount decimal(18,4) NOT NULL,
+                      IsActive bit NOT NULL,
+                      Created datetime2 NOT NULL,
+                      RowVersion rowversion NOT NULL,
+                      Price money NULL,
+                      Ratio float NULL,
+                      SmallNum smallint NULL,
+                      TinyNum tinyint NULL,
+                      BigNum bigint NULL,
+                      UniqueCode uniqueidentifier NULL,
+                      Notes text NULL,
+                      BinaryData varbinary(500) NULL,
+                      MaxBinary varbinary(max) NULL,
+                      FixedChar char(10) NULL,
+                      FixedBinary binary(16) NULL,
+                      TimeOnly time NULL,
+                      DateOnly date NULL,
+                      NText ntext NULL,
+                      Xml xml NULL,
+                      CONSTRAINT PK_ColumnTypes PRIMARY KEY CLUSTERED (Id)
+                    );
+                    GO
+
+                    CREATE TABLE WithDefaults(
+                      Id int NOT NULL IDENTITY(1,1),
+                      Status varchar(20) NOT NULL CONSTRAINT DF_WithDefaults_Status DEFAULT ('active'),
+                      Created datetime2 NOT NULL CONSTRAINT DF_WithDefaults_Created DEFAULT (GETUTCDATE()),
+                      Score int NOT NULL CONSTRAINT DF_WithDefaults_Score DEFAULT (0),
+                      CONSTRAINT PK_WithDefaults PRIMARY KEY CLUSTERED (Id)
+                    );
+                    GO
+
+                    CREATE TABLE WithComputed(
+                      Id int NOT NULL IDENTITY(1,1),
+                      FirstName nvarchar(50) NOT NULL,
+                      LastName nvarchar(50) NOT NULL,
+                      FullName AS (FirstName + ' ' + LastName),
+                      Quantity int NOT NULL,
+                      UnitPrice decimal(10,2) NOT NULL,
+                      TotalPrice AS (Quantity * UnitPrice) PERSISTED,
+                      CONSTRAINT PK_WithComputed PRIMARY KEY CLUSTERED (Id)
+                    );
+                    GO
+
+                    CREATE TABLE ParentTable(
+                      Id int NOT NULL IDENTITY(1,1),
+                      Name nvarchar(100) NOT NULL,
+                      CONSTRAINT PK_ParentTable PRIMARY KEY CLUSTERED (Id),
+                      CONSTRAINT UQ_ParentTable_Name UNIQUE NONCLUSTERED (Name)
+                    );
+                    GO
+
+                    CREATE TABLE ChildTable(
+                      Id int NOT NULL IDENTITY(1,1),
+                      ParentId int NOT NULL,
+                      Value int NOT NULL,
+                      CONSTRAINT PK_ChildTable PRIMARY KEY CLUSTERED (Id),
+                      CONSTRAINT FK_ChildTable_ParentTable FOREIGN KEY (ParentId)
+                        REFERENCES ParentTable(Id),
+                      CONSTRAINT CK_ChildTable_Value CHECK (Value >= 0)
+                    );
+                    GO
+
+                    CREATE TABLE CompositeKeyTable(
+                      Key1 int NOT NULL,
+                      Key2 int NOT NULL,
+                      Data nvarchar(200) NULL,
+                      CONSTRAINT PK_CompositeKeyTable PRIMARY KEY CLUSTERED (Key1, Key2)
+                    );
+                    GO
+
+                    CREATE TABLE MultiIndexTable(
+                      Id int NOT NULL IDENTITY(1,1),
+                      Name nvarchar(100) NOT NULL,
+                      Category nvarchar(50) NOT NULL,
+                      Status int NOT NULL,
+                      CONSTRAINT PK_MultiIndexTable PRIMARY KEY CLUSTERED (Id)
+                    );
+                    GO
+
+                    CREATE INDEX IX_MultiIndexTable_Name
+                    ON MultiIndexTable (Name);
+                    GO
+
+                    CREATE UNIQUE INDEX IX_MultiIndexTable_Category_Name
+                    ON MultiIndexTable (Category, Name);
+                    GO
+
+                    CREATE INDEX IX_MultiIndexTable_Status_Desc
+                    ON MultiIndexTable (Status DESC, Name ASC);
+                    GO
+
+                    CREATE TABLE MultiTriggerTable(
+                      Id int NOT NULL IDENTITY(1,1),
+                      Name nvarchar(100) NULL,
+                      CONSTRAINT PK_MultiTriggerTable PRIMARY KEY CLUSTERED (Id)
+                    );
+                    GO
+
+                    CREATE TRIGGER TR_MultiTrigger_Insert
+                    ON MultiTriggerTable
+                    AFTER INSERT
+                    AS RAISERROR ('Insert detected', 16, 10);
+                    GO
+
+                    CREATE TRIGGER TR_MultiTrigger_Update
+                    ON MultiTriggerTable
+                    AFTER UPDATE
+                    AS RAISERROR ('Update detected', 16, 10);
+                    GO
+
+                    CREATE TRIGGER TR_MultiTrigger_Delete
+                    ON MultiTriggerTable
+                    AFTER DELETE
+                    AS RAISERROR ('Delete detected', 16, 10);
+                    GO
+
+                    CREATE VIEW MyViewWithJoin
+                    AS
+                      SELECT c.Id, c.Value, p.Name AS ParentName
+                      FROM ChildTable c
+                      INNER JOIN ParentTable p ON c.ParentId = p.Id;
+                    GO
+
+                    CREATE VIEW MyViewWithSchemabinding
+                    WITH SCHEMABINDING
+                    AS
+                      SELECT Id, Name
+                      FROM dbo.ParentTable;
+                    GO
+
+                    CREATE PROCEDURE ProcWithParams
+                      @Id int,
+                      @Name nvarchar(100),
+                      @Count int OUTPUT
+                    AS
+                    BEGIN
+                      SET NOCOUNT ON;
+                      SELECT @Count = COUNT(*)
+                      FROM ParentTable
+                      WHERE Id = @Id AND Name = @Name;
+                    END;
+                    GO
+
+                    CREATE FUNCTION InlineTableFunction(@MinValue int)
+                    RETURNS TABLE
+                    AS
+                    RETURN
+                      SELECT Value
+                      FROM MyTable
+                      WHERE Value >= @MinValue;
+                    GO
+
+                    CREATE FUNCTION MultiStatementTableFunction(@MinValue int)
+                    RETURNS @Result TABLE (Value int, Category nvarchar(20))
+                    AS
+                    BEGIN
+                      INSERT INTO @Result
+                      SELECT Value,
+                        CASE
+                          WHEN Value < 10 THEN 'Low'
+                          WHEN Value < 100 THEN 'Medium'
+                          ELSE 'High'
+                        END
+                      FROM MyTable
+                      WHERE Value >= @MinValue;
+                      RETURN;
+                    END;
+                    GO
+
+                    create synonym synonym2
+                        for ParentTable;
+                    GO
+
+                    CREATE SCHEMA TestSchema;
+                    GO
+
+                    CREATE TABLE TestSchema.SchemaTable(
+                      Id int NOT NULL IDENTITY(1,1),
+                      Name nvarchar(50) NOT NULL,
+                      CONSTRAINT PK_SchemaTable PRIMARY KEY CLUSTERED (Id)
+                    );
+                    GO
+
+                    CREATE VIEW TestSchema.SchemaView
+                    AS
+                      SELECT Id, Name
+                      FROM TestSchema.SchemaTable;
+                    GO
+
+                    CREATE PROCEDURE TestSchema.SchemaProc
+                    AS
+                    BEGIN
+                      SELECT Id, Name
+                      FROM TestSchema.SchemaTable;
+                    END;
+                    GO
+
+                    CREATE FUNCTION TestSchema.SchemaFunction(@Id int)
+                    RETURNS nvarchar(50)
+                    AS
+                    BEGIN
+                      DECLARE @Name nvarchar(50);
+                      SELECT @Name = Name
+                      FROM TestSchema.SchemaTable
+                      WHERE Id = @Id;
+                      RETURN @Name;
+                    END;
+                    GO
+
+                    create synonym TestSchema.SchemaSynonym
+                        for TestSchema.SchemaTable;
                     """);
                 return Task.CompletedTask;
             });
@@ -478,5 +697,96 @@ public class Tests
                      _.Name == "MyTrigger");
 
         #endregion
+    }
+
+    [Test]
+    public async Task SchemaFilterByName()
+    {
+        await using var database = await sqlInstance.Build();
+        var connection = database.Connection;
+
+        await Verify(connection)
+            .SchemaFilter(_ => _.Name is "MyTable" or "MyView" or "MyProcedure");
+    }
+
+    [Test]
+    public async Task SchemaFilterExcludesAll()
+    {
+        await using var database = await sqlInstance.Build();
+        var connection = database.Connection;
+
+        await Verify(connection)
+            .SchemaFilter(_ => false);
+    }
+
+    [Test]
+    public async Task SchemaFilterExcludesAllSql()
+    {
+        await using var database = await sqlInstance.Build();
+        var connection = database.Connection;
+
+        await Verify(connection)
+            .SchemaFilter(_ => false)
+            .SchemaAsSql();
+    }
+
+    [Test]
+    public async Task SchemaIncludeTablesOnly()
+    {
+        await using var database = await sqlInstance.Build();
+        var connection = database.Connection;
+
+        await Verify(connection)
+            .SchemaIncludes(DbObjects.Tables);
+    }
+
+    [Test]
+    public async Task SchemaIncludeViewsOnly()
+    {
+        await using var database = await sqlInstance.Build();
+        var connection = database.Connection;
+
+        await Verify(connection)
+            .SchemaIncludes(DbObjects.Views);
+    }
+
+    [Test]
+    public async Task SchemaIncludeStoredProceduresOnly()
+    {
+        await using var database = await sqlInstance.Build();
+        var connection = database.Connection;
+
+        await Verify(connection)
+            .SchemaIncludes(DbObjects.StoredProcedures);
+    }
+
+    [Test]
+    public async Task SchemaIncludeUserDefinedFunctionsOnly()
+    {
+        await using var database = await sqlInstance.Build();
+        var connection = database.Connection;
+
+        await Verify(connection)
+            .SchemaIncludes(DbObjects.UserDefinedFunctions);
+    }
+
+    [Test]
+    public async Task SchemaIncludeSynonymsOnly()
+    {
+        await using var database = await sqlInstance.Build();
+        var connection = database.Connection;
+
+        await Verify(connection)
+            .SchemaIncludes(DbObjects.Synonyms);
+    }
+
+    [Test]
+    public async Task SchemaAsMarkdown()
+    {
+        await using var database = await sqlInstance.Build();
+        var connection = database.Connection;
+
+        await Verify(connection)
+            .SchemaAsMarkdown();
     }
 }
