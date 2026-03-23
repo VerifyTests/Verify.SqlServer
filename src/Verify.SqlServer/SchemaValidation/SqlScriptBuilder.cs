@@ -16,8 +16,7 @@ class SqlScriptBuilder(SchemaSettings settings)
             "ALLOW_ROW_LOCKS = ON",
             "IGNORE_DUP_KEY = OFF",
             "ALLOW_PAGE_LOCKS = ON",
-            "OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF",
-            "SORT_IN_TEMPDB = OFF"
+            "OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF"
         ];
         tableSettingsToScrubLookup = [];
         foreach (var toScrub in defaultsToScrub)
