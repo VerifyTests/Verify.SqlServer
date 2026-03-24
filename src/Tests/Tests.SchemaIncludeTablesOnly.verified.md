@@ -1,4 +1,4 @@
-## Tables
+﻿## Tables
 
 ### ChildTable
 
@@ -179,6 +179,19 @@ CREATE TABLE [dbo].[ParentTable](
 ) ON [PRIMARY]
 ```
 
+### SchemaTable
+
+```sql
+CREATE TABLE [TestSchema].[SchemaTable](
+	[Id] [int] IDENTITY(1,1) NOT NULL,
+	[Name] [nvarchar](50) NOT NULL,
+ CONSTRAINT [PK_SchemaTable] PRIMARY KEY CLUSTERED 
+(
+	[Id] ASC
+) ON [PRIMARY]
+) ON [PRIMARY]
+```
+
 ### WithComputed
 
 ```sql
@@ -206,19 +219,6 @@ CREATE TABLE [dbo].[WithDefaults](
 	[Created] [datetime2](7) NOT NULL,
 	[Score] [int] NOT NULL,
  CONSTRAINT [PK_WithDefaults] PRIMARY KEY CLUSTERED 
-(
-	[Id] ASC
-) ON [PRIMARY]
-) ON [PRIMARY]
-```
-
-### SchemaTable
-
-```sql
-CREATE TABLE [TestSchema].[SchemaTable](
-	[Id] [int] IDENTITY(1,1) NOT NULL,
-	[Name] [nvarchar](50) NOT NULL,
- CONSTRAINT [PK_SchemaTable] PRIMARY KEY CLUSTERED 
 (
 	[Id] ASC
 ) ON [PRIMARY]
