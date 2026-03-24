@@ -834,6 +834,15 @@ public class Tests
     }
 
     [Test]
+    public async Task SchemaMissingInitialCatalog()
+    {
+        var connection = new SqlConnection("Server=localhost");
+        var exception = Assert.ThrowsAsync<Exception>(
+            async () => await Verify(connection));
+        Assert.That(exception!.Message, Does.Contain("Initial Catalog"));
+    }
+
+    [Test]
     public async Task SchemaIncludesAndFilter()
     {
         await using var database = await sqlInstance.Build();
