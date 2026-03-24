@@ -1,4 +1,4 @@
-## StoredProcedures
+﻿## StoredProcedures
 
 ### MyProcedure
 
@@ -10,6 +10,16 @@ BEGIN
   SELECT Value
   FROM MyTable
   WHERE (Value > 10);
+END;
+```
+
+### ProcWithAnsiNullsOff
+
+```sql
+CREATE PROCEDURE ProcWithAnsiNullsOff
+AS
+BEGIN
+  SELECT Value FROM MyTable;
 END;
 ```
 

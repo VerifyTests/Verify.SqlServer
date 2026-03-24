@@ -287,6 +287,23 @@ public class Tests
 
                     create synonym TestSchema.SchemaSynonym
                         for TestSchema.SchemaTable;
+                    GO
+
+                    SET ANSI_NULLS OFF;
+                    GO
+                    SET QUOTED_IDENTIFIER OFF;
+                    GO
+
+                    CREATE PROCEDURE ProcWithAnsiNullsOff
+                    AS
+                    BEGIN
+                      SELECT Value FROM MyTable;
+                    END;
+                    GO
+
+                    SET ANSI_NULLS ON;
+                    GO
+                    SET QUOTED_IDENTIFIER ON;
                     """);
                 return Task.CompletedTask;
             });
@@ -788,5 +805,18 @@ public class Tests
 
         await Verify(connection)
             .SchemaAsMarkdown();
+    }
+
+    [Test]
+    public async Task SchemaAnsiNullsOff()
+    {
+        await using var database = await sqlInstance.Build();
+        var connection = database.Connection;
+
+        // ProcWithAnsiNullsOff was created with SET ANSI_NULLS OFF and SET QUOTED_IDENTIFIER OFF.
+        // Verify the SET statements are stripped from the output.
+        await Verify(connection)
+            .SchemaFilter(_ => _.Name == "ProcWithAnsiNullsOff")
+            .SchemaIncludes(DbObjects.StoredProcedures);
     }
 }

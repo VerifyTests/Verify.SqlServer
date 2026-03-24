@@ -217,6 +217,12 @@ BEGIN
   WHERE (Value > 10);
 END;
 
+CREATE PROCEDURE ProcWithAnsiNullsOff
+AS
+BEGIN
+  SELECT Value FROM MyTable;
+END;
+
 CREATE PROCEDURE ProcWithParams
   @Id int,
   @Name nvarchar(100),

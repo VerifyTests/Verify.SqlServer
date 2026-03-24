@@ -208,5 +208,7 @@ class SqlScriptBuilder(SchemaSettings settings)
     static bool IsSet(string script) =>
         script is
             "SET ANSI_NULLS ON" or
-            "SET QUOTED_IDENTIFIER ON";
+            "SET ANSI_NULLS OFF" or
+            "SET QUOTED_IDENTIFIER ON" or
+            "SET QUOTED_IDENTIFIER OFF";
 }
