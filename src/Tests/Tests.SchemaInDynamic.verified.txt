@@ -79,20 +79,17 @@ CREATE TABLE [dbo].[MultiIndexTable](
 ) ON [PRIMARY]
 ) ON [PRIMARY]
 
-SET ANSI_PADDING ON
 
 CREATE UNIQUE NONCLUSTERED INDEX [IX_MultiIndexTable_Category_Name] ON [dbo].[MultiIndexTable]
 (
 	[Category] ASC,
 	[Name] ASC
 ) ON [PRIMARY]
-SET ANSI_PADDING ON
 
 CREATE NONCLUSTERED INDEX [IX_MultiIndexTable_Name] ON [dbo].[MultiIndexTable]
 (
 	[Name] ASC
 ) ON [PRIMARY]
-SET ANSI_PADDING ON
 
 CREATE NONCLUSTERED INDEX [IX_MultiIndexTable_Status_Desc] ON [dbo].[MultiIndexTable]
 (

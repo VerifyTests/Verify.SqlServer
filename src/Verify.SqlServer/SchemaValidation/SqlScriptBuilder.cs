@@ -1,3 +1,4 @@
+using System.Text.RegularExpressions;
 using Microsoft.SqlServer.Management.Smo;
 
 class SqlScriptBuilder(SchemaSettings settings)
@@ -208,12 +209,28 @@ class SqlScriptBuilder(SchemaSettings settings)
             .Script(options)
             .Cast<string>()
             .Where(_ => !IsSet(_))
+            .Select(ScrubSetStatements)
             .ToList();
+
+    static string ScrubSetStatements(string script)
+    {
+        if (!script.Contains("SET ANSI_PADDING "))
+        {
+            return script;
+        }
+
+        return setAnsiPaddingRegex.Replace(script, "");
+    }
+
+    static readonly Regex setAnsiPaddingRegex = new(@"^\s*SET ANSI_PADDING (ON|OFF)\s*$\n?",
+        RegexOptions.Multiline | RegexOptions.Compiled);
 
     static bool IsSet(string script) =>
         script is
             "SET ANSI_NULLS ON" or
             "SET ANSI_NULLS OFF" or
             "SET QUOTED_IDENTIFIER ON" or
-            "SET QUOTED_IDENTIFIER OFF";
+            "SET QUOTED_IDENTIFIER OFF" or
+            "SET ANSI_PADDING ON" or
+            "SET ANSI_PADDING OFF";
 }

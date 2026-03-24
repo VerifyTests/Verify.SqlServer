@@ -819,4 +819,17 @@ public class Tests
             .SchemaFilter(_ => _.Name == "ProcWithAnsiNullsOff")
             .SchemaIncludes(DbObjects.StoredProcedures);
     }
+
+    [Test]
+    public async Task SchemaAnsiPaddingStripped()
+    {
+        await using var database = await sqlInstance.Build();
+        var connection = database.Connection;
+
+        // MultiIndexTable has nvarchar indexes which cause SMO to emit SET ANSI_PADDING ON.
+        // Verify the SET ANSI_PADDING statements are stripped from the output.
+        await Verify(connection)
+            .SchemaFilter(_ => _.Name == "MultiIndexTable")
+            .SchemaIncludes(DbObjects.Tables);
+    }
 }
