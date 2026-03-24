@@ -1,4 +1,4 @@
-﻿## Synonyms
+## Synonyms
 
 ### SchemaSynonym
 
