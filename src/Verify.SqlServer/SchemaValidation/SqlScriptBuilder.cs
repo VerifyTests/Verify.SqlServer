@@ -48,13 +48,19 @@ class SqlScriptBuilder(SchemaSettings settings)
 
     string BuildContent(Server server, SqlConnectionStringBuilder builder)
     {
+        var initialCatalog = builder.InitialCatalog;
+        if (string.IsNullOrWhiteSpace(initialCatalog))
+        {
+            throw new("The connection string must specify an Initial Catalog (database name) for schema verification.");
+        }
+
         server.SetDefaultInitFields(typeof(Table), "Name", "IsSystemObject");
         server.SetDefaultInitFields(typeof(View), "Name", "IsSystemObject");
         server.SetDefaultInitFields(typeof(StoredProcedure), "Name", "IsSystemObject");
         server.SetDefaultInitFields(typeof(UserDefinedFunction), "Name", "IsSystemObject");
         server.SetDefaultInitFields(typeof(Trigger), "Name", "IsSystemObject");
         server.SetDefaultInitFields(typeof(Synonym), "Name");
-        var database = server.Databases[builder.InitialCatalog];
+        var database = server.Databases[initialCatalog];
         database.Tables.Refresh();
 
         return GetScriptingObjects(database);
