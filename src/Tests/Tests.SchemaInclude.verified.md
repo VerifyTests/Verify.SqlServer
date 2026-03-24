@@ -1,4 +1,4 @@
-﻿## Tables
+## Tables
 
 ### ChildTable
 
