@@ -832,4 +832,17 @@ public class Tests
             .SchemaFilter(_ => _.Name == "MultiIndexTable")
             .SchemaIncludes(DbObjects.Tables);
     }
+
+    [Test]
+    public async Task SchemaIncludesAndFilter()
+    {
+        await using var database = await sqlInstance.Build();
+        var connection = database.Connection;
+
+        // SchemaIncludes restricts to tables and views,
+        // SchemaFilter further restricts by name.
+        await Verify(connection)
+            .SchemaIncludes(DbObjects.Tables | DbObjects.Views)
+            .SchemaFilter(_ => _.Name is "MyTable" or "MyView" or "MyProcedure");
+    }
 }
