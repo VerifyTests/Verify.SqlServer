@@ -144,6 +144,15 @@ CREATE TABLE [dbo].[ParentTable](
 ) ON [PRIMARY]
 ) ON [PRIMARY]
 
+CREATE TABLE [TestSchema].[SchemaTable](
+	[Id] [int] IDENTITY(1,1) NOT NULL,
+	[Name] [nvarchar](50) NOT NULL,
+ CONSTRAINT [PK_SchemaTable] PRIMARY KEY CLUSTERED 
+(
+	[Id] ASC
+) ON [PRIMARY]
+) ON [PRIMARY]
+
 CREATE TABLE [dbo].[WithComputed](
 	[Id] [int] IDENTITY(1,1) NOT NULL,
 	[FirstName] [nvarchar](50) NOT NULL,
@@ -164,15 +173,6 @@ CREATE TABLE [dbo].[WithDefaults](
 	[Created] [datetime2](7) NOT NULL,
 	[Score] [int] NOT NULL,
  CONSTRAINT [PK_WithDefaults] PRIMARY KEY CLUSTERED 
-(
-	[Id] ASC
-) ON [PRIMARY]
-) ON [PRIMARY]
-
-CREATE TABLE [TestSchema].[SchemaTable](
-	[Id] [int] IDENTITY(1,1) NOT NULL,
-	[Name] [nvarchar](50) NOT NULL,
- CONSTRAINT [PK_SchemaTable] PRIMARY KEY CLUSTERED 
 (
 	[Id] ASC
 ) ON [PRIMARY]
@@ -289,8 +289,8 @@ END;
 
 -- Synonyms
 
+CREATE SYNONYM [TestSchema].[SchemaSynonym] FOR [TestSchema].[SchemaTable]
+
 CREATE SYNONYM [dbo].[synonym1] FOR [MyTable]
 
 CREATE SYNONYM [dbo].[synonym2] FOR [ParentTable]
-
-CREATE SYNONYM [TestSchema].[SchemaSynonym] FOR [TestSchema].[SchemaTable]

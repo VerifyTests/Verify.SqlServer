@@ -130,6 +130,7 @@ class SqlScriptBuilder(SchemaSettings settings)
     {
         var filtered = items
             .Where(_ => !isSystem(_) && settings.IncludeItem(_))
+            .OrderBy(_ => _.Name, StringComparer.Ordinal)
             .ToList();
         if (filtered.Count == 0)
         {
