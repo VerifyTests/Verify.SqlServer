@@ -1,4 +1,4 @@
-﻿## StoredProcedures
+## StoredProcedures
 
 ### MyProcedure
 
