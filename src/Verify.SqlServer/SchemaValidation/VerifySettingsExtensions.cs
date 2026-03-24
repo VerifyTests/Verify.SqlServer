@@ -79,5 +79,6 @@ public static partial class VerifySettingsSqlExtensions
         return defaultSettings;
     }
 
+    // Shared instance is safe: callers only read from it, never mutate
     static SchemaSettings defaultSettings = new();
 }
