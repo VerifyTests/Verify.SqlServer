@@ -2,8 +2,10 @@
 global using System.Data.Common;
 global using System.Data.SqlTypes;
 global using System.Globalization;
+global using System.Text.RegularExpressions;
 global using Microsoft.Data.SqlClient;
 global using Microsoft.Extensions.DiagnosticAdapter;
 global using Microsoft.SqlServer.Management.Common;
+global using Microsoft.SqlServer.Management.Smo;
 global using Microsoft.SqlServer.TransactSql.ScriptDom;
 global using VerifyTests.SqlServer;

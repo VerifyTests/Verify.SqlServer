@@ -1,5 +1,3 @@
-using Microsoft.SqlServer.Management.Smo;
-
 class SchemaSettings
 {
     public DbObjects Includes { get; set; } = DbObjects.All;

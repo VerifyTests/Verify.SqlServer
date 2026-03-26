@@ -8,10 +8,9 @@ public class Tests
             "VerifySqlServer",
             connection =>
             {
-                var serverConnection = new ServerConnection
-                {
-                    ConnectionString = connection.ConnectionString,
-                };
+                var serverConnection = new ServerConnection();
+                SqlScriptBuilder.SqlConnectionObjectField.SetValue(serverConnection, connection);
+                serverConnection.NonPooledConnection = true;
                 var server = new Server(serverConnection);
                 server.ConnectionContext.ExecuteNonQuery(
                     """
@@ -853,5 +852,20 @@ public class Tests
         await Verify(connection)
             .SchemaIncludes(DbObjects.Tables | DbObjects.Views)
             .SchemaFilter(_ => _.Name is "MyTable" or "MyView" or "MyProcedure");
+    }
+
+    // Verifies the workaround for SMO 181.15.0 + SqlClient 7.0 TypeLoadException.
+    // SMO's ServerConnection(SqlConnection) constructor references SqlAuthenticationMethod
+    // which moved from Microsoft.Data.SqlClient to Extensions.Abstractions in SqlClient 7.0.
+    // The fix avoids that constructor by using reflection to set the SqlConnection directly.
+    [Test]
+    public async Task SchemaFromOpenConnection()
+    {
+        await using var database = await sqlInstance.Build();
+        await using var connection = new SqlConnection(database.ConnectionString);
+        await connection.OpenAsync();
+        await Verify(connection)
+            .SchemaFilter(_ => _.Name == "MyTable")
+            .SchemaIncludes(DbObjects.Tables);
     }
 }
