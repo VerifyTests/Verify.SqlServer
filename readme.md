@@ -50,11 +50,7 @@ This test:
 ```cs
 await Verify(connection);
 ```
-<<<<<<< ours
 <sup><a href='/src/Tests/Tests.cs#L317-L321' title='Snippet source file'>snippet source</a> | <a href='#snippet-SqlServerSchema' title='Start of snippet'>anchor</a></sup>
-=======
-<sup><a href='/src/Tests/Tests.cs#L77-L81' title='Snippet source file'>snippet source</a> | <a href='#snippet-SqlServerSchema' title='Start of snippet'>anchor</a></sup>
->>>>>>> theirs
 <!-- endSnippet -->
 
 Will result in the following verified file:
@@ -73,11 +69,7 @@ await Verify(connection)
     // include only tables and views
     .SchemaIncludes(DbObjects.Tables | DbObjects.Views);
 ```
-<<<<<<< ours
 <sup><a href='/src/Tests/Tests.cs#L683-L689' title='Snippet source file'>snippet source</a> | <a href='#snippet-SchemaInclude' title='Start of snippet'>anchor</a></sup>
-=======
-<sup><a href='/src/Tests/Tests.cs#L443-L449' title='Snippet source file'>snippet source</a> | <a href='#snippet-SchemaInclude' title='Start of snippet'>anchor</a></sup>
->>>>>>> theirs
 <!-- endSnippet -->
 
 Available values:
@@ -115,11 +107,7 @@ await Verify(connection)
         _ => _ is TableViewBase ||
              _.Name == "MyTrigger");
 ```
-<<<<<<< ours
 <sup><a href='/src/Tests/Tests.cs#L708-L716' title='Snippet source file'>snippet source</a> | <a href='#snippet-SchemaFilter' title='Start of snippet'>anchor</a></sup>
-=======
-<sup><a href='/src/Tests/Tests.cs#L468-L476' title='Snippet source file'>snippet source</a> | <a href='#snippet-SchemaFilter' title='Start of snippet'>anchor</a></sup>
->>>>>>> theirs
 <!-- endSnippet -->
 
 
@@ -141,11 +129,7 @@ command.CommandText = "select Value from MyTable";
 var value = await command.ExecuteScalarAsync();
 await Verify(value!);
 ```
-<<<<<<< ours
 <sup><a href='/src/Tests/Tests.cs#L492-L502' title='Snippet source file'>snippet source</a> | <a href='#snippet-Recording' title='Start of snippet'>anchor</a></sup>
-=======
-<sup><a href='/src/Tests/Tests.cs#L252-L262' title='Snippet source file'>snippet source</a> | <a href='#snippet-Recording' title='Start of snippet'>anchor</a></sup>
->>>>>>> theirs
 <!-- endSnippet -->
 
 Will result in the following verified file:
@@ -200,11 +184,7 @@ await Verify(
         sqlEntries = entries
     });
 ```
-<<<<<<< ours
 <sup><a href='/src/Tests/Tests.cs#L569-L599' title='Snippet source file'>snippet source</a> | <a href='#snippet-RecordingSpecific' title='Start of snippet'>anchor</a></sup>
-=======
-<sup><a href='/src/Tests/Tests.cs#L329-L359' title='Snippet source file'>snippet source</a> | <a href='#snippet-RecordingSpecific' title='Start of snippet'>anchor</a></sup>
->>>>>>> theirs
 <!-- endSnippet -->
 
 
@@ -232,11 +212,7 @@ var sqlErrorsViaType = entries
     .Select(_ => _.Data)
     .OfType<ErrorEntry>();
 ```
-<<<<<<< ours
 <sup><a href='/src/Tests/Tests.cs#L625-L644' title='Snippet source file'>snippet source</a> | <a href='#snippet-RecordingReadingResults' title='Start of snippet'>anchor</a></sup>
-=======
-<sup><a href='/src/Tests/Tests.cs#L385-L404' title='Snippet source file'>snippet source</a> | <a href='#snippet-RecordingReadingResults' title='Start of snippet'>anchor</a></sup>
->>>>>>> theirs
 <!-- endSnippet -->
 
 
