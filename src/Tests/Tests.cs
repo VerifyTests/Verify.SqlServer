@@ -1,9 +1,6 @@
 [TestFixture]
 public class Tests
 {
-    static readonly FieldInfo sqlConnectionObjectField =
-        typeof(ConnectionManager).GetField("m_SqlConnectionObject", BindingFlags.NonPublic | BindingFlags.Instance)!;
-
     static SqlInstance sqlInstance;
 
     static Tests() =>
@@ -12,7 +9,7 @@ public class Tests
             connection =>
             {
                 var serverConnection = new ServerConnection();
-                sqlConnectionObjectField.SetValue(serverConnection, connection);
+                SqlScriptBuilder.SqlConnectionObjectField.SetValue(serverConnection, connection);
                 serverConnection.NonPooledConnection = true;
                 var server = new Server(serverConnection);
                 server.ConnectionContext.ExecuteNonQuery(
