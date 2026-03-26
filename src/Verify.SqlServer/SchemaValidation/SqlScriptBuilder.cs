@@ -1,8 +1,16 @@
-using System.Text.RegularExpressions;
-using Microsoft.SqlServer.Management.Smo;
-
 class SqlScriptBuilder(SchemaSettings settings)
 {
+    // SMO 181.15.0 ServerConnection(SqlConnection) constructor calls InitFromSqlConnection
+    // which references SqlAuthenticationMethod — a type moved from Microsoft.Data.SqlClient
+    // to Microsoft.Data.SqlClient.Extensions.Abstractions in SqlClient 7.0. The CLR can't
+    // resolve the type in the original assembly, causing a TypeLoadException.
+    //
+    // Workaround: construct ServerConnection() with default constructor (no InitFromSqlConnection),
+    // then set the internal m_SqlConnectionObject field via reflection to reuse the open connection.
+    // SMO detects the connection is already open and uses it directly.
+    static readonly FieldInfo sqlConnectionObjectField =
+        typeof(ConnectionManager).GetField("m_SqlConnectionObject", BindingFlags.NonPublic | BindingFlags.Instance)!;
+
     static Dictionary<string, string> tableSettingsToScrubLookup;
 
     static SqlScriptBuilder()
@@ -33,10 +41,12 @@ class SqlScriptBuilder(SchemaSettings settings)
         var builder = new SqlConnectionStringBuilder(connection.ConnectionString);
         var serverConnection = new ServerConnection
         {
+            NonPooledConnection = true,
             ConnectionString = connection.ConnectionString,
         };
         try
         {
+            sqlConnectionObjectField.SetValue(serverConnection, connection);
             var server = new Server(serverConnection);
             return BuildContent(server, builder);
         }
