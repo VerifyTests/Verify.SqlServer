@@ -1,20 +1,5 @@
 class SqlScriptBuilder(SchemaSettings settings)
 {
-    // TODO: when Microsoft.Data.SqlClient 7.0.1 adds TypeForwardedTo for SqlAuthenticationMethod,
-    // revert to using new ServerConnection(SqlConnection) and remove this reflection workaround.
-    //
-    // SMO 181.15.0 ServerConnection(SqlConnection) constructor calls InitFromSqlConnection
-    // which references SqlAuthenticationMethod — a type moved from Microsoft.Data.SqlClient
-    // to Microsoft.Data.SqlClient.Extensions.Abstractions in SqlClient 7.0. The CLR can't
-    // resolve the type in the original assembly, causing a TypeLoadException.
-    //
-    // Workaround: construct ServerConnection() with default constructor (no InitFromSqlConnection),
-    // then set the internal m_SqlConnectionObject field via reflection to reuse the open connection.
-    // SMO detects the connection is already open and uses it directly.
-    internal static readonly FieldInfo SqlConnectionObjectField =
-        typeof(ConnectionManager).GetField("m_SqlConnectionObject", BindingFlags.NonPublic | BindingFlags.Instance) ??
-        throw new("Could not find field m_SqlConnectionObject on ConnectionManager. The SMO internals may have changed.");
-
     static Dictionary<string, string> tableSettingsToScrubLookup;
 
     static SqlScriptBuilder()
@@ -50,7 +35,6 @@ class SqlScriptBuilder(SchemaSettings settings)
         };
         try
         {
-            SqlConnectionObjectField.SetValue(serverConnection, connection);
             var server = new Server(serverConnection);
             return BuildContent(server, builder);
         }

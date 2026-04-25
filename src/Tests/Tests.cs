@@ -8,9 +8,10 @@ public class Tests
             "VerifySqlServer",
             connection =>
             {
-                var serverConnection = new ServerConnection();
-                SqlScriptBuilder.SqlConnectionObjectField.SetValue(serverConnection, connection);
-                serverConnection.NonPooledConnection = true;
+                var serverConnection = new ServerConnection
+                {
+                    ConnectionString = connection.ConnectionString,
+                };
                 var server = new Server(serverConnection);
                 server.ConnectionContext.ExecuteNonQuery(
                     """
