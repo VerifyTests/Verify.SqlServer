@@ -852,10 +852,11 @@ public class Tests
             .SchemaFilter(_ => _.Name is "MyTable" or "MyView" or "MyProcedure");
     }
 
-    // Verifies the workaround for SMO 181.15.0 + SqlClient 7.0 TypeLoadException.
-    // SMO's ServerConnection(SqlConnection) constructor references SqlAuthenticationMethod
-    // which moved from Microsoft.Data.SqlClient to Extensions.Abstractions in SqlClient 7.0.
-    // The fix avoids that constructor by using reflection to set the SqlConnection directly.
+    // Exercises Verify(SqlConnection) with an already-open connection.
+    // Note: this test uses LocalDb (Windows auth) so it passes even if the
+    // SqlAuthenticationMethod workaround is removed — Windows auth does not
+    // trigger the SMO type-load for SqlAuthenticationMethod.
+    // See SqlConnectionObjectFieldWorkaround for the regression guard.
     [Test]
     public async Task SchemaFromOpenConnection()
     {
@@ -865,5 +866,27 @@ public class Tests
         await Verify(connection)
             .SchemaFilter(_ => _.Name == "MyTable")
             .SchemaIncludes(DbObjects.Tables);
+    }
+
+    // Regression: commit fbfa399 removed SqlConnectionObjectField from SqlScriptBuilder,
+    // which broke Verify(SqlConnection) for connections using SQL Server authentication.
+    // When SMO 181.x + SqlClient 7.x opens a new connection from a SQL-auth connection
+    // string it tries to load SqlAuthenticationMethod — a type moved in SqlClient 7.0 —
+    // causing a TypeLoadException surfaced as "Login failed for user 'sa'".
+    // The fix injects the already-open SqlConnection directly into SMO via reflection,
+    // so SMO reuses it and never runs the SQL-auth type-load code path.
+    [Test]
+    public void SqlConnectionObjectFieldWorkaround()
+    {
+        var field = SqlScriptBuilder.SqlConnectionObjectField;
+        Assert.That(field, Is.Not.Null,
+            "SqlConnectionObjectField must exist to work around SMO+SqlClient 7.x TypeLoadException for SQL Server auth connections");
+        Assert.That(field.Name, Is.EqualTo("m_SqlConnectionObject"));
+
+        // Verify the field can actually be set on a ServerConnection instance
+        var serverConnection = new ServerConnection { NonPooledConnection = true };
+        using var sqlConnection = new SqlConnection("Server=.;Database=test;Integrated Security=True");
+        field.SetValue(serverConnection, sqlConnection);
+        Assert.That(field.GetValue(serverConnection), Is.SameAs(sqlConnection));
     }
 }
