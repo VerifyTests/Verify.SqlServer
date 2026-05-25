@@ -8,10 +8,7 @@ public class Tests
             "VerifySqlServer",
             connection =>
             {
-                var serverConnection = new ServerConnection
-                {
-                    ConnectionString = connection.ConnectionString,
-                };
+                var serverConnection = new ServerConnection(connection);
                 var server = new Server(serverConnection);
                 server.ConnectionContext.ExecuteNonQuery(
                     """
