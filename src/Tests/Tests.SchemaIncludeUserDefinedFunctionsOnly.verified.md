@@ -1,4 +1,4 @@
-## UserDefinedFunctions
+﻿## UserDefinedFunctions
 
 ### InlineTableFunction
 
