@@ -360,8 +360,7 @@ public class Tests
         {
         }
 
-        await Verify()
-            .ScrubLinesContaining("HelpLink.ProdVer");
+        await Verify();
     }
 
     [Test]
