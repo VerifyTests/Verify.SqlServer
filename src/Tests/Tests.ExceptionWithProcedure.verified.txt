@@ -1,0 +1,6 @@
+﻿{
+  Message: Notify Customer Relations,
+  Number: 50000,
+  Line: 5,
+  Procedure: MyTrigger
+}

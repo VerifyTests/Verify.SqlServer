@@ -7,7 +7,7 @@ class ErrorConverter :
         writer.WriteMember(error, error.Message, "Message");
         writer.WriteMember(error, error.Number, "Number");
         writer.WriteMember(error, error.LineNumber, "Line");
-        if (error.Procedure != "")
+        if (!string.IsNullOrEmpty(error.Procedure))
         {
             writer.WriteMember(error, error.Procedure, "Procedure");
         }

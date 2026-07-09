@@ -364,6 +364,31 @@ public class Tests
     }
 
     [Test]
+    public async Task ExceptionWithProcedure()
+    {
+        await using var database = await sqlInstance.Build();
+        await using var connection = new SqlConnection(database.ConnectionString);
+        await connection.OpenAsync();
+        await using var command = connection.CreateCommand();
+        // MyTrigger raises the error, so the error has a Procedure
+        command.CommandText = "update MyTable set Value = 43";
+        var exception = Assert.ThrowsAsync<SqlException>(() => command.ExecuteNonQueryAsync());
+        await Verify(exception);
+    }
+
+    [Test]
+    public async Task ExceptionWithoutProcedure()
+    {
+        await using var database = await sqlInstance.Build();
+        await using var connection = new SqlConnection(database.ConnectionString);
+        await connection.OpenAsync();
+        await using var command = connection.CreateCommand();
+        command.CommandText = "select * from MyTabl2e";
+        var exception = Assert.ThrowsAsync<SqlException>(() => command.ExecuteNonQueryAsync());
+        await Verify(exception);
+    }
+
+    [Test]
     public async Task CommandEscaped()
     {
         var command = new SqlCommand
