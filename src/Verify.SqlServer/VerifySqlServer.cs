@@ -6,7 +6,15 @@ public static class VerifySqlServer
 
     public static bool Initialized { get; private set; }
 
-    public static void Initialize()
+    public static void Initialize() =>
+        Initialize(recordCommands: true);
+
+    /// <param name="recordCommands">
+    /// Subscribe to <see cref="SqlConnection" /> diagnostic events, so executed commands are added to
+    /// <see cref="Recording" /> under the name `sql`. Disable when another package, for example
+    /// Verify.EntityFramework, already records the same commands.
+    /// </param>
+    public static void Initialize(bool recordCommands)
     {
         if (Initialized)
         {
@@ -28,8 +36,12 @@ public static class VerifySqlServer
         });
 
         VerifierSettings.RegisterFileConverter<SqlConnection>(ToSql);
-        // ReSharper disable once UnusedVariable
-        var subscription = DiagnosticListener.AllListeners.Subscribe(listener);
+
+        if (recordCommands)
+        {
+            // ReSharper disable once UnusedVariable
+            var subscription = DiagnosticListener.AllListeners.Subscribe(listener);
+        }
     }
 
     static ConversionResult ToSql(SqlConnection connection, IReadOnlyDictionary<string, object> context)

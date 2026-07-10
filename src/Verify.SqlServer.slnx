@@ -11,6 +11,7 @@
     <File Path="mdsnippets.json" />
     <File Path="nuget.config" />
   </Folder>
+  <Project Path="RecordingDisabledTests/RecordingDisabledTests.csproj" />
   <Project Path="Tests/Tests.csproj" />
   <Project Path="Verify.SqlServer/Verify.SqlServer.csproj" />
 </Solution>
