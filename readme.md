@@ -116,7 +116,7 @@ await Verify(connection)
 
 Recording allows all commands executed to be captured and then (optionally) verified.
 
-Call `SqlRecording.StartRecording()`:
+Call `Recording.Start()`:
 
 <!-- snippet: Recording -->
 <a id='snippet-Recording'></a>
@@ -151,7 +151,7 @@ from   MyTable,
 <!-- endSnippet -->
 
 
-Sql entries can be explicitly read using `SqlRecording.FinishRecording`, optionally filtered, and passed to Verify:
+Sql entries can be explicitly read using `Recording.Stop()`, optionally filtered, and passed to Verify:
 
 <!-- snippet: RecordingSpecific -->
 <a id='snippet-RecordingSpecific'></a>
@@ -190,7 +190,7 @@ await Verify(
 
 #### Interpreting recording results
 
-Recording results can be interpreted in a a variety of ways:
+Recording results can be interpreted in a variety of ways:
 
 <!-- snippet: RecordingReadingResults -->
 <a id='snippet-RecordingReadingResults'></a>
@@ -214,6 +214,30 @@ var sqlErrorsViaType = entries
 ```
 <sup><a href='/src/Tests/Tests.cs#L646-L665' title='Snippet source file'>snippet source</a> | <a href='#snippet-RecordingReadingResults' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
+
+
+#### Disabling recording
+
+Recording is enabled by `VerifySqlServer.Initialize()`, which subscribes to the `Microsoft.Data.SqlClient` diagnostic listener. Pass `recordCommands: false` to leave that listener unsubscribed:
+
+<!-- snippet: DisableRecording -->
+<a id='snippet-DisableRecording'></a>
+```cs
+[ModuleInitializer]
+public static void Init() =>
+    VerifySqlServer.Initialize(recordCommands: false);
+```
+<sup><a href='/src/RecordingDisabledTests/ModuleInit.cs#L3-L9' title='Snippet source file'>snippet source</a> | <a href='#snippet-DisableRecording' title='Start of snippet'>anchor</a></sup>
+<!-- endSnippet -->
+
+Only recording is disabled. The converters, and the `SqlConnection` schema file converter, are still registered.
+
+This is useful when another package records the same commands. [Verify.EntityFramework](https://github.com/VerifyTests/Verify.EntityFramework) records EF Core commands under the name `ef`, and EF Core executes those commands through `SqlCommand`. So with both packages recording, every command EF executes is captured twice: once as `sql` and once as `ef`.
+
+Two constraints are worth knowing:
+
+ * `VerifierSettings.InitializePlugins()` discovers this package and calls `Initialize()`, which enables recording. So `Initialize(recordCommands: false)` has to run *before* `InitializePlugins()`, otherwise discovery initializes first and the explicit call throws `Already Initialized`.
+ * `Recording.IgnoreNames("sql")` is an alternative that needs no ordering, since it can be called at any point before recording starts. It discards `sql` entries as they are added, but the listener stays subscribed, so each command is still cloned and then thrown away.
 
 
 ## Icon
