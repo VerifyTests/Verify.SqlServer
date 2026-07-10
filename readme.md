@@ -116,7 +116,7 @@ await Verify(connection)
 
 Recording allows all commands executed to be captured and then (optionally) verified.
 
-Call `SqlRecording.StartRecording()`:
+Call `Recording.Start()`:
 
 <!-- snippet: Recording -->
 <a id='snippet-Recording'></a>
@@ -151,7 +151,7 @@ from   MyTable,
 <!-- endSnippet -->
 
 
-Sql entries can be explicitly read using `SqlRecording.FinishRecording`, optionally filtered, and passed to Verify:
+Sql entries can be explicitly read using `Recording.Stop()`, optionally filtered, and passed to Verify:
 
 <!-- snippet: RecordingSpecific -->
 <a id='snippet-RecordingSpecific'></a>
@@ -190,7 +190,7 @@ await Verify(
 
 #### Interpreting recording results
 
-Recording results can be interpreted in a a variety of ways:
+Recording results can be interpreted in a variety of ways:
 
 <!-- snippet: RecordingReadingResults -->
 <a id='snippet-RecordingReadingResults'></a>
