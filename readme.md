@@ -216,6 +216,30 @@ var sqlErrorsViaType = entries
 <!-- endSnippet -->
 
 
+#### Disabling recording
+
+Recording is enabled by `VerifySqlServer.Initialize()`, which subscribes to the `Microsoft.Data.SqlClient` diagnostic listener. Pass `recordCommands: false` to leave that listener unsubscribed:
+
+<!-- snippet: DisableRecording -->
+<a id='snippet-DisableRecording'></a>
+```cs
+[ModuleInitializer]
+public static void Init() =>
+    VerifySqlServer.Initialize(recordCommands: false);
+```
+<sup><a href='/src/RecordingDisabledTests/ModuleInit.cs#L3-L9' title='Snippet source file'>snippet source</a> | <a href='#snippet-DisableRecording' title='Start of snippet'>anchor</a></sup>
+<!-- endSnippet -->
+
+Only recording is disabled. The converters, and the `SqlConnection` schema file converter, are still registered.
+
+This is useful when another package records the same commands. [Verify.EntityFramework](https://github.com/VerifyTests/Verify.EntityFramework) records EF Core commands under the name `ef`, and EF Core executes those commands through `SqlCommand`. So with both packages recording, every command EF executes is captured twice: once as `sql` and once as `ef`.
+
+Two constraints are worth knowing:
+
+ * `VerifierSettings.InitializePlugins()` discovers this package and calls `Initialize()`, which enables recording. So `Initialize(recordCommands: false)` has to run *before* `InitializePlugins()`, otherwise discovery initializes first and the explicit call throws `Already Initialized`.
+ * `Recording.IgnoreNames("sql")` is an alternative that needs no ordering, since it can be called at any point before recording starts. It discards `sql` entries as they are added, but the listener stays subscribed, so each command is still cloned and then thrown away.
+
+
 ## Icon
 
 [Database](https://thenounproject.com/term/database/310841/) designed by [Creative Stall](https://thenounproject.com/creativestall/) from [The Noun Project](https://thenounproject.com).
