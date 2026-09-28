@@ -1,4 +1,5 @@
-[TestFixture]
+namespace RecordingDisabled;
+
 public class RecordingDisabledTests
 {
     static SqlInstance sqlInstance = new(
@@ -16,7 +17,7 @@ public class RecordingDisabledTests
         command.CommandText = "select 1";
         await command.ExecuteScalarAsync();
         var entries = Recording.Stop();
-        Assert.That(entries, Is.Empty);
+        await Assert.That(entries).IsEmpty();
     }
 
     // recordCommands only disables the diagnostic listener, not the converters

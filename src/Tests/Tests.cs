@@ -1,4 +1,5 @@
-[TestFixture]
+namespace SqlServerTests;
+
 public class Tests
 {
     static SqlInstance sqlInstance;
@@ -372,7 +373,7 @@ public class Tests
         await using var command = connection.CreateCommand();
         // MyTrigger raises the error, so the error has a Procedure
         command.CommandText = "update MyTable set Value = 43";
-        var exception = Assert.ThrowsAsync<SqlException>(() => command.ExecuteNonQueryAsync());
+        var exception = await Assert.ThrowsAsync<SqlException>(() => command.ExecuteNonQueryAsync());
         await Verify(exception);
     }
 
@@ -384,7 +385,7 @@ public class Tests
         await connection.OpenAsync();
         await using var command = connection.CreateCommand();
         command.CommandText = "select * from MyTabl2e";
-        var exception = Assert.ThrowsAsync<SqlException>(() => command.ExecuteNonQueryAsync());
+        var exception = await Assert.ThrowsAsync<SqlException>(() => command.ExecuteNonQueryAsync());
         await Verify(exception);
     }
 
@@ -858,9 +859,9 @@ public class Tests
     public async Task SchemaMissingInitialCatalog()
     {
         var connection = new SqlConnection("Server=localhost");
-        var exception = Assert.ThrowsAsync<Exception>(
+        var exception = await Assert.ThrowsAsync<Exception>(
             async () => await Verify(connection));
-        Assert.That(exception!.Message, Does.Contain("Initial Catalog"));
+        await Assert.That(exception!.Message).Contains("Initial Catalog");
     }
 
     [Test]
@@ -900,17 +901,16 @@ public class Tests
     // The fix injects the already-open SqlConnection directly into SMO via reflection,
     // so SMO reuses it and never runs the SQL-auth type-load code path.
     [Test]
-    public void SqlConnectionObjectFieldWorkaround()
+    public async Task SqlConnectionObjectFieldWorkaround()
     {
         var field = SqlScriptBuilder.SqlConnectionObjectField;
-        Assert.That(field, Is.Not.Null,
-            "SqlConnectionObjectField must exist to work around SMO+SqlClient 7.x TypeLoadException for SQL Server auth connections");
-        Assert.That(field.Name, Is.EqualTo("m_SqlConnectionObject"));
+        await Assert.That(field).IsNotNull().Because("SqlConnectionObjectField must exist to work around SMO+SqlClient 7.x TypeLoadException for SQL Server auth connections");
+        await Assert.That(field!.Name).IsEqualTo("m_SqlConnectionObject");
 
         // Verify the field can actually be set on a ServerConnection instance
         var serverConnection = new ServerConnection { NonPooledConnection = true };
         using var sqlConnection = new SqlConnection("Server=.;Database=test;Integrated Security=True");
         field.SetValue(serverConnection, sqlConnection);
-        Assert.That(field.GetValue(serverConnection), Is.SameAs(sqlConnection));
+        await Assert.That(field.GetValue(serverConnection)).IsSameReferenceAs(sqlConnection);
     }
 }
