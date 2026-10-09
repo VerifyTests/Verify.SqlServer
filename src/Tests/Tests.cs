@@ -334,6 +334,54 @@ public class Tests
     }
 
     [Test]
+    public async Task SchemaAsDiagram()
+    {
+        await using var database = await sqlInstance.Build();
+        var connection = database.Connection;
+
+        #region SqlServerSchemaAsDiagram
+
+        await Verify(connection)
+            .SchemaAsDiagram();
+
+        #endregion
+    }
+
+    [Test]
+    public async Task SchemaAsDiagramFormats()
+    {
+        await using var database = await sqlInstance.Build();
+        var connection = database.Connection;
+
+        #region SqlServerSchemaAsDiagramFormats
+
+        await Verify(connection)
+            .SchemaAsDiagram(
+                DiagramFormat.Markdown |
+                DiagramFormat.Svg |
+                DiagramFormat.Png);
+
+        #endregion
+    }
+
+    [Test]
+    public async Task SchemaAsDiagramSvgOnly()
+    {
+        await using var database = await sqlInstance.Build();
+        var connection = database.Connection;
+        await Verify(connection)
+            .SchemaAsDiagram(DiagramFormat.Svg);
+    }
+
+    [Test]
+    public async Task SchemaAsDiagramNoFormat()
+    {
+        var settings = new VerifySettings();
+        await Assert.That(() => settings.SchemaAsDiagram(0))
+            .Throws<ArgumentException>();
+    }
+
+    [Test]
     public async Task SchemaInDynamic()
     {
         await using var database = await sqlInstance.Build();

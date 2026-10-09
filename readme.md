@@ -69,7 +69,7 @@ await Verify(connection)
     // include only tables and views
     .SchemaIncludes(DbObjects.Tables | DbObjects.Views);
 ```
-<sup><a href='/src/Tests/Tests.cs#L705-L711' title='Snippet source file'>snippet source</a> | <a href='#snippet-SchemaInclude' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Tests/Tests.cs#L753-L759' title='Snippet source file'>snippet source</a> | <a href='#snippet-SchemaInclude' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 Available values:
@@ -107,9 +107,94 @@ await Verify(connection)
         _ => _ is TableViewBase ||
              _.Name == "MyTrigger");
 ```
-<sup><a href='/src/Tests/Tests.cs#L730-L738' title='Snippet source file'>snippet source</a> | <a href='#snippet-SchemaFilter' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Tests/Tests.cs#L778-L786' title='Snippet source file'>snippet source</a> | <a href='#snippet-SchemaFilter' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
+
+#### Diagram
+
+The tables of a schema can instead be verified as a [Mermaid ER diagram](https://mermaid.js.org/syntax/entityRelationshipDiagram.html), using [DbToMermaid](https://github.com/SimonCropp/DbToMermaid). Requires net10.0 or higher.
+
+<!-- snippet: SqlServerSchemaAsDiagram -->
+<a id='snippet-SqlServerSchemaAsDiagram'></a>
+```cs
+await Verify(connection)
+    .SchemaAsDiagram();
+```
+<sup><a href='/src/Tests/Tests.cs#L342-L347' title='Snippet source file'>snippet source</a> | <a href='#snippet-SqlServerSchemaAsDiagram' title='Start of snippet'>anchor</a></sup>
+<!-- endSnippet -->
+
+Result: [Tests.SchemaAsDiagram.verified.md](/src/Tests/Tests.SchemaAsDiagram.verified.md)
+
+The diagram can be verified as markdown, svg, png, or any combination. One file is verified for each format.
+
+<!-- snippet: SqlServerSchemaAsDiagramFormats -->
+<a id='snippet-SqlServerSchemaAsDiagramFormats'></a>
+```cs
+await Verify(connection)
+    .SchemaAsDiagram(
+        DiagramFormat.Markdown |
+        DiagramFormat.Svg |
+        DiagramFormat.Png);
+```
+<sup><a href='/src/Tests/Tests.cs#L356-L364' title='Snippet source file'>snippet source</a> | <a href='#snippet-SqlServerSchemaAsDiagramFormats' title='Start of snippet'>anchor</a></sup>
+<!-- endSnippet -->
+
+Result:
+
+ * [Tests.SchemaAsDiagramFormats.verified.md](/src/Tests/Tests.SchemaAsDiagramFormats.verified.md)
+ * [Tests.SchemaAsDiagramFormats.verified.svg](/src/Tests/Tests.SchemaAsDiagramFormats.verified.svg)
+ * [Tests.SchemaAsDiagramFormats.verified.png](/src/Tests/Tests.SchemaAsDiagramFormats.verified.png)
+
+<img src="/src/Tests/Tests.SchemaAsDiagramFormats.verified.png" alt="Tests.SchemaAsDiagramFormats.verified.png">
+
+Available values:
+
+<!-- snippet: DiagramFormat.cs -->
+<a id='snippet-DiagramFormat.cs'></a>
+```cs
+namespace VerifyTests.SqlServer;
+
+/// <summary>
+/// The files produced when a schema is verified as a diagram. Can be combined.
+/// </summary>
+[Flags]
+public enum DiagramFormat
+{
+    /// <summary>
+    /// A Mermaid ER diagram in a markdown code block. Uses the `md` extension.
+    /// </summary>
+    Markdown = 1,
+
+    /// <summary>
+    /// The diagram rendered to an image. Uses the `svg` extension.
+    /// </summary>
+    Svg = 2,
+
+    /// <summary>
+    /// The diagram rendered to an image. Uses the `png` extension.
+    /// </summary>
+    Png = 4,
+
+    All = Markdown | Svg | Png
+}
+```
+<sup><a href='/src/Verify.SqlServer/SchemaValidation/DiagramFormat.cs#L1-L25' title='Snippet source file'>snippet source</a> | <a href='#snippet-DiagramFormat.cs' title='Start of snippet'>anchor</a></sup>
+<!-- endSnippet -->
+
+`SchemaIncludes` and `SchemaFilter` do not apply to a diagram. All tables are included.
+
+A rendered png may not be pixel identical across machines, so compare using [ssim](https://github.com/VerifyTests/Verify/blob/main/docs/comparer.md):
+
+<!-- snippet: UseSsimForPng -->
+<a id='snippet-UseSsimForPng'></a>
+```cs
+VerifierSettings.UseSsimForPng();
+```
+<sup><a href='/src/Tests/ModuleInit.cs#L14-L18' title='Snippet source file'>snippet source</a> | <a href='#snippet-UseSsimForPng' title='Start of snippet'>anchor</a></sup>
+<!-- endSnippet -->
+
+The svg and png are rendered by [Naiad](https://github.com/Papyrine/Naiad). Its build check requires a sponsorship, or exemption, property to be set in the consuming project. The build error lists the options.
 
 
 ### Recording
@@ -129,7 +214,7 @@ command.CommandText = "select Value from MyTable";
 var value = await command.ExecuteScalarAsync();
 await Verify(value!);
 ```
-<sup><a href='/src/Tests/Tests.cs#L514-L524' title='Snippet source file'>snippet source</a> | <a href='#snippet-Recording' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Tests/Tests.cs#L562-L572' title='Snippet source file'>snippet source</a> | <a href='#snippet-Recording' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 Will result in the following verified file:
@@ -184,7 +269,7 @@ await Verify(
         sqlEntries = entries
     });
 ```
-<sup><a href='/src/Tests/Tests.cs#L591-L621' title='Snippet source file'>snippet source</a> | <a href='#snippet-RecordingSpecific' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Tests/Tests.cs#L639-L669' title='Snippet source file'>snippet source</a> | <a href='#snippet-RecordingSpecific' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 
@@ -212,7 +297,7 @@ var sqlErrorsViaType = entries
     .Select(_ => _.Data)
     .OfType<ErrorEntry>();
 ```
-<sup><a href='/src/Tests/Tests.cs#L647-L666' title='Snippet source file'>snippet source</a> | <a href='#snippet-RecordingReadingResults' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Tests/Tests.cs#L695-L714' title='Snippet source file'>snippet source</a> | <a href='#snippet-RecordingReadingResults' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 

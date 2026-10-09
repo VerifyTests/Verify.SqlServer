@@ -9,6 +9,14 @@
     #endregion
 
     [ModuleInitializer]
-    public static void InitOther() =>
+    public static void InitOther()
+    {
+        #region UseSsimForPng
+
+        VerifierSettings.UseSsimForPng();
+
+        #endregion
+
         VerifierSettings.InitializePlugins();
+    }
 }
