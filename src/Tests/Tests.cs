@@ -905,11 +905,11 @@ public class Tests
     {
         var field = SqlScriptBuilder.SqlConnectionObjectField;
         await Assert.That(field).IsNotNull().Because("SqlConnectionObjectField must exist to work around SMO+SqlClient 7.x TypeLoadException for SQL Server auth connections");
-        await Assert.That(field!.Name).IsEqualTo("m_SqlConnectionObject");
+        await Assert.That(field.Name).IsEqualTo("m_SqlConnectionObject");
 
         // Verify the field can actually be set on a ServerConnection instance
         var serverConnection = new ServerConnection { NonPooledConnection = true };
-        using var sqlConnection = new SqlConnection("Server=.;Database=test;Integrated Security=True");
+        await using var sqlConnection = new SqlConnection("Server=.;Database=test;Integrated Security=True");
         field.SetValue(serverConnection, sqlConnection);
         await Assert.That(field.GetValue(serverConnection)).IsSameReferenceAs(sqlConnection);
     }
