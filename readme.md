@@ -146,6 +146,8 @@ Result:
  * [Tests.SchemaAsDiagramFormats.verified.svg](/src/Tests/Tests.SchemaAsDiagramFormats.verified.svg)
  * [Tests.SchemaAsDiagramFormats.verified.png](/src/Tests/Tests.SchemaAsDiagramFormats.verified.png)
 
+<img src="/src/Tests/Tests.SchemaAsDiagramFormats.verified.png" alt="Tests.SchemaAsDiagramFormats.verified.png">
+
 Available values:
 
 <!-- snippet: DiagramFormat.cs -->
