@@ -878,10 +878,6 @@ public class Tests
     }
 
     // Exercises Verify(SqlConnection) with an already-open connection.
-    // Note: this test uses LocalDb (Windows auth) so it passes even if the
-    // SqlAuthenticationMethod workaround is removed — Windows auth does not
-    // trigger the SMO type-load for SqlAuthenticationMethod.
-    // See SqlConnectionObjectFieldWorkaround for the regression guard.
     [Test]
     public async Task SchemaFromOpenConnection()
     {
@@ -891,26 +887,5 @@ public class Tests
         await Verify(connection)
             .SchemaFilter(_ => _.Name == "MyTable")
             .SchemaIncludes(DbObjects.Tables);
-    }
-
-    // Regression: commit fbfa399 removed SqlConnectionObjectField from SqlScriptBuilder,
-    // which broke Verify(SqlConnection) for connections using SQL Server authentication.
-    // When SMO 181.x + SqlClient 7.x opens a new connection from a SQL-auth connection
-    // string it tries to load SqlAuthenticationMethod — a type moved in SqlClient 7.0 —
-    // causing a TypeLoadException surfaced as "Login failed for user 'sa'".
-    // The fix injects the already-open SqlConnection directly into SMO via reflection,
-    // so SMO reuses it and never runs the SQL-auth type-load code path.
-    [Test]
-    public async Task SqlConnectionObjectFieldWorkaround()
-    {
-        var field = SqlScriptBuilder.SqlConnectionObjectField;
-        await Assert.That(field).IsNotNull().Because("SqlConnectionObjectField must exist to work around SMO+SqlClient 7.x TypeLoadException for SQL Server auth connections");
-        await Assert.That(field.Name).IsEqualTo("m_SqlConnectionObject");
-
-        // Verify the field can actually be set on a ServerConnection instance
-        var serverConnection = new ServerConnection { NonPooledConnection = true };
-        await using var sqlConnection = new SqlConnection("Server=.;Database=test;Integrated Security=True");
-        field.SetValue(serverConnection, sqlConnection);
-        await Assert.That(field.GetValue(serverConnection)).IsSameReferenceAs(sqlConnection);
     }
 }
