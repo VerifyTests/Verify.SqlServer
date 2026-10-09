@@ -44,13 +44,19 @@ public static class VerifySqlServer
         }
     }
 
-    static ConversionResult ToSql(SqlConnection connection, IReadOnlyDictionary<string, object> context)
+    static Task<ConversionResult> ToSql(SqlConnection connection, IReadOnlyDictionary<string, object> context)
     {
         var settings = context.GetSchemaSettings();
+#if NET10_0_OR_GREATER
+        if (settings.Diagram is { } formats)
+        {
+            return DiagramBuilder.Build(connection, formats);
+        }
+#endif
         var builder = new SqlScriptBuilder(settings);
         var content = builder.BuildContent(connection);
         var extension = GetExtension(settings);
-        return new(null, extension, content);
+        return Task.FromResult(new ConversionResult(null, extension, content));
     }
 
     static string GetExtension(SchemaSettings settings)

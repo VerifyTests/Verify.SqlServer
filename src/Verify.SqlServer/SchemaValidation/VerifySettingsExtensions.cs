@@ -54,6 +54,35 @@ public static partial class VerifySettingsSqlExtensions
         GetOrAddSettings(settings)
             .Format = Format.Sql;
 
+#if NET10_0_OR_GREATER
+    /// <summary>
+    /// Verify the schema as a Mermaid ER diagram of the tables, instead of as scripts.
+    /// </summary>
+    /// <param name="settings">The settings to apply to.</param>
+    /// <param name="formats">The files to produce. Can be combined, with one file verified per format.</param>
+    public static SettingsTask SchemaAsDiagram(
+        this SettingsTask settings,
+        DiagramFormat formats = DiagramFormat.Markdown)
+    {
+        settings.CurrentSettings.SchemaAsDiagram(formats);
+        return settings;
+    }
+
+    /// <inheritdoc cref="SchemaAsDiagram(SettingsTask, DiagramFormat)" />
+    public static void SchemaAsDiagram(
+        this VerifySettings settings,
+        DiagramFormat formats = DiagramFormat.Markdown)
+    {
+        if ((formats & DiagramFormat.All) == 0)
+        {
+            throw new ArgumentException("At least one format is required.", nameof(formats));
+        }
+
+        GetOrAddSettings(settings)
+            .Diagram = formats;
+    }
+#endif
+
     static SchemaSettings GetOrAddSettings(VerifySettings settings)
     {
         var context = settings.Context;
