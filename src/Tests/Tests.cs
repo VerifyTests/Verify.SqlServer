@@ -421,7 +421,7 @@ public class Tests
         await using var command = connection.CreateCommand();
         // MyTrigger raises the error, so the error has a Procedure
         command.CommandText = "update MyTable set Value = 43";
-        var exception = await Assert.ThrowsAsync<SqlException>(() => command.ExecuteNonQueryAsync());
+        var exception = await Assert.ThrowsAsync<SqlException>(command.ExecuteNonQueryAsync);
         await Verify(exception);
     }
 
@@ -433,7 +433,7 @@ public class Tests
         await connection.OpenAsync();
         await using var command = connection.CreateCommand();
         command.CommandText = "select * from MyTabl2e";
-        var exception = await Assert.ThrowsAsync<SqlException>(() => command.ExecuteNonQueryAsync());
+        var exception = await Assert.ThrowsAsync<SqlException>(command.ExecuteNonQueryAsync);
         await Verify(exception);
     }
 
@@ -532,7 +532,7 @@ public class Tests
         await connection.OpenAsync();
         await using var command = connection.CreateCommand();
         command.CommandText = "select * from MyTabl2e";
-        await ThrowsTask(() => command.ExecuteReaderAsync());
+        await ThrowsTask(command.ExecuteReaderAsync);
     }
 
     [Test]
