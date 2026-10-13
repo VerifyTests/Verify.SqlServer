@@ -60,26 +60,30 @@ public static partial class VerifySettingsSqlExtensions
     /// </summary>
     /// <param name="settings">The settings to apply to.</param>
     /// <param name="formats">The files to produce. Can be combined, with one file verified per format.</param>
+    /// <param name="namesOnly">When true, only the table names are rendered, without columns.</param>
     public static SettingsTask SchemaAsDiagram(
         this SettingsTask settings,
-        DiagramFormat formats = DiagramFormat.Markdown)
+        DiagramFormat formats = DiagramFormat.Markdown,
+        bool namesOnly = false)
     {
-        settings.CurrentSettings.SchemaAsDiagram(formats);
+        settings.CurrentSettings.SchemaAsDiagram(formats, namesOnly);
         return settings;
     }
 
-    /// <inheritdoc cref="SchemaAsDiagram(SettingsTask, DiagramFormat)" />
+    /// <inheritdoc cref="SchemaAsDiagram(SettingsTask, DiagramFormat, bool)" />
     public static void SchemaAsDiagram(
         this VerifySettings settings,
-        DiagramFormat formats = DiagramFormat.Markdown)
+        DiagramFormat formats = DiagramFormat.Markdown,
+        bool namesOnly = false)
     {
         if ((formats & DiagramFormat.All) == 0)
         {
             throw new ArgumentException("At least one format is required.", nameof(formats));
         }
 
-        GetOrAddSettings(settings)
-            .Diagram = formats;
+        var schemaSettings = GetOrAddSettings(settings);
+        schemaSettings.Diagram = formats;
+        schemaSettings.DiagramNamesOnly = namesOnly;
     }
 #endif
 

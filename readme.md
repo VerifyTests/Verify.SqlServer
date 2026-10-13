@@ -69,7 +69,7 @@ await Verify(connection)
     // include only tables and views
     .SchemaIncludes(DbObjects.Tables | DbObjects.Views);
 ```
-<sup><a href='/src/Tests/Tests.cs#L753-L759' title='Snippet source file'>snippet source</a> | <a href='#snippet-SchemaInclude' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Tests/Tests.cs#L785-L791' title='Snippet source file'>snippet source</a> | <a href='#snippet-SchemaInclude' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 Available values:
@@ -107,7 +107,7 @@ await Verify(connection)
         _ => _ is TableViewBase ||
              _.Name == "MyTrigger");
 ```
-<sup><a href='/src/Tests/Tests.cs#L778-L786' title='Snippet source file'>snippet source</a> | <a href='#snippet-SchemaFilter' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Tests/Tests.cs#L810-L818' title='Snippet source file'>snippet source</a> | <a href='#snippet-SchemaFilter' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 
@@ -182,7 +182,33 @@ public enum DiagramFormat
 <sup><a href='/src/Verify.SqlServer/SchemaValidation/DiagramFormat.cs#L1-L25' title='Snippet source file'>snippet source</a> | <a href='#snippet-DiagramFormat.cs' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
-`SchemaIncludes` and `SchemaFilter` do not apply to a diagram. All tables are included.
+`SchemaFilter` applies to a diagram, and is passed each table. Foreign keys to an excluded table are omitted.
+
+<!-- snippet: SqlServerSchemaAsDiagramFilter -->
+<a id='snippet-SqlServerSchemaAsDiagramFilter'></a>
+```cs
+await Verify(connection)
+    .SchemaAsDiagram()
+    // exclude temporal history tables, and MyOtherTable
+    .SchemaFilter(
+        _ => _ is not Table {TemporalType: TableTemporalType.HistoryTable} &&
+             _.Name != "MyOtherTable");
+```
+<sup><a href='/src/Tests/Tests.cs#L373-L382' title='Snippet source file'>snippet source</a> | <a href='#snippet-SqlServerSchemaAsDiagramFilter' title='Start of snippet'>anchor</a></sup>
+<!-- endSnippet -->
+
+`SchemaIncludes` does not apply to a diagram.
+
+To render only the table names, without columns:
+
+<!-- snippet: SqlServerSchemaAsDiagramNamesOnly -->
+<a id='snippet-SqlServerSchemaAsDiagramNamesOnly'></a>
+```cs
+await Verify(connection)
+    .SchemaAsDiagram(namesOnly: true);
+```
+<sup><a href='/src/Tests/Tests.cs#L391-L396' title='Snippet source file'>snippet source</a> | <a href='#snippet-SqlServerSchemaAsDiagramNamesOnly' title='Start of snippet'>anchor</a></sup>
+<!-- endSnippet -->
 
 A rendered png may not be pixel identical across machines, so compare using [ssim](https://github.com/VerifyTests/Verify/blob/main/docs/comparer.md):
 
@@ -214,7 +240,7 @@ command.CommandText = "select Value from MyTable";
 var value = await command.ExecuteScalarAsync();
 await Verify(value!);
 ```
-<sup><a href='/src/Tests/Tests.cs#L562-L572' title='Snippet source file'>snippet source</a> | <a href='#snippet-Recording' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Tests/Tests.cs#L594-L604' title='Snippet source file'>snippet source</a> | <a href='#snippet-Recording' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 Will result in the following verified file:
@@ -269,7 +295,7 @@ await Verify(
         sqlEntries = entries
     });
 ```
-<sup><a href='/src/Tests/Tests.cs#L639-L669' title='Snippet source file'>snippet source</a> | <a href='#snippet-RecordingSpecific' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Tests/Tests.cs#L671-L701' title='Snippet source file'>snippet source</a> | <a href='#snippet-RecordingSpecific' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 
@@ -297,7 +323,7 @@ var sqlErrorsViaType = entries
     .Select(_ => _.Data)
     .OfType<ErrorEntry>();
 ```
-<sup><a href='/src/Tests/Tests.cs#L695-L714' title='Snippet source file'>snippet source</a> | <a href='#snippet-RecordingReadingResults' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Tests/Tests.cs#L727-L746' title='Snippet source file'>snippet source</a> | <a href='#snippet-RecordingReadingResults' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 

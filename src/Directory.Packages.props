@@ -8,11 +8,11 @@
     <PackageVersion Include="MarkdownSnippets.MsBuild" Version="28.5.0" />
     <PackageVersion Include="Microsoft.Data.SqlClient" Version="7.1.1" />
     <PackageVersion Include="Microsoft.Extensions.DiagnosticAdapter" Version="3.1.32" />
-    <PackageVersion Include="Microsoft.SqlServer.TransactSql.ScriptDom" Version="180.117.0" />
+    <PackageVersion Include="Microsoft.SqlServer.TransactSql.ScriptDom" Version="180.140.0" />
     <PackageVersion Include="Microsoft.SqlServer.SqlManagementObjects" Version="181.37.1" />
     <PackageVersion Include="ProjectDefaults" Version="1.0.184" />
     <PackageVersion Include="Sbom" Version="0.3.1" />
-    <PackageVersion Include="SqlServerToMermaid" Version="2.2.2" />
+    <PackageVersion Include="SqlServerToMermaid" Version="2.3.0" />
     <PackageVersion Include="TUnit" Version="1.74.0" />
     <PackageVersion Include="System.Diagnostics.DiagnosticSource" Version="10.0.12" />
     <PackageVersion Include="Verify" Version="33.3.3" />

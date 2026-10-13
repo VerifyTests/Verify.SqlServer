@@ -6,6 +6,7 @@ class SchemaSettings
 #if NET10_0_OR_GREATER
     // when set, the schema is verified as a diagram instead of as scripts
     public DiagramFormat? Diagram { get; set; }
+    public bool DiagramNamesOnly { get; set; }
 #endif
     public Func<NamedSmoObject, bool> IncludeItem { get; set; } = _ => true;
 }
