@@ -365,6 +365,38 @@ public class Tests
     }
 
     [Test]
+    public async Task SchemaAsDiagramFilter()
+    {
+        await using var database = await sqlInstance.Build();
+        var connection = database.Connection;
+
+        #region SqlServerSchemaAsDiagramFilter
+
+        await Verify(connection)
+            .SchemaAsDiagram()
+            // exclude temporal history tables, and MyOtherTable
+            .SchemaFilter(
+                _ => _ is not Table {TemporalType: TableTemporalType.HistoryTable} &&
+                     _.Name != "MyOtherTable");
+
+        #endregion
+    }
+
+    [Test]
+    public async Task SchemaAsDiagramNamesOnly()
+    {
+        await using var database = await sqlInstance.Build();
+        var connection = database.Connection;
+
+        #region SqlServerSchemaAsDiagramNamesOnly
+
+        await Verify(connection)
+            .SchemaAsDiagram(namesOnly: true);
+
+        #endregion
+    }
+
+    [Test]
     public async Task SchemaAsDiagramSvgOnly()
     {
         await using var database = await sqlInstance.Build();

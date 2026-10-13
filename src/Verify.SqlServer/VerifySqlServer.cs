@@ -50,7 +50,7 @@ public static class VerifySqlServer
 #if NET10_0_OR_GREATER
         if (settings.Diagram is { } formats)
         {
-            return DiagramBuilder.Build(connection, formats);
+            return DiagramBuilder.Build(connection, formats, settings.IncludeItem, settings.DiagramNamesOnly);
         }
 #endif
         var builder = new SqlScriptBuilder(settings);

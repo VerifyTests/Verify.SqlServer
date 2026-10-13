@@ -3,25 +3,25 @@ using DbToMermaid;
 
 static class DiagramBuilder
 {
-    public static async Task<ConversionResult> Build(SqlConnection connection, DiagramFormat formats)
+    public static async Task<ConversionResult> Build(SqlConnection connection, DiagramFormat formats, Func<Table, bool> filter, bool namesOnly)
     {
         var targets = new List<Target>();
 
         if (formats.HasFlag(DiagramFormat.Markdown))
         {
-            var markdown = await SqlServerToMermaid.RenderMarkdown(connection);
+            var markdown = await SqlServerToMermaid.RenderMarkdown(connection, filter, namesOnly);
             targets.Add(new("md", markdown));
         }
 
         if (formats.HasFlag(DiagramFormat.Svg))
         {
-            var svg = await SqlServerToMermaid.RenderSvg(connection);
+            var svg = await SqlServerToMermaid.RenderSvg(connection, filter, namesOnly);
             targets.Add(new("svg", svg));
         }
 
         if (formats.HasFlag(DiagramFormat.Png))
         {
-            var png = await SqlServerToMermaid.RenderPng(connection);
+            var png = await SqlServerToMermaid.RenderPng(connection, filter, namesOnly);
             targets.Add(new("png", new MemoryStream(png)));
         }
 
