@@ -15,6 +15,7 @@
     <PackageVersion Include="SqlServerToMermaid" Version="2.3.0" />
     <PackageVersion Include="TUnit" Version="1.75.0" />
     <PackageVersion Include="System.Diagnostics.DiagnosticSource" Version="10.0.13" />
+    <PackageVersion Include="System.Security.Cryptography.Pkcs" Version="10.0.13" />
     <PackageVersion Include="Verify" Version="33.3.3" />
     <PackageVersion Include="Verify.TUnit" Version="33.3.3" />
     <PackageVersion Include="Argon" Version="0.38.2" />
