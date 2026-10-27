@@ -1,20 +1,20 @@
 ﻿```mermaid
 erDiagram
-  TestSchema_SchemaTable["**TestSchema_SchemaTable**"] {
+  "TestSchema_SchemaTable"["**TestSchema_SchemaTable**"] {
     int Id pk
     nvarchar(50) Name
   }
-  ChildTable["**ChildTable**"] {
+  "ChildTable"["**ChildTable**"] {
     int Id pk
     int ParentId
     int Value
   }
-  ColumnTypes["**ColumnTypes**"] {
+  "ColumnTypes"["**ColumnTypes**"] {
     int Id pk
     nvarchar(100) Name
     nvarchar(max)(nullable) Description
     varchar(20)(nullable) Code
-    decimal(18,4) Amount
+    decimal(18-4) Amount
     bit IsActive
     datetime2 Created
     timestamp RowVersion
@@ -34,45 +34,45 @@ erDiagram
     ntext(nullable) NText
     xml(nullable) Xml
   }
-  CompositeKeyTable["**CompositeKeyTable**"] {
+  "CompositeKeyTable"["**CompositeKeyTable**"] {
     int Key1 pk
     int Key2 pk
     nvarchar(200)(nullable) Data
   }
-  MultiIndexTable["**MultiIndexTable**"] {
+  "MultiIndexTable"["**MultiIndexTable**"] {
     int Id pk
     nvarchar(100) Name
     nvarchar(50) Category
     int Status
   }
-  MultiTriggerTable["**MultiTriggerTable**"] {
+  "MultiTriggerTable"["**MultiTriggerTable**"] {
     int Id pk
     nvarchar(100)(nullable) Name
   }
-  MyOtherTable["**MyOtherTable**"] {
+  "MyOtherTable"["**MyOtherTable**"] {
     int(nullable) Value
   }
-  MyTable["**MyTable**"] {
+  "MyTable"["**MyTable**"] {
     int(nullable) Value
   }
-  ParentTable["**ParentTable**"] {
+  "ParentTable"["**ParentTable**"] {
     int Id pk
     nvarchar(100) Name
   }
-  WithComputed["**WithComputed**"] {
+  "WithComputed"["**WithComputed**"] {
     int Id pk
     nvarchar(50) FirstName
     nvarchar(50) LastName
     nvarchar(101) FullName "computed"
     int Quantity
-    decimal(10,2) UnitPrice
-    decimal(21,2)(nullable) TotalPrice "computed"
+    decimal(10-2) UnitPrice
+    decimal(21-2)(nullable) TotalPrice "computed"
   }
-  WithDefaults["**WithDefaults**"] {
+  "WithDefaults"["**WithDefaults**"] {
     int Id pk
     varchar(20) Status
     datetime2 Created
     int Score
   }
-  ParentTable ||--o{ ChildTable : "FK_ChildTable_ParentTable"
+  "ParentTable" ||--o{ "ChildTable" : "FK_ChildTable_ParentTable"
 ```
