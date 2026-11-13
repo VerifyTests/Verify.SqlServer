@@ -6,7 +6,7 @@
   <ItemGroup>
     <PackageVersion Include="LocalDb" Version="27.2.6" />
     <PackageVersion Include="MarkdownSnippets.MsBuild" Version="29.0.0" />
-    <PackageVersion Include="Microsoft.Data.SqlClient" Version="7.1.1" />
+    <PackageVersion Include="Microsoft.Data.SqlClient" Version="7.1.2" />
     <PackageVersion Include="Microsoft.Extensions.DiagnosticAdapter" Version="3.1.32" />
     <PackageVersion Include="Microsoft.SqlServer.TransactSql.ScriptDom" Version="180.140.0" />
     <PackageVersion Include="Microsoft.SqlServer.SqlManagementObjects" Version="181.38.1" />
